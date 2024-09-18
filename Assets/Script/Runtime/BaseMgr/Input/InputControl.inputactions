@@ -1,0 +1,34 @@
+{
+    "name": "InputControl",
+    "maps": [
+        {
+            "name": "Test",
+            "id": "ef1118ae-d8f7-4399-8fde-c225a437c47f",
+            "actions": [
+                {
+                    "name": "Jump",
+                    "type": "Button",
+                    "id": "8d7ec77c-eca2-45d6-8906-cf906f228ed1",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "076fc21e-de8c-46b1-8d3c-4135d01123f3",
+                    "path": "<Keyboard>/space",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Jump",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        }
+    ],
+    "controlSchemes": []
+}
