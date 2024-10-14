@@ -22,7 +22,7 @@ namespace J.Core
         public class State
         {
             public readonly TState owner;
-            private System.Action _enterAction;
+            private System.Action<TState> _enterAction;
             private System.Action _exitAction;
             private System.Action<float> _updateAction;
             private System.Action _fixedUpdateAction;
@@ -46,9 +46,9 @@ namespace J.Core
                 return null;
             }
 
-            public void OnEnter()
+            public void OnEnter(TState from)
             {
-                _enterAction?.Invoke();
+                _enterAction?.Invoke(from);
             }
 
             public void OnUpdate(float deltaTime)
@@ -95,7 +95,7 @@ namespace J.Core
                 _transitions.Add(new Transition() { to = to, trigger = trigger, });
             }
 
-            public void SetEnterAction(System.Action action)
+            public void SetEnterAction(System.Action<TState> action)
             {
                 _enterAction = action;
             }
@@ -147,7 +147,7 @@ namespace J.Core
                 return this;
             }
 
-            public TransitionConfig OnEnter(System.Action action)
+            public TransitionConfig OnEnter(System.Action<TState> action)
             {
                 _from.SetEnterAction(action);
                 return this;
@@ -216,7 +216,7 @@ namespace J.Core
                 return;
             }
             _currentState = state;
-            _currentState.OnEnter();
+            _currentState.OnEnter(default);
             _isStarted = true;
         }
 
@@ -278,9 +278,10 @@ namespace J.Core
             {
                 if (EqualityComparer<TState>.Default.Equals(_states[i].owner, state))
                 {
+                    var oldState = _currentState;
                     _currentState.OnExit();
                     _currentState = _states[i];
-                    _currentState.OnEnter();
+                    _currentState.OnEnter(oldState.owner);
                 }
             }
         }
@@ -291,9 +292,10 @@ namespace J.Core
             var nextState = _currentState.Fire(trigger);
             if (nextState != null)
             {
+                var oldState = _currentState;
                 _currentState.OnExit();
                 _currentState = nextState;
-                _currentState.OnEnter();
+                _currentState.OnEnter(oldState.owner);
             }
         }
 

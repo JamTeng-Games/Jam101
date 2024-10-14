@@ -74,3 +74,5 @@ crashlytics-build.properties
 # custom
 /Assets/Temp
 /.idea
+Bundles
+BundlesCache
