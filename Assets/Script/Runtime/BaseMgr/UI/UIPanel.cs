@@ -6,33 +6,10 @@ namespace J.Runtime.UI
 {
     public abstract class UIPanel : MonoBehaviour
     {
-        public UILevel level;
-        public UIShowMode showMode;
+        [HideInInspector] public UILevel level;
+        [HideInInspector] public UIShowMode showMode;
 
-        protected bool isActive;
-
-        public bool IsActive => gameObject.activeSelf;
-
-        // public void Show()
-        // {
-        //     if (isActive)
-        //         return;
-        //     // TODO: Animation
-        //     OnShow();
-        // }
-        //
-        // public void Hide()
-        // {
-        //     if (!isActive)
-        //         return;
-        //     // TODO: Animation
-        //     OnHide();
-        // }
-        //
-        // public void Close()
-        // {
-        //     OnClose();
-        // }
+        public bool IsVisible => gameObject.activeSelf;
 
         public void Tick(float dt)
         {
@@ -45,16 +22,17 @@ namespace J.Runtime.UI
         }
 
         public abstract void OnDrop();
+        public abstract void OnLoad();
         public abstract void OnShow();
         public abstract void OnHide();
         public abstract void OnClose();
 
-        public virtual void DoShowAnimation(Action<UIPanel> callback)
+        public virtual void DoShowAnimation(Action<UIPanel> callback = null)
         {
             callback?.Invoke(this);
         }
 
-        public virtual void DoHidingAnimation(Action<UIPanel> callback)
+        public virtual void DoHidingAnimation(Action<UIPanel> callback = null)
         {
             callback?.Invoke(this);
         }
@@ -64,6 +42,22 @@ namespace J.Runtime.UI
         }
 
         protected virtual void OnLateTick()
+        {
+        }
+
+        protected virtual void OnShowAnimationStart()
+        {
+        }
+
+        protected virtual void OnHidingAnimationStart()
+        {
+        }
+
+        protected virtual void OnShowAnimationEnd()
+        {
+        }
+
+        protected virtual void OnHidingAnimationEnd()
         {
         }
     }

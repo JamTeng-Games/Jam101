@@ -6,6 +6,10 @@ namespace J.Runtime.UI
         {
         }
 
+        public override void OnLoad()
+        {
+        }
+
         public override void OnShow()
         {
         }

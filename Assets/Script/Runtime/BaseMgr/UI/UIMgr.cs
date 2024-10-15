@@ -10,6 +10,7 @@ namespace J.Runtime.UI
 {
     public enum UIShowMode
     {
+        None,
         Cover,   // 覆盖显示, 一个panel只会被覆盖一次
         Push,    // 隐藏最近打开，当关闭时重新显示
         Replace, // 关闭最近打开
@@ -24,43 +25,12 @@ namespace J.Runtime.UI
         Debug,
     }
 
-    public class LoadingInfo
-    {
-        public System.Type type;
-
-        public LoadingInfo(System.Type type)
-        {
-            this.type = type;
-        }
-    }
-
-    public class LoadingInfoPanel<T> : LoadingInfo where T : UIPanel
-    {
-        public Action<T> callback;
-        public UIShowMode showMode;
-        public UILevel level;
-
-        public LoadingInfoPanel(Action<T> callback, UIShowMode showMode, UILevel level) : base(typeof(T))
-        {
-            this.callback = callback;
-            this.showMode = showMode;
-            this.level = level;
-        }
-    }
-
-    public class LoadingInfoWidget<T> : LoadingInfo where T : UIWidget
-    {
-        public Action<T> callback;
-
-        public LoadingInfoWidget(Action<T> callback) : base(typeof(T))
-        {
-            this.callback = callback;
-        }
-    }
-
     public class UIMgr
     {
         private Canvas _root;
+
+        // 配置
+        private static UIConfig _config;
 
         // 层级
         private List<UIPanel> _panelLevel;
@@ -77,8 +47,11 @@ namespace J.Runtime.UI
         // 正在加载中的Widget
         private List<LoadingInfo> _loadingWidgets;
 
+        public static UIConfig Config => _config;
+
         public void Init()
         {
+            _config = new UIConfig();
             _panelLevel = new List<UIPanel>(32);
             _panelOpStack = new List<UIPanel>(32);
             _uiWidgets = new List<UIWidget>(64);
@@ -108,69 +81,73 @@ namespace J.Runtime.UI
             _uiWidgets = null;
         }
 
-        public void Show<T>(Action<T> callback, UIShowMode showMode, UILevel level) where T : UIPanel
+        public void Show<T>(Action<T> callback = null, UIShowMode showMode = UIShowMode.None,
+                            UILevel level = UILevel.None) where T : UIPanel
         {
-            if (TryGetPanelIndexInStack(out int _, out T p))
+            // Panel已经存在
+            if (TryGetPanel(out T p))
             {
-                if (p.IsActive)
+                if (p.IsVisible)
                 {
                     callback?.Invoke(p);
                 }
                 else
                 {
-                    // Show(p, callback, showMode, level);
+                    ReShow(p);
                 }
                 return;
             }
 
+            // Panel正在加载
             if (TryGetLoadingPanel<T>(out LoadingInfoPanel<T> oldInfo))
             {
                 if (callback != null)
                     oldInfo.callback += callback;
-                oldInfo.showMode = showMode;
-                oldInfo.level = level;
+                oldInfo.UpdateConfig(showMode, level);
                 return;
             }
 
-            // LoadingInfo
+            // Panel的加载信息
             LoadingInfoPanel<T> loadingInfo = new LoadingInfoPanel<T>(callback, showMode, level);
             _loadingPanels.Add(loadingInfo);
 
-            // Load
+            // 加载
             OnLoadPanelDone<T>(p =>
             {
+                // 获取加载信息
                 if (TryGetLoadingPanel<T>(out LoadingInfoPanel<T> info))
                 {
                     _loadingPanels.Remove(info);
-                    p.level = info.level;
-                    p.showMode = info.showMode;
+                    p.level = info.Level;
+                    p.showMode = info.ShowMode;
 
-                    // Last op panel
+                    // 上一个操作的Panel
                     bool isFirstPanel = !TryGetLastOpPanel(out var lastOpPanel);
 
-                    // Level
-                    int level = InsertAtLevel(p, info.level);
-                    p.transform.SetSiblingIndex(level);
+                    // 层级
+                    int level = InsertAtLevel(p, info.Level);
 
-                    // Operation stack
+                    // 操作栈
                     _panelOpStack.Add(p);
 
-                    // Show mode
+                    // 如果不是第一个打开的界面
                     if (!isFirstPanel)
                     {
-                        if (info.showMode == UIShowMode.Cover)
+                        // 打开方式
+                        if (info.ShowMode == UIShowMode.Cover)
                         {
                             // lastPanel.CoverBy(p);
                         }
-                        else if (info.showMode == UIShowMode.Push)
+                        else if (info.ShowMode == UIShowMode.Push)
                         {
                             // Hide last
-                            Hide(lastOpPanel, null);
+                            Hide(lastOpPanel);
                         }
-                        else if (info.showMode == UIShowMode.Replace)
+                        else if (info.ShowMode == UIShowMode.Replace)
                         {
                             // Close last
                             p.showMode = lastOpPanel.showMode;
+                            lastOpPanel.showMode = UIShowMode.None;
                             Close(lastOpPanel);
                         }
                     }
@@ -180,7 +157,8 @@ namespace J.Runtime.UI
                     }
 
                     // New panel op
-                    p.DoShowAnimation(null);
+                    p.OnShow();
+                    p.DoShowAnimation();
 
                     // Callback
                     info.callback?.Invoke(p);
@@ -188,8 +166,16 @@ namespace J.Runtime.UI
             });
         }
 
-        public void Show(UIPanel p)
+        // Panel 已经存在, 只是隐藏了
+        public void ReShow(UIPanel panel)
         {
+            if (panel.IsVisible)
+                return;
+            panel.DoShowAnimation(p =>
+            {
+                p.gameObject.SetActive(true);
+                p.OnShow();
+            });
         }
 
         public void Hide<T>(Action<UIPanel> callback) where T : UIPanel
@@ -209,7 +195,7 @@ namespace J.Runtime.UI
             JLog.Warning($"Panel {typeof(T).Name} not found");
         }
 
-        public void Hide(UIPanel panel, Action<UIPanel> callback)
+        public void Hide(UIPanel panel, Action<UIPanel> callback = null)
         {
             if (panel == null)
                 return;
@@ -240,17 +226,56 @@ namespace J.Runtime.UI
         {
             if (panel == null)
                 return;
-            panel.OnHide();
-            panel.OnClose();
-            panel.DoHidingAnimation(p =>
+
+            // 如果这个panel正在显示
+            if (panel.IsVisible)
             {
-                // 清除panel
-                _panelLevel.Remove(p);
-                _panelOpStack.Remove(p);
-                // 销毁panel
-                p.OnDrop();
-                GameObject.Destroy(p.gameObject);
-            });
+                panel.OnHide();
+                panel.OnClose();
+                panel.DoHidingAnimation(p =>
+                {
+                    CloseImpl(p);
+                });
+            }
+            // 关闭了隐藏的panel
+            else
+            {
+                CloseImpl(panel);
+            }
+        }
+
+        private void CloseImpl(UIPanel p)
+        {
+            UIShowMode showMode = p.showMode;
+            if (showMode == UIShowMode.Push)
+            {
+                // 如果自己是顶层panel
+                if (IsLastOpPanel(p))
+                {
+                    // 显示操作序列中前一个panel
+                    if (TryGetOpPanelBefore(p, out var lastOpPanel))
+                    {
+                        ReShow(lastOpPanel);
+                    }
+                }
+                else
+                {
+                    // 操作序列中后一个panel
+                    if (TryGetOpPanelAfter(p, out var nextOpPanel))
+                    {
+                        // 继承showMode,然后把自己关了
+                        nextOpPanel.showMode = p.showMode;
+                    }
+                }
+            }
+
+            // 清除panel
+            _panelLevel.Remove(p);
+            _panelOpStack.Remove(p);
+
+            // 销毁panel
+            p.OnDrop();
+            GameObject.Destroy(p.gameObject);
         }
 
         public void Get<T>(Action<T> callback) where T : UIPanel
@@ -333,6 +358,20 @@ namespace J.Runtime.UI
         }
 
         // Helpers
+        private bool TryGetPanel<T>(out T panel) where T : UIPanel
+        {
+            panel = null;
+            for (int i = 0; i < _panelOpStack.Count; i++)
+            {
+                if (_panelOpStack[i] is T)
+                {
+                    panel = _panelOpStack[i] as T;
+                    return true;
+                }
+            }
+            return false;
+        }
+
         private bool TryGetPanelIndexInStack<T>(out int index, out T panel) where T : UIPanel
         {
             index = -1;
@@ -376,6 +415,46 @@ namespace J.Runtime.UI
             return false;
         }
 
+        private bool TryGetOpPanelBefore(UIPanel panel, out UIPanel outPanel)
+        {
+            int index = 0;
+            for (int i = 0; i < _panelOpStack.Count; i++)
+            {
+                if (_panelOpStack[i] == panel)
+                {
+                    index = i;
+                }
+            }
+            int beforeIndex = index - 1;
+            if (beforeIndex >= 0)
+            {
+                outPanel = _panelOpStack[beforeIndex];
+                return true;
+            }
+            outPanel = null;
+            return false;
+        }
+
+        private bool TryGetOpPanelAfter(UIPanel panel, out UIPanel outPanel)
+        {
+            int index = 0;
+            for (int i = 0; i < _panelOpStack.Count; i++)
+            {
+                if (_panelOpStack[i] == panel)
+                {
+                    index = i;
+                }
+            }
+            int afterIndex = index + 1;
+            if (afterIndex < _panelOpStack.Count)
+            {
+                outPanel = _panelOpStack[afterIndex];
+                return true;
+            }
+            outPanel = null;
+            return false;
+        }
+
         private bool TryGetLoadingPanel<T>(out LoadingInfoPanel<T> panelInfo) where T : UIPanel
         {
             panelInfo = default;
@@ -404,12 +483,13 @@ namespace J.Runtime.UI
             return false;
         }
 
-        private void RemoveLoadingPanel()
+        private bool IsLastOpPanel(UIPanel p)
         {
-        }
-
-        private void RemoveLoadingWidget()
-        {
+            if (TryGetLastOpPanel(out UIPanel last))
+            {
+                return last == p;
+            }
+            return false;
         }
 
         /// <returns>Panel's level index</returns>
@@ -417,7 +497,9 @@ namespace J.Runtime.UI
         {
             int lastIndex = FindLastIndexAtLevel(level);
             _panelLevel.Insert(lastIndex + 1, p);
-            return lastIndex + 1;
+            int insertIndex = lastIndex + 1;
+            p.transform.SetSiblingIndex(insertIndex);
+            return insertIndex;
         }
 
         private int FindLastIndexAtLevel(UILevel level)
@@ -444,6 +526,7 @@ namespace J.Runtime.UI
 
             GameObject pGo = GameObject.Instantiate(prefab, _root.transform);
             T p = pGo.GetComponent<T>();
+            p.OnLoad();
             callback(p);
         }
     }
