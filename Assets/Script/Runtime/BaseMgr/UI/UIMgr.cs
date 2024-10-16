@@ -58,7 +58,7 @@ namespace J.Runtime.UI
             _loadingPanels = new List<LoadingInfo>(16);
             _loadingWidgets = new List<LoadingInfo>(16);
 
-            _root = Game.Instance.Canvas;
+            _root = GameObject.Find("Canvas").GetComponent<Canvas>();
         }
 
         public void Shutdown()
@@ -158,7 +158,7 @@ namespace J.Runtime.UI
 
                     // New panel op
                     p.OnShow();
-                    p.DoShowAnimation();
+                    p.PlayShowingAnim();
 
                     // Callback
                     info.callback?.Invoke(p);
@@ -171,7 +171,7 @@ namespace J.Runtime.UI
         {
             if (panel.IsVisible)
                 return;
-            panel.DoShowAnimation(p =>
+            panel.PlayShowingAnim(p =>
             {
                 p.gameObject.SetActive(true);
                 p.OnShow();
@@ -201,7 +201,7 @@ namespace J.Runtime.UI
                 return;
 
             panel.OnHide();
-            panel.DoHidingAnimation(p =>
+            panel.PlayHidingAnim(p =>
             {
                 callback?.Invoke(p);
                 p.gameObject.SetActive(false);
@@ -232,7 +232,7 @@ namespace J.Runtime.UI
             {
                 panel.OnHide();
                 panel.OnClose();
-                panel.DoHidingAnimation(p =>
+                panel.PlayHidingAnim(p =>
                 {
                     CloseImpl(p);
                 });

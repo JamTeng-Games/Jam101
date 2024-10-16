@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
 using J.Core;
+using J.Runtime.GameFsm;
 using J.Runtime.Input;
 using J.Runtime.Res;
 using J.Runtime.UI;
@@ -12,79 +13,68 @@ using UnityEngine.ResourceManagement.AsyncOperations;
 using UnityEngine.ResourceManagement.ResourceLocations;
 using Object = UnityEngine.Object;
 
-public class Game : MonoBehaviour
+namespace J.Runtime
 {
-    private bool _isInit;
-    private static Game _instance;
-    public static Game Instance => _instance;
-
-    public Canvas Canvas;
-
-    private static IResMgr _resMgr;
-    private static UIMgr _uiMgr;
-
-    public static IResMgr ResMgr => _resMgr;
-    public static UIMgr UIMgr => _uiMgr;
-
-    private void Awake()
+    public partial class Game : MonoBehaviour
     {
-        _instance = this;
-        _resMgr = new AssetMgr();
-        _uiMgr = new UIMgr();
-    }
+        // Singleton
+        private static Game _instance;
+        public static Game Instance => _instance;
 
-    private async void Start()
-    {
-        _resMgr.Init();
-        await _resMgr.WaitForAssetInit();
+        private bool _isInit;
+        private Fsm<Game> _fsm;
 
-        // Mgr init
-        _uiMgr.Init();
+        private IResMgr _resMgr;
+        private UIMgr _uiMgr;
 
-        _isInit = true;
-    }
+        public static IResMgr ResMgr => _instance._resMgr;
+        public static UIMgr UIMgr => _instance._uiMgr;
 
-    private void OnApplicationQuit()
-    {
-        _uiMgr.Shutdown();
-        _resMgr.Shutdown();
-    }
-
-    private void Update()
-    {
-        if (!_isInit)
-            return;
-
-        float dt = Time.deltaTime;
-        JTimer.Tick(dt);
-        _uiMgr.Tick(dt);
-
-        if (Keyboard.current.aKey.wasPressedThisFrame)
+        private void Awake()
         {
-            JLog.Debug("A");
-            _uiMgr.Show<LoginPanel>(null, UIShowMode.Cover, UILevel.Mid);
+            _resMgr = new AssetMgr();
+            _uiMgr = new UIMgr();
+            ConfigFsm();
         }
 
-        if (Keyboard.current.bKey.wasPressedThisFrame)
+        private async void Start()
         {
-            JLog.Debug("B");
-            _uiMgr.Show<TestPanel>(null, UIShowMode.Push, UILevel.Mid);
+            await InitEssential();
+            _isInit = true;
+            StartFsm();
         }
 
-        if (Keyboard.current.cKey.wasPressedThisFrame)
+        private void OnApplicationQuit()
         {
-            JLog.Debug("C");
-            _uiMgr.Show<TestBotPanel>(null, UIShowMode.Cover, UILevel.Bottom);
+            _uiMgr.Shutdown();
+            _resMgr.Shutdown();
         }
 
-        if (Keyboard.current.dKey.wasPressedThisFrame)
+        private void Update()
         {
-            JLog.Debug("D");
-            _uiMgr.Close<TestPanel>();
-        }
-    }
+            if (!_isInit)
+                return;
 
-    private void LateUpdate()
-    {
+            float dt = Time.deltaTime;
+            _fsm.Tick(dt);
+            _uiMgr.Tick(dt);
+        }
+
+        private void FixedUpdate()
+        {
+            _fsm.FixedTick();
+        }
+
+        private void LateUpdate()
+        {
+            _fsm.LateTick();
+        }
+
+        private async UniTask InitEssential()
+        {
+            _resMgr.Init();
+            await _resMgr.WaitForAssetInit();
+            _uiMgr.Init();
+        }
     }
 }

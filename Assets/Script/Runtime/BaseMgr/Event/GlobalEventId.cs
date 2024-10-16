@@ -7,9 +7,8 @@
          InputExitMode,
          PanelOpen,
          PanelClosed,
-         BuildGhostStateChange,
-         CancelPlace,
-         DestroyBuilding,
+         LoginSuccess,
+         EnterCombat,
     }
 
 }

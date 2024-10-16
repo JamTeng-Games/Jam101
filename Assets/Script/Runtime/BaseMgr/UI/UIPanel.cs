@@ -1,5 +1,6 @@
 ﻿using System;
 using Cysharp.Threading.Tasks;
+using MoreMountains.Feedbacks;
 using UnityEngine;
 
 namespace J.Runtime.UI
@@ -8,6 +9,8 @@ namespace J.Runtime.UI
     {
         [HideInInspector] public UILevel level;
         [HideInInspector] public UIShowMode showMode;
+        public MMF_Player showFeedback;
+        public MMF_Player hideFeedback;
 
         public bool IsVisible => gameObject.activeSelf;
 
@@ -27,14 +30,36 @@ namespace J.Runtime.UI
         public abstract void OnHide();
         public abstract void OnClose();
 
-        public virtual void DoShowAnimation(Action<UIPanel> callback = null)
+        public void PlayShowingAnim(Action<UIPanel> callback = null)
         {
-            callback?.Invoke(this);
+            if (showFeedback == null)
+            {
+                callback?.Invoke(this);
+            }
+            else
+            {
+                showFeedback.PlayFeedbacks();
+                showFeedback.Events.OnComplete.AddListener(() =>
+                {
+                    callback?.Invoke(this);
+                });
+            }
         }
 
-        public virtual void DoHidingAnimation(Action<UIPanel> callback = null)
+        public void PlayHidingAnim(Action<UIPanel> callback = null)
         {
-            callback?.Invoke(this);
+            if (hideFeedback == null)
+            {
+                callback?.Invoke(this);
+            }
+            else
+            {
+                hideFeedback.PlayFeedbacks();
+                hideFeedback.Events.OnComplete.AddListener(() =>
+                {
+                    callback?.Invoke(this);
+                });
+            }
         }
 
         protected virtual void OnTick(float dt)
