@@ -1,0 +1,16 @@
+
+component InputComp
+{
+    [HideInInspector] Input Input;
+}
+
+component PlayerLinkComp
+{
+    player_ref PlayerRef;
+}
+
+component AttributesComp
+{
+    dictionary<EAttributeType, FP> BaseAttribs;
+    dictionary<EAttributeType, FP> PercentAttribs;
+}

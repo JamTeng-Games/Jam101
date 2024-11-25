@@ -1,16 +1,18 @@
 ﻿using System;
-using Cysharp.Threading.Tasks;
+using cfg;
 using MoreMountains.Feedbacks;
 using UnityEngine;
 
-namespace J.Runtime.UI
+namespace Jam.Runtime.UI_
 {
+
     public abstract class UIPanel : MonoBehaviour
     {
         [HideInInspector] public UILevel level;
         [HideInInspector] public UIShowMode showMode;
         public MMF_Player showFeedback;
         public MMF_Player hideFeedback;
+        public abstract UIPanelId Id { get; }
 
         public bool IsVisible => gameObject.activeSelf;
 
@@ -23,12 +25,6 @@ namespace J.Runtime.UI
         {
             OnLateTick();
         }
-
-        public abstract void OnDrop();
-        public abstract void OnLoad();
-        public abstract void OnShow();
-        public abstract void OnHide();
-        public abstract void OnClose();
 
         public void PlayShowingAnim(Action<UIPanel> callback = null)
         {
@@ -62,6 +58,24 @@ namespace J.Runtime.UI
             }
         }
 
+        public abstract void OnInit();
+
+        public abstract void OnOpen(object userData);
+        public abstract void OnClose();
+
+        /// 被对象池回收时
+        public virtual void OnRecycle()
+        {
+        }
+
+        public virtual void OnShow()
+        {
+        }
+
+        public virtual void OnHide()
+        {
+        }
+
         protected virtual void OnTick(float dt)
         {
         }
@@ -86,4 +100,5 @@ namespace J.Runtime.UI
         {
         }
     }
+
 }

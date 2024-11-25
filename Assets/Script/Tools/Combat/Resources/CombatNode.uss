@@ -1,0 +1,3 @@
+CombatGraphNode #title {
+    background-color: rgb(78, 113, 78);
+}

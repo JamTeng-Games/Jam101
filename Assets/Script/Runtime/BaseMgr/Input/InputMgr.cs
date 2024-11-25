@@ -1,48 +1,52 @@
 ﻿using System.Collections.Generic;
-using J.Core;
-using J.Runtime.Event;
+using Jam.Core;
+using Jam.Runtime.Event;
 using UnityEngine.InputSystem;
 
-namespace J.Runtime.Input
+namespace Jam.Runtime.Input_
 {
 
-    public static partial class InputMgr
+    public partial class InputMgr : IMgr
     {
-        private static InputEvent _event;
+        private InputEvent _event;
 
         // Custom input
-        private static InputControl _input;
-        private static List<InputStateSnapshot> _snapshots;
+        private InputControl _input;
+        private List<InputStateSnapshot> _snapshots;
 
-        public static InputEvent Event => _event;
+        public InputEvent Event => _event;
 
-        public static void Init()
+        public InputMgr()
         {
             _input = new InputControl();
             _event = new InputEvent();
             _snapshots = new List<InputStateSnapshot>();
             RegisterAll();
+        }
+
+        public void Init()
+        {
             EnterMode<DefaultMode>();
         }
 
-        public static void Shutdown()
+        public void Shutdown(bool isAppQuit)
         {
             _event.Clear();
         }
 
-        private static void RegisterAll()
+        private void RegisterAll()
         {
             RegisterShortcut();
             RegisterGhost();
         }
 
-        private static void UnregisterAll()
+        private void UnregisterAll()
         {
             UnregisterShortcut();
             UnregisterGhost();
         }
 
-        public static void EnterMode<T>() where T : InputMode, new()
+        public void EnterMode<T>() where T : InputMode, new()
         {
             int findIndex = _snapshots.FindIndex(snap => snap.AttachedMode.Name == typeof(T).Name);
             // 如果已经存在该模式，把该模式移到最后（等同于先退出该模式，再进入该模式）
@@ -61,10 +65,10 @@ namespace J.Runtime.Input
             _snapshots.Add(snapshot);
 
             // SendEvent
-            EventMgr.Send(GlobalEventId.InputEnterMode, typeof(T));
+            G.Event.Send(GlobalEventId.InputEnterMode, typeof(T));
         }
 
-        public static void ExitMode<T>() where T : InputMode
+        public void ExitMode<T>() where T : InputMode
         {
             int findIndex = _snapshots.FindIndex(snap => snap.AttachedMode.Name == typeof(T).Name);
             // 没找打该模式, 直接返回
@@ -103,23 +107,23 @@ namespace J.Runtime.Input
                 ApplySnapshot(_snapshots[^1]);
 
             // SendEvent
-            EventMgr.Send(GlobalEventId.InputExitMode, typeof(T));
+            G.Event.Send(GlobalEventId.InputExitMode, typeof(T));
         }
 
-        public static void ResetToDefaultMode()
+        public void ResetToDefaultMode()
         {
             _snapshots.Clear();
             EnterMode<DefaultMode>();
         }
 
-        public static void RefreshSnapshot()
+        public void RefreshSnapshot()
         {
             if (_snapshots.Count == 0)
                 return;
             ApplySnapshot(_snapshots[^1]);
         }
 
-        private static void ApplySnapshot(InputStateSnapshot snapshot)
+        private void ApplySnapshot(InputStateSnapshot snapshot)
         {
             foreach (var (id, actionState) in snapshot.InputActionStates)
             {

@@ -1,8 +1,7 @@
 ﻿using System;
-using Cysharp.Threading.Tasks;
 using UnityEngine;
 
-namespace J.Core
+namespace Jam.Core
 {
 
     public partial class Tweener
@@ -48,7 +47,7 @@ namespace J.Core
         private Action<TweenValue> _endCallback;
 
         // async Task support
-        private UniTaskCompletionSource<Tweener> _taskSource;
+        // private UniTaskCompletionSource<Tweener> _taskSource;
 
         // Public
         public uint Id => _id;
@@ -78,7 +77,7 @@ namespace J.Core
             tween._endValue.Value = end;
             tween._duration = duration;
             // Task
-            tween._taskSource = new UniTaskCompletionSource<Tweener>();
+            // tween._taskSource = new UniTaskCompletionSource<Tweener>();
             return tween;
         }
 
@@ -91,7 +90,7 @@ namespace J.Core
             tween._endValue.Vec2 = end;
             tween._duration = duration;
             // Task
-            tween._taskSource = new UniTaskCompletionSource<Tweener>();
+            // tween._taskSource = new UniTaskCompletionSource<Tweener>();
             return tween;
         }
 
@@ -104,7 +103,7 @@ namespace J.Core
             tween._endValue.Vec3 = end;
             tween._duration = duration;
             // Task
-            tween._taskSource = new UniTaskCompletionSource<Tweener>();
+            // tween._taskSource = new UniTaskCompletionSource<Tweener>();
             return tween;
         }
 
@@ -117,7 +116,7 @@ namespace J.Core
             tween._endValue.Vec4 = end;
             tween._duration = duration;
             // Task
-            tween._taskSource = new UniTaskCompletionSource<Tweener>();
+            // tween._taskSource = new UniTaskCompletionSource<Tweener>();
             return tween;
         }
 
@@ -130,7 +129,7 @@ namespace J.Core
             tween._endValue.Quat = end;
             tween._duration = duration;
             // Task
-            tween._taskSource = new UniTaskCompletionSource<Tweener>();
+            // tween._taskSource = new UniTaskCompletionSource<Tweener>();
             return tween;
         }
 
@@ -143,7 +142,7 @@ namespace J.Core
             tween._endValue.Color = end;
             tween._duration = duration;
             // Task
-            tween._taskSource = new UniTaskCompletionSource<Tweener>();
+            // tween._taskSource = new UniTaskCompletionSource<Tweener>();
             return tween;
         }
 
@@ -157,7 +156,7 @@ namespace J.Core
             // tween._value = start;
             tween._duration = duration;
             // Task
-            tween._taskSource = new UniTaskCompletionSource<Tweener>();
+            // tween._taskSource = new UniTaskCompletionSource<Tweener>();
             return tween;
         }
 
@@ -187,7 +186,7 @@ namespace J.Core
         {
             if (_state == TweenState.Stop)
                 return;
-            _taskSource.TrySetResult(this);
+            // _taskSource.TrySetResult(this);
             _state = TweenState.Stop;
         }
 
@@ -287,10 +286,10 @@ namespace J.Core
                 _state = TweenState.Ready;
         }
 
-        public UniTask<Tweener> ToUniTask()
-        {
-            return _taskSource.Task;
-        }
+        // public UniTask<Tweener> ToUniTask()
+        // {
+        //     return _taskSource.Task;
+        // }
 
         public void CancelTask()
         {

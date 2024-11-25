@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEditor;
 #endif
 
-namespace J.Core
+namespace Jam.Core
 {
 
     public class ReadOnlyFieldAttribute : PropertyAttribute

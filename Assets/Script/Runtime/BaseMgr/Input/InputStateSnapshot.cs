@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine.InputSystem;
 
-namespace J.Runtime.Input
+namespace Jam.Runtime.Input_
 {
 
     // 输入状态快照

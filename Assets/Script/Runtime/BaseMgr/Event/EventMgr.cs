@@ -1,82 +1,102 @@
 ﻿using System;
-using J.Core;
+using Jam.Core;
 
-namespace J.Runtime.Event
+namespace Jam.Runtime.Event
 {
 
-    public class EventMgr
+    public class EventMgr : IMgr, ITickable
     {
-        private static JEvent<GlobalEventId> _event;
+        private EventCenter<GlobalEventId> s_eventCenter;
 
-        public void Init()
+        public EventMgr()
         {
-            _event = JEvent<GlobalEventId>.Create<GlobalEventId>();
+            s_eventCenter = EventCenter<GlobalEventId>.Create<GlobalEventId>();
         }
 
-        public void Shutdown()
+        public void Shutdown(bool isAppQuit)
         {
-            _event.Clear();
-            _event = null;
+            s_eventCenter.Clear();
+            s_eventCenter = null;
         }
 
-        public static void Subscribe(GlobalEventId name, Action action)
+        public void Tick(float deltaTime)
         {
-            _event.Subscribe(name, action);
+            s_eventCenter.Tick();
         }
 
-        public static void Subscribe<T>(GlobalEventId name, Action<T> action)
+        public void Subscribe(GlobalEventId name, Action action)
         {
-            _event.Subscribe(name, action);
+            s_eventCenter.Subscribe(name, action);
         }
 
-        public static void Subscribe<T1, T2>(GlobalEventId name, Action<T1, T2> action)
+        public void Subscribe<T>(GlobalEventId name, Action<T> action)
         {
-            _event.Subscribe(name, action);
+            s_eventCenter.Subscribe(name, action);
         }
 
-        public static void Subscribe<T1, T2, T3>(GlobalEventId name, Action<T1, T2, T3> action)
+        public void Subscribe<T1, T2>(GlobalEventId name, Action<T1, T2> action)
         {
-            _event.Subscribe(name, action);
+            s_eventCenter.Subscribe(name, action);
         }
 
-        public static void Unsubscribe(GlobalEventId name, Action action)
+        public void Subscribe<T1, T2, T3>(GlobalEventId name, Action<T1, T2, T3> action)
         {
-            _event.Unsubscribe(name, action);
+            s_eventCenter.Subscribe(name, action);
         }
 
-        public static void Unsubscribe<T>(GlobalEventId name, Action<T> action)
+        public void SubscribeObj(GlobalEventId name, Action<object> action)
         {
-            _event.Unsubscribe(name, action);
+            s_eventCenter.SubscribeObj(name, action);
         }
 
-        public static void Unsubscribe<T1, T2>(GlobalEventId name, Action<T1, T2> action)
+        public void Unsubscribe(GlobalEventId name, Action action)
         {
-            _event.Unsubscribe(name, action);
+            s_eventCenter.Unsubscribe(name, action);
         }
 
-        public static void Unsubscribe<T1, T2, T3>(GlobalEventId name, Action<T1, T2, T3> action)
+        public void Unsubscribe<T>(GlobalEventId name, Action<T> action)
         {
-            _event.Unsubscribe(name, action);
+            s_eventCenter.Unsubscribe(name, action);
         }
 
-        public static void Send(GlobalEventId name)
+        public void Unsubscribe<T1, T2>(GlobalEventId name, Action<T1, T2> action)
         {
-            _event.Send(name);
+            s_eventCenter.Unsubscribe(name, action);
         }
 
-        public static void Send<T>(GlobalEventId name, T info)
+        public void Unsubscribe<T1, T2, T3>(GlobalEventId name, Action<T1, T2, T3> action)
         {
-            _event.Send(name, info);
+            s_eventCenter.Unsubscribe(name, action);
         }
 
-        public static void Send<T1, T2>(GlobalEventId name, T1 info1, T2 info2)
+        public void Unsubscribe(GlobalEventId name, Action<object> action)
         {
-            _event.Send(name, info1, info2);
+            s_eventCenter.UnsubscribeObj(name, action);
         }
 
-        public static void Send<T1, T2, T3>(GlobalEventId name, T1 info1, T2 info2, T3 info3)
+        public void Send(GlobalEventId name)
         {
-            _event.Send(name, info1, info2, info3);
+            s_eventCenter.Send(name);
+        }
+
+        public void Send<T>(GlobalEventId name, T info)
+        {
+            s_eventCenter.Send(name, info);
+        }
+
+        public void Send<T1, T2>(GlobalEventId name, T1 info1, T2 info2)
+        {
+            s_eventCenter.Send(name, info1, info2);
+        }
+
+        public void Send<T1, T2, T3>(GlobalEventId name, T1 info1, T2 info2, T3 info3)
+        {
+            s_eventCenter.Send(name, info1, info2, info3);
+        }
+
+        public void SendObj(GlobalEventId name, object arg)
+        {
+            s_eventCenter.SendObj(name, arg);
         }
     }
 

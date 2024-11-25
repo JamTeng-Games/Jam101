@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace J.Core
+namespace Jam.Core
 {
 
     public class TypeComparer : IComparer<Type>

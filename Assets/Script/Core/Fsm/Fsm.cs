@@ -1,41 +1,45 @@
 using System;
 using System.Collections.Generic;
 
-namespace J.Core
+namespace Jam.Core
 {
-    public class Fsm<TOwner>
+
+    public partial class Fsm // TODO: IReference
     {
-        private TOwner _owner;
-        private List<FsmState<TOwner>> _states;
-        private FsmState<TOwner> _currentState;
+        private int _id;
+        private List<State> _states;
+        private State _currentState;
         private bool _isRunning;
         private Type _nextState;
+        private Blackboard _data;
 
-        public TOwner Owner => _owner;
-        public FsmState<TOwner> CurrentState => _currentState;
+        public int Id => _id;
+        public State CurrentState => _currentState;
         public bool IsRunning => _isRunning;
+        public Blackboard Data => _data;
 
-        public Fsm(TOwner owner)
+        public Fsm(int id)
         {
-            _owner = owner;
-            _states = new List<FsmState<TOwner>>();
+            _id = id;
+            _states = new List<State>();
+            _data = new Blackboard();
         }
 
-        public Fsm(TOwner owner, List<FsmState<TOwner>> states)
+        public Fsm(List<State> states, int id)
         {
-            _owner = owner;
-            _states = new List<FsmState<TOwner>>(states);
+            _id = id;
+            _states = new List<State>(states);
+            _data = new Blackboard();
         }
 
-        public void Drop()
+        public void Dispose()
         {
             Stop();
             _states.Clear(); // TODO: Call state's Drop method
             _currentState = null;
-            _owner = default;
         }
 
-        public void Start<TState>() where TState : FsmState<TOwner>
+        public void Start<TState>() where TState : State
         {
             if (_isRunning)
                 return;
@@ -55,14 +59,14 @@ namespace J.Core
             _currentState = null;
         }
 
-        public Fsm<TOwner> AddState(FsmState<TOwner> state)
+        public Fsm AddState(State state)
         {
             state.SetFsm(this);
             _states.Add(state);
             return this;
         }
 
-        public FsmState<TOwner> GetState<TState>()
+        public State GetState<TState>()
         {
             foreach (var state in _states)
             {
@@ -74,7 +78,7 @@ namespace J.Core
             return null;
         }
 
-        public FsmState<TOwner> GetState(Type stateType)
+        public State GetState(Type stateType)
         {
             foreach (var state in _states)
             {
@@ -86,13 +90,83 @@ namespace J.Core
             return null;
         }
 
-        // 等到一帧结束后再切换状态
-        public void ChangeState<TState>() where TState : FsmState<TOwner>
+        public TransitionConfig Configure<TState>()
+        {
+            var state = GetState<TState>();
+            if (state == null)
+            {
+                throw new Exception($"Can not find state {typeof(TState).Name}");
+            }
+            return new TransitionConfig(state);
+        }
+
+        // 强制切换状态
+        public void ForceChangeState<TState>() where TState : State
+        {
+            if (!_isRunning)
+                return;
+            _nextState = typeof(TState);
+        }
+
+        // 强制立即切换状态
+        public void ForceChangeStateNow<TState>() where TState : State
+        {
+            if (!_isRunning)
+                return;
+            ChangeStateImpl(typeof(TState));
+        }
+
+        public void Tick(float dt)
         {
             if (!_isRunning)
                 return;
 
+            // 在帧开头切换状态
+            if (_nextState != null)
+            {
+                ChangeStateImpl(_nextState);
+            }
+
+            _currentState.OnTick(dt);
+        }
+
+        public void FixedTick()
+        {
+            if (!_isRunning)
+                return;
+            // 如果下一帧要切换状态，那么不执行当前状态的FixedTick
+            if (_nextState == null)
+                _currentState.OnFixedTick();
+        }
+
+        public void LateTick()
+        {
+            if (!_isRunning)
+                return;
+            // 如果下一帧要切换状态，那么不执行当前状态的LateTick
+            if (_nextState == null)
+                _currentState.OnLateTick();
+        }
+
+        // Private
+        /// 等到下一帧再切换状态
+        private void ChangeState<TState>() where TState : State
+        {
+            if (!_isRunning)
+                return;
+            if (!_currentState.HasTransition<TState>())
+                return;
             _nextState = typeof(TState);
+        }
+
+        /// 立即切换状态
+        private void ChangeStateNow<TState>() where TState : State
+        {
+            if (!_isRunning)
+                return;
+            if (!_currentState.HasTransition<TState>())
+                return;
+            ChangeStateImpl(typeof(TState));
         }
 
         private void ChangeStateImpl(Type stateType)
@@ -103,34 +177,28 @@ namespace J.Core
             var oldState = _currentState;
             _currentState?.OnExit();
             _currentState = GetState(stateType);
+            if (_currentState == null)
+                throw new Exception($"Can not find state {stateType.Name}");
             _currentState.OnEnter(oldState);
             _nextState = null;
         }
 
-        public void Tick(float dt)
+        // Transition config class
+        public class TransitionConfig
         {
-            if (!_isRunning)
-                return;
-            _currentState.OnTick(dt);
-        }
+            private State _fromState;
 
-        public void FixedTick()
-        {
-            if (!_isRunning)
-                return;
-            _currentState.OnFixedTick();
-        }
-
-        public void LateTick()
-        {
-            if (!_isRunning)
-                return;
-            _currentState.OnLateTick();
-
-            if (_nextState != null)
+            public TransitionConfig(State fromState)
             {
-                ChangeStateImpl(_nextState);
+                _fromState = fromState;
+            }
+
+            public TransitionConfig To<TState>()
+            {
+                _fromState.AddTransition(typeof(TState));
+                return this;
             }
         }
     }
+
 }

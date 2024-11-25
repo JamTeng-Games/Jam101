@@ -1,0 +1,39 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1e16c89a9a1d4d3eb3f7d9941b2a6524, type: 3}
+  m_Name: Hello
+  m_EditorClassIdentifier: 
+  NodeLinks:
+  - baseNodeGuid: b94e99ad-7e1b-4171-9ac1-a90b4af35031
+    portName: NEXT
+    targetNodeGuid: b410e951-34d2-483d-a7d0-e5e12089b427
+  - baseNodeGuid: b410e951-34d2-483d-a7d0-e5e12089b427
+    portName: A
+    targetNodeGuid: 183b0d15-2595-4d12-af22-baf8213ce610
+  - baseNodeGuid: b410e951-34d2-483d-a7d0-e5e12089b427
+    portName: C
+    targetNodeGuid: e47683e6-18da-4b0f-b336-984f2b64bb55
+  NodeData:
+  - guid: 183b0d15-2595-4d12-af22-baf8213ce610
+    text: Hey
+    position: {x: 706, y: 138}
+  - guid: e47683e6-18da-4b0f-b336-984f2b64bb55
+    text: Hi
+    position: {x: 706, y: 250}
+  - guid: b410e951-34d2-483d-a7d0-e5e12089b427
+    text: Hello
+    position: {x: 350, y: 176}
+  ExposedProperties:
+  - PropertyName: User
+    PropertyValue: Name
+  - PropertyName: Copol
+    PropertyValue: 1

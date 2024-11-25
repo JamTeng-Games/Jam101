@@ -1,0 +1,23 @@
+namespace Jam.Runtime.UI_
+{
+
+    public partial class __WIDGET_NAME__Widget
+    {
+        public override void OnInit()
+        {
+        }
+
+        public override void OnOpen(object userData)
+        {
+        }
+
+        public override void OnClose()
+        {
+        }
+
+        protected override void OnTick(float dt)
+        {
+        }
+    }
+
+}

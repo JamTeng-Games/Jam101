@@ -1,13 +1,10 @@
 ﻿using UnityEngine;
 
-namespace J.Runtime.UI
+namespace Jam
 {
 
     public class UIWidget : MonoBehaviour
     {
-        public void Drop()
-        {
-        }
     }
 
 }

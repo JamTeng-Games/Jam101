@@ -1,4 +1,4 @@
-﻿namespace J.Runtime.Input
+﻿namespace Jam.Runtime.Input_
 {
 
     public enum InputEventId

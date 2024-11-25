@@ -1,0 +1,11 @@
+input
+{
+    FPVector2 MovementDirection;
+    // Attack
+    FPVector2 AttackDirection;
+    FP AttackDistance;
+    // Skill
+    FPVector2 SkillDirection;
+    FP SkillDistance;
+}
+

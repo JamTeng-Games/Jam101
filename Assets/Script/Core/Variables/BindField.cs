@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace J.Core
+namespace Jam.Core
 {
 
     /// NOTE: Use BindFieldHelper class to bind field

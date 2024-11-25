@@ -1,14 +1,35 @@
-﻿namespace J.Runtime.Event
+﻿namespace Jam.Runtime.Event
 {
 
     public enum GlobalEventId
     {
-         InputEnterMode,
-         InputExitMode,
-         PanelOpen,
-         PanelClosed,
-         LoginSuccess,
-         EnterCombat,
+        ResPipelineDone,
+
+        LoadCfgSuccess,
+        LoadCfgFailure,
+
+        InputEnterMode,
+        InputExitMode,
+
+        PanelOpen,
+        PanelClosed,
+
+        LoginSuccess,
+        EnterCombat,
+
+        // Init res
+        ResPipelineProgressUpdate,
+        StartInitializePackage,
+        StartUpdatePackageVersion,
+        StartUpdatePackageManifest,
+        PrepareDownloadPackageFiles,
+        AgreeDownloadPackageFiles,
+        StartDownloadPackageFiles,
+        DownloadPackageFileProgress,
+        UpdateResDone,
+        InitResourceFailed,
+        PackageVersionUpdateFailed,
+        PatchManifestUpdateFailed,
     }
 
 }

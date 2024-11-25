@@ -1,5 +1,5 @@
 ﻿
-namespace J.Core
+namespace Jam.Core
 {
     public class JobTimer
     {

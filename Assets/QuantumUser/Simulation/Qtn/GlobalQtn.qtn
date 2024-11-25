@@ -1,0 +1,9 @@
+global
+{
+    EGameState State;
+
+    FP MatchTimer;
+    FP MatchDuration;
+
+    FP GameDuration;
+}

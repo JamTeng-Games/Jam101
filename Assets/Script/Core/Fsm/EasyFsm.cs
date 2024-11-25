@@ -1,8 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 
-namespace J.Core
+namespace Jam.Core
 {
+
     /// <summary>
     /// A simple state machine implementation.
     /// </summary>
@@ -13,15 +14,19 @@ namespace J.Core
 
         public class State
         {
-            public readonly TState owner;
+            public readonly TState Type;
+            private EasyFsm<TState> _fsm;
             private System.Action<TState> _enterAction;
             private System.Action _exitAction;
             private System.Action<float> _tickAction;
             private System.Action _fixedTickAction;
+            private List<TState> _transitions;
 
-            public State(TState owner)
+            public State(TState type, EasyFsm<TState> fsm)
             {
-                this.owner = owner;
+                Type = type;
+                _fsm = fsm;
+                _transitions = new List<TState>(2);
             }
 
             public void OnEnter(TState from)
@@ -44,266 +49,18 @@ namespace J.Core
                 _exitAction?.Invoke();
             }
 
-            public void SetEnterAction(System.Action<TState> action)
+            public void ChangeState(TState state)
             {
-                _enterAction = action;
+                if (!HasTransition(state))
+                    return;
+                _fsm.ChangeState(state);
             }
 
-            public void SetExitAction(System.Action action)
+            public bool HasTransition(TState state)
             {
-                _exitAction = action;
-            }
-
-            public void SetTickAction(System.Action<float> action)
-            {
-                _tickAction = action;
-            }
-
-            public void SetFixedTickAction(System.Action action)
-            {
-                _fixedTickAction = action;
-            }
-
-            public void Clear()
-            {
-                _enterAction = null;
-                _exitAction = null;
-                _tickAction = null;
-            }
-        }
-
-        // Transition Config
-        public class TransitionConfig
-        {
-            private readonly State _from;
-            private readonly EasyFsm<TState> _machine;
-
-            public TransitionConfig(State from, EasyFsm<TState> machine)
-            {
-                _from = from;
-                _machine = machine;
-            }
-
-            public TransitionConfig OnEnter(System.Action<TState> action)
-            {
-                _from.SetEnterAction(action);
-                return this;
-            }
-
-            public TransitionConfig OnTick(System.Action<float> action)
-            {
-                _from.SetTickAction(action);
-                return this;
-            }
-
-            public TransitionConfig OnFixedTick(System.Action action)
-            {
-                _from.SetFixedTickAction(action);
-                return this;
-            }
-
-            public TransitionConfig OnExit(System.Action action)
-            {
-                _from.SetExitAction(action);
-                return this;
-            }
-        }
-
-        #endregion Internal Class
-
-        private List<State> _states;
-        private State _currentState;
-        private bool _isStarted = false;
-
-        public bool IsStarted => _isStarted;
-        public TState CurrentState => _currentState.owner;
-
-        public EasyFsm()
-        {
-            if (!typeof(TState).IsEnum)
-            {
-                throw new System.Exception("TState must be enum type");
-            }
-
-            var states = System.Enum.GetValues(typeof(TState)).Cast<TState>().ToList();
-            _states = new List<State>();
-            for (int i = 0; i < states.Count; i++)
-            {
-                State state = new State(states[i]);
-                _states.Add(state);
-            }
-        }
-
-        public EasyFsm(List<TState> states)
-        {
-            _states = new List<State>();
-            for (int i = 0; i < states.Count; i++)
-            {
-                State state = new State(states[i]);
-                _states.Add(state);
-            }
-        }
-
-        public void Start(TState initialState)
-        {
-            State state = GetState(initialState);
-            if (state == null)
-            {
-                // ERROR!!
-                return;
-            }
-            _currentState = state;
-            _currentState.OnEnter(default);
-            _isStarted = true;
-        }
-
-        public void Tick(float deltaTime)
-        {
-            if (_isStarted)
-                _currentState.OnTick(deltaTime);
-        }
-
-        public void FixedTick()
-        {
-            if (_isStarted)
-                _currentState.OnFixedTick();
-        }
-
-        public TransitionConfig Configure(TState state)
-        {
-            State findState = GetState(state);
-            if (findState != null)
-            {
-                return new TransitionConfig(findState, this);
-            }
-            // ERROR! ThrowException
-            State newState = new State(state);
-            _states.Add(newState);
-            return new TransitionConfig(newState, this);
-        }
-
-        public State GetState(TState state)
-        {
-            for (var i = 0; i < _states.Count; i++)
-            {
-                if (EqualityComparer<TState>.Default.Equals(_states[i].owner, state))
+                foreach (var itState in _transitions)
                 {
-                    return _states[i];
-                }
-            }
-            return null;
-        }
-
-        public bool HasState(TState state)
-        {
-            for (var i = 0; i < _states.Count; i++)
-            {
-                if (EqualityComparer<TState>.Default.Equals(_states[i].owner, state))
-                {
-                    return true;
-                }
-            }
-            return false;
-        }
-
-        public void ChangeState(TState state)
-        {
-            if (EqualityComparer<TState>.Default.Equals(_currentState.owner, state))
-                return;
-
-            for (var i = 0; i < _states.Count; i++)
-            {
-                if (EqualityComparer<TState>.Default.Equals(_states[i].owner, state))
-                {
-                    var oldState = _currentState;
-                    _currentState.OnExit();
-                    _currentState = _states[i];
-                    _currentState.OnEnter(oldState.owner);
-                }
-            }
-        }
-
-        public void Destroy()
-        {
-            if (_currentState != null)
-                _currentState.OnExit();
-            _isStarted = false;
-            for (int i = 0; i < _states.Count; i++)
-            {
-                _states[i].Clear();
-            }
-            _states.Clear();
-            _currentState = null;
-        }
-    }
-
-    /// <summary>
-    /// A simple state machine implementation.
-    /// </summary>
-    /// <typeparam name="TState"> State Type </typeparam>
-    /// <typeparam name="TTrigger"> Trigger Type </typeparam>
-    public class EasyFsm<TState, TTrigger>
-    {
-        #region Internal Class
-
-        private class Transition
-        {
-            public State to;
-            public TTrigger trigger;
-        }
-
-        public class State
-        {
-            public readonly TState owner;
-            private System.Action<TState> _enterAction;
-            private System.Action _exitAction;
-            private System.Action<float> _tickAction;
-            private System.Action _fixedTickAction;
-            private List<Transition> _transitions;
-
-            public State(TState owner)
-            {
-                this.owner = owner;
-                _transitions = new List<Transition>();
-            }
-
-            public State Fire(TTrigger trigger)
-            {
-                foreach (var transition in _transitions)
-                {
-                    if (EqualityComparer<TTrigger>.Default.Equals(transition.trigger, trigger))
-                    {
-                        return transition.to;
-                    }
-                }
-                return null;
-            }
-
-            public void OnEnter(TState from)
-            {
-                _enterAction?.Invoke(from);
-            }
-
-            public void OnTick(float deltaTime)
-            {
-                _tickAction?.Invoke(deltaTime);
-            }
-
-            public void OnFixedTick()
-            {
-                _fixedTickAction?.Invoke();
-            }
-
-            public void OnExit()
-            {
-                _exitAction?.Invoke();
-            }
-
-            public bool HasTrigger(TTrigger trigger)
-            {
-                foreach (var transition in _transitions)
-                {
-                    if (EqualityComparer<TTrigger>.Default.Equals(transition.trigger, trigger))
+                    if (EqualityComparer<TState>.Default.Equals(itState, state))
                     {
                         return true;
                     }
@@ -311,21 +68,9 @@ namespace J.Core
                 return false;
             }
 
-            public bool CanTrigger(TTrigger trigger)
+            public void AddTransition(TState to)
             {
-                foreach (var transition in _transitions)
-                {
-                    if (EqualityComparer<TTrigger>.Default.Equals(transition.trigger, trigger))
-                    {
-                        return true;
-                    }
-                }
-                return false;
-            }
-
-            public void AddTransition(State to, TTrigger trigger)
-            {
-                _transitions.Add(new Transition() { to = to, trigger = trigger, });
+                _transitions.Add(to);
             }
 
             public void SetEnterAction(System.Action<TState> action)
@@ -361,22 +106,21 @@ namespace J.Core
         public class TransitionConfig
         {
             private readonly State _from;
-            private readonly EasyFsm<TState, TTrigger> _machine;
+            private readonly EasyFsm<TState> _machine;
 
-            public TransitionConfig(State from, EasyFsm<TState, TTrigger> machine)
+            public TransitionConfig(State from, EasyFsm<TState> machine)
             {
                 _from = from;
                 _machine = machine;
             }
 
-            public TransitionConfig Permit(TState nextState, TTrigger trigger)
+            public TransitionConfig To(TState nextState)
             {
-                if (_from.HasTrigger(trigger))
+                if (_from.HasTransition(nextState))
                     return this;
 
-                var toState = _machine.GetState(nextState);
-                if (toState != null)
-                    _from.AddTransition(toState, trigger);
+                if (_machine.HasState(nextState))
+                    _from.AddTransition(nextState);
                 return this;
             }
 
@@ -412,7 +156,7 @@ namespace J.Core
         private bool _isStarted = false;
 
         public bool IsStarted => _isStarted;
-        public TState CurrentState => _currentState.owner;
+        public TState CurrentState => _currentState.Type;
 
         public EasyFsm()
         {
@@ -425,7 +169,7 @@ namespace J.Core
             _states = new List<State>();
             for (int i = 0; i < states.Count; i++)
             {
-                State state = new State(states[i]);
+                State state = new State(states[i], this);
                 _states.Add(state);
             }
         }
@@ -435,7 +179,7 @@ namespace J.Core
             _states = new List<State>();
             for (int i = 0; i < states.Count; i++)
             {
-                State state = new State(states[i]);
+                State state = new State(states[i], this);
                 _states.Add(state);
             }
         }
@@ -473,7 +217,7 @@ namespace J.Core
                 return new TransitionConfig(findState, this);
             }
             // ERROR! ThrowException
-            State newState = new State(state);
+            State newState = new State(state, this);
             _states.Add(newState);
             return new TransitionConfig(newState, this);
         }
@@ -482,7 +226,7 @@ namespace J.Core
         {
             for (var i = 0; i < _states.Count; i++)
             {
-                if (EqualityComparer<TState>.Default.Equals(_states[i].owner, state))
+                if (EqualityComparer<TState>.Default.Equals(_states[i].Type, state))
                 {
                     return _states[i];
                 }
@@ -492,49 +236,29 @@ namespace J.Core
 
         public bool HasState(TState state)
         {
-            for (var i = 0; i < _states.Count; i++)
-            {
-                if (EqualityComparer<TState>.Default.Equals(_states[i].owner, state))
-                {
-                    return true;
-                }
-            }
-            return false;
+            return GetState(state) != null;
         }
 
-        public void ChangeState(TState state)
+        private void ChangeState(TState newStateType)
         {
-            if (EqualityComparer<TState>.Default.Equals(_currentState.owner, state))
+            // Same state
+            if (EqualityComparer<TState>.Default.Equals(_currentState.Type, newStateType))
                 return;
 
-            for (var i = 0; i < _states.Count; i++)
-            {
-                if (EqualityComparer<TState>.Default.Equals(_states[i].owner, state))
-                {
-                    var oldState = _currentState;
-                    _currentState.OnExit();
-                    _currentState = _states[i];
-                    _currentState.OnEnter(oldState.owner);
-                }
-            }
+            var newState = GetState(newStateType);
+            if (newState == null)
+                return;
+
+            // Change state
+            var oldState = _currentState;
+            _currentState.OnExit();
+            _currentState = newState;
+            _currentState.OnEnter(oldState.Type);
         }
 
-        // Send Trigger
-        public void Fire(TTrigger trigger)
+        public void ForceChangeState(TState newStateType)
         {
-            var nextState = _currentState.Fire(trigger);
-            if (nextState != null)
-            {
-                var oldState = _currentState;
-                _currentState.OnExit();
-                _currentState = nextState;
-                _currentState.OnEnter(oldState.owner);
-            }
-        }
-
-        public bool CanTrigger(TTrigger trigger)
-        {
-            return _currentState.CanTrigger(trigger);
+            ChangeState(newStateType);
         }
 
         public void Destroy()
@@ -550,4 +274,5 @@ namespace J.Core
             _currentState = null;
         }
     }
+
 }

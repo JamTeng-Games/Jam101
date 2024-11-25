@@ -1,6 +1,6 @@
 using System;
 
-namespace J.Core
+namespace Jam.Core
 {
 
     public static class JTimer

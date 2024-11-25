@@ -1,21 +1,21 @@
-﻿namespace J.Runtime.Input
+﻿namespace Jam.Runtime.Input_
 {
 
     public partial class InputMgr
     {
-        private static void RegisterShortcut()
+        private void RegisterShortcut()
         {
         }
 
-        private static void RegisterGhost()
+        private void RegisterGhost()
         {
         }
 
-        private static void UnregisterShortcut()
+        private void UnregisterShortcut()
         {
         }
 
-        private static void UnregisterGhost()
+        private void UnregisterGhost()
         {
         }
     }

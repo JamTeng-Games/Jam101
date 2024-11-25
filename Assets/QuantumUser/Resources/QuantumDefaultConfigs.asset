@@ -58,7 +58,7 @@ MonoBehaviour:
     RawValue: 32768
   AvoidanceLayer: 0
   AvoidanceMask:
-    BitMask: -1
+    BitMask: 55
   MaxAvoidanceCandidates: 64
   ReduceAvoidanceAtWaypoints: 0
   ReduceAvoidanceFactor:
@@ -98,7 +98,7 @@ MonoBehaviour:
     RawValue: 6554
   MaxContacts: 8
   LayerMask:
-    BitMask: -1
+    BitMask: 55
   UseManifoldNormal: 0
   AirControl: 1
   Acceleration:
@@ -193,7 +193,7 @@ MonoBehaviour:
     RawValue: 13107
   MaxContacts: 4
   LayerMask:
-    BitMask: -1
+    BitMask: 55
   UseManifoldNormal: 0
   AirControl: 1
   Acceleration:
@@ -237,19 +237,7 @@ MonoBehaviour:
     StartDisabled: 0
     Children: []
   - SystemType:
-      AssemblyQualifiedName: Quantum.Core.CullingSystem3D, Quantum.Simulation, Version=0.0.0.0,
-        Culture=neutral, PublicKeyToken=null
-    SystemName: 
-    StartDisabled: 0
-    Children: []
-  - SystemType:
       AssemblyQualifiedName: Quantum.Core.PhysicsSystem2D, Quantum.Simulation, Version=0.0.0.0,
-        Culture=neutral, PublicKeyToken=null
-    SystemName: 
-    StartDisabled: 0
-    Children: []
-  - SystemType:
-      AssemblyQualifiedName: Quantum.Core.PhysicsSystem3D, Quantum.Simulation, Version=0.0.0.0,
         Culture=neutral, PublicKeyToken=null
     SystemName: 
     StartDisabled: 0

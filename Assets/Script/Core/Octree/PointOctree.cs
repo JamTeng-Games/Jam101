@@ -2,7 +2,7 @@
 using UnityEngine;
 using UnityEngine.Profiling;
 
-namespace J.Core
+namespace Jam.Core
 {
 
 // A Dynamic Octree for storing any objects that can be described as a single point

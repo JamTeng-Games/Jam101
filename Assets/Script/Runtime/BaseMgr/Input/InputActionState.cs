@@ -1,4 +1,4 @@
-﻿namespace J.Runtime.Input
+﻿namespace Jam.Runtime.Input_
 {
 
     // 记录InputAction的状态

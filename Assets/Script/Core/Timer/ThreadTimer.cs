@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Threading;
 
-namespace J.Core
+namespace Jam.Core
 {
 
     public class ThreadTimer

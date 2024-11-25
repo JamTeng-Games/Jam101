@@ -1,6 +1,6 @@
 ﻿using UnityEngine.UIElements;
 
-namespace J.Core
+namespace Jam.Core
 {
 
     public static class VisualElementEx

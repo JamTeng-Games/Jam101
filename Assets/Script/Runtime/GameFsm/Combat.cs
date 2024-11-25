@@ -1,22 +1,19 @@
-using J.Core;
+using Jam.Core;
 
-namespace J.Runtime.GameFsm
+namespace Jam.Runtime.GameFsm
 {
-    public class Combat : FsmState<Game>
+    public class Combat : Fsm.State
     {
-        public override void OnEnter(FsmState<Game> fromState)
+        public override void OnEnter(Fsm.State fromState)
         {
-            throw new System.NotImplementedException();
         }
 
         public override void OnExit()
         {
-            throw new System.NotImplementedException();
         }
 
         public override void OnTick(float dt)
         {
-            throw new System.NotImplementedException();
         }
     }
 }

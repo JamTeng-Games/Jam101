@@ -3,7 +3,7 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.Profiling;
 
-namespace J.Core
+namespace Jam.Core
 {
 
 // A node in a PointOctree

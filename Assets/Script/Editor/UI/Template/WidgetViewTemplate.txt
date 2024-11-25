@@ -1,0 +1,22 @@
+using cfg;
+using UnityEngine;
+using UnityEngine.UI;
+using TMPro;
+
+namespace Jam.Runtime.UI_
+{
+
+    [UIPanel(UIPanelId.__WIDGET_NAME__)]
+    public partial class __WIDGET_NAME__Widget : UIWidget
+    {
+        public override UIPanelId Id => UIPanelId.__WIDGET_NAME__;
+
+__FIELD__
+
+        private void OnValidate()
+        {
+__VALIDATE__
+        }
+    }
+
+}

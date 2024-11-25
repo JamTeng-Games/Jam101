@@ -2,7 +2,7 @@
 using System.Diagnostics;
 using System.Runtime.CompilerServices;
 
-namespace J.Core
+namespace Jam.Core
 {
 
     public enum LogLevel

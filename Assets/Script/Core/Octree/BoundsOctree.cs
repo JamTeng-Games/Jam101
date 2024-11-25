@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-namespace J.Core
+namespace Jam.Core
 {
 
 // A Dynamic, Loose Octree for storing any objects that can be described with AABB bounds

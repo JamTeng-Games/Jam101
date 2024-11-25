@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace J.Core
+namespace Jam.Core
 {
     public static class GameObjectEx
     {

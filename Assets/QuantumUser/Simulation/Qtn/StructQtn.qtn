@@ -1,0 +1,18 @@
+struct PlayerData
+{
+    PlayerRef PlayerRef;
+    FP        RespawnTimer;
+    int       Kills;
+    int       Deaths;
+    int       LastKillFrame;
+    int       StatisticPosition;
+    bool      IsAlive;
+    bool      IsConnected;
+}
+
+//struct AttributeData
+//{
+//    EAttributeType AttributeType;
+//    EAttributeValueType ValueType;
+//    FP Value;
+//}

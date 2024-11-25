@@ -9,7 +9,7 @@ using System.Reflection;
 /// 	- Includes gizmo drawing methods for less memory-intensive debug visualization.
 /// </summary>
 
-namespace J.Core
+namespace Jam.Core
 {
 
     public static class DebugExtension

@@ -3,7 +3,7 @@ using System.IO;
 using UnityEngine;
 using Application = UnityEngine.Device.Application;
 
-namespace J.Core
+namespace Jam.Core
 {
 
     public class FileLog : ILogger

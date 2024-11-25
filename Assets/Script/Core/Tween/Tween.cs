@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-namespace J.Core
+namespace Jam.Core
 {
 
     // A sample can be found in Test/TestTween

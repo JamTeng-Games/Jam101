@@ -1,18 +1,18 @@
-using J.Core;
-using J.Runtime.Event;
+using Jam.Core;
+using Jam.Runtime.Event;
 
-namespace J.Runtime.GameFsm
+namespace Jam.Runtime.GameFsm
 {
-    public class Home : FsmState<Game>
+    public class Home : Fsm.State
     {
-        public override void OnEnter(FsmState<Game> fromState)
+        public override void OnEnter(Fsm.State fromState)
         {
-            EventMgr.Subscribe(GlobalEventId.EnterCombat, OnEnterCombat);
+            G.Event.Subscribe(GlobalEventId.EnterCombat, OnEnterCombat);
         }
 
         public override void OnExit()
         {
-            EventMgr.Unsubscribe(GlobalEventId.EnterCombat, OnEnterCombat);
+            G.Event.Unsubscribe(GlobalEventId.EnterCombat, OnEnterCombat);
         }
 
         public override void OnTick(float dt)
@@ -21,7 +21,7 @@ namespace J.Runtime.GameFsm
 
         private void OnEnterCombat()
         {
-            _fsm.ChangeState<Combat>();
+            ChangeState<Combat>();
         }
     }
 }

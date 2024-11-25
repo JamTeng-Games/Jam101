@@ -1,6 +1,6 @@
 ﻿using System.IO;
 
-namespace J.Core
+namespace Jam.Core
 {
 
     public class UnityLog : ILogger

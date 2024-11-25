@@ -1,0 +1,37 @@
+[
+  {
+    "id": 1,
+    "name": "主界面",
+    "level": 1,
+    "show_mode": 1,
+    "asset_name": "StartupPanel"
+  },
+  {
+    "id": 2,
+    "name": "主界面",
+    "level": 1,
+    "show_mode": 1,
+    "asset_name": "HomePanel"
+  },
+  {
+    "id": 3,
+    "name": "登录",
+    "level": 2,
+    "show_mode": 1,
+    "asset_name": "LoginPanel"
+  },
+  {
+    "id": 4,
+    "name": "商店",
+    "level": 1,
+    "show_mode": 1,
+    "asset_name": "ShopPanel"
+  },
+  {
+    "id": 5,
+    "name": "摇杆",
+    "level": 3,
+    "show_mode": 1,
+    "asset_name": "JoystickPanel"
+  }
+]

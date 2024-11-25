@@ -1,15 +1,17 @@
-using J.Core;
+using Jam.Core;
 
-namespace J.Runtime.GameFsm
+namespace Jam.Runtime.GameFsm
 {
-    public class Launch : FsmState<Game>
+
+    public class Launch : Fsm.State
     {
-        public override void OnEnter(FsmState<Game> fromState)
+        public override void OnEnter(Fsm.State fromState)
         {
             // Load config or something
             // Auto update or something
 
-            _fsm.ChangeState<Opening>();
+            JLog.Info("Enter Launch State");
+            ChangeState<Splash>();
         }
 
         public override void OnExit()
@@ -20,4 +22,5 @@ namespace J.Runtime.GameFsm
         {
         }
     }
+
 }

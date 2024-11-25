@@ -2,7 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 
-namespace J.Core
+namespace Jam.Core
 {
 
     public interface IHashBind<TKey, TValue>
