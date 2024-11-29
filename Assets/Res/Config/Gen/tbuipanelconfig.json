@@ -33,5 +33,12 @@
     "level": 3,
     "show_mode": 1,
     "asset_name": "JoystickPanel"
+  },
+  {
+    "id": 6,
+    "name": "策略回合商店界面",
+    "level": 0,
+    "show_mode": 1,
+    "asset_name": "StorePanel"
   }
 ]

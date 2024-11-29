@@ -37,6 +37,10 @@ namespace cfg
         /// 摇杆界面
         /// </summary>
         Joystick = 5,
+        /// <summary>
+        /// 策略回合商店界面
+        /// </summary>
+        Store = 6,
     }
 
 } 
