@@ -1,1 +1,9 @@
-﻿
+﻿union Variable
+{
+    int i;
+    FP f;
+    QString<64> str;
+    FPVector2 vec2;
+    FPVector3 vec3;
+    FPQuaternion quat;
+}

@@ -16,3 +16,16 @@ struct PlayerData
 //    EAttributeValueType ValueType;
 //    FP Value;
 //}
+
+struct DataContainer
+{
+    dictionary<int, Variable> Data;
+}
+
+// 预约了多少时间内【匀速直线】移动往某个方向多远
+struct MovePreorder
+{
+    FPVector2 vector;   // 距离和方向
+    int totalFrame;      // 多少帧数移动多少距离
+    int remainFrame;     // 剩余帧数
+}

@@ -44,8 +44,14 @@ namespace Jam.Runtime
 
         private void Awake()
         {
+            if (_instance != null)
+            {
+                Destroy(gameObject);
+                return;
+            }
             DontDestroyOnLoad(gameObject);
             _instance = this;
+
             _assetMgr = new YooAssetMgr();
             _cfgMgr = new cfg.Tables();
             _eventMgr = new EventMgr();

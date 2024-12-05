@@ -1,0 +1,133 @@
+// Skill
+struct SkillObj
+{
+    int level;
+    int cd;
+    SkillModel model;
+}
+
+struct SkillModel
+{
+    int id;
+    int cd;
+    // 是否是普通攻击
+    bool isAttack;
+    // 释放条件，会映射到一个函数
+    int condition;
+    int indicatorType;
+    // 对应的时间轴的 Id
+    int timelineModelId;
+    // 消耗资源
+    list<AttributeCost> attrCosts;
+    // 学会技能时添加的buff
+    list<AddBuffInfo> addBuffs;
+}
+
+struct AttributeCost
+{
+    int attrType; 
+    int cost;
+}
+
+// Timeline
+struct TimelineObj
+{
+    int elapsedFrame;       // 已经过去的帧数
+    entity_ref caster;      // 释放者
+    TimelineModel model;    // 数据模板
+}
+
+struct TimelineModel
+{
+    int id;
+    int totalFrame;
+    list<TimelineNode> nodes;
+}
+
+struct TimelineNode
+{
+    int frame;
+    ETLNodeType nodeType;
+    TLNode node;
+    DataContainer Args;
+}
+
+// TL -> Timeline
+union TLNode
+{
+    TLNode_Log Log;
+    TLNode_AddBuffToCaster AddBuffToCaster;
+}
+
+enum ETLNodeType
+{
+    None,
+    Log,
+}
+
+struct TLNode_Log
+{
+    QString<64> content;
+}
+
+struct TLNode_AddBuffToCaster
+{
+    int BuffId;
+}
+
+// Buff
+struct AddBuffInfo
+{
+    bool isPermanent;       // 是否永久
+    bool isDurationSetTo;   // 关于时间，是改变还是设置为, true代表设置为，false代表改变
+    int addStack;           // 添加的层数
+    int duration;           // 持续时间
+    entity_ref caster;      // 释放者
+    entity_ref target;      // 目标
+    DataContainer args;     // buff 数据
+    BuffModel buffModel;    // buff 数据模板
+}
+
+struct BuffObj
+{
+    bool isPermanent;   // 是否永久
+    int remainFrame;    // 剩余帧数
+    int stack;          // 层数
+    int elapsedFrame;   // 已经过去的帧数
+    int tickTimes;      // 一共执行了多少次 OnTick
+    entity_ref caster;  // 释放者，可以空
+    entity_ref target;  // 携带者目标
+    BuffModel model;    // buff 数据模板
+    DataContainer args; // buff 数据
+}
+
+// BM -> BuffModel
+struct BuffModel
+{
+    int id;         // Buff类型
+    int priority;   // 优先级，越小的越先执行
+    int maxStack;   // 最大层数
+    int interval;   // 间隔时间
+    // TODO: Tag list<int> tag;
+    BM_Instance instance;
+}
+
+union BM_Instance
+{
+    BM_Dash dash;
+}
+//
+//struct BM_AutoCheckReload
+//{
+//}
+//
+//struct BM_TeleportTo
+//{
+//}
+
+struct BM_Dash
+{
+    FP distance;    // 冲刺距离
+}
+
+// Bullet

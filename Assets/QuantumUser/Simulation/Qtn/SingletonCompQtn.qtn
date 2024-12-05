@@ -1,0 +1,38 @@
+singleton component Gameplay
+{
+    [AllocateOnComponentAdded, FreeOnComponentRemoved]
+    dictionary<PlayerRef, PlayerData> PlayerData;
+}
+
+// Skill
+singleton component SSkillModelContainerComp
+{
+    // Skill id -> Skill
+    [ExcludeFromPrototype]
+    dictionary<int, SkillModel> Models;
+}
+
+// Timeline
+singleton component STimelineModelContainerComp
+{
+    // Timeline id -> Timeline
+//   [AllocateOnComponentAdded, FreeOnComponentRemoved, ExcludeFromPrototype]
+    [ExcludeFromPrototype]
+    dictionary<int, TimelineModel> Models;
+}
+
+singleton component STimelineComp
+{
+//    [ExcludeFromPrototype]
+   [AllocateOnComponentAdded, FreeOnComponentRemoved, ExcludeFromPrototype]
+    list<TimelineObj> Timelines;
+}
+
+// Buff
+singleton component SBuffModelContainerComp
+{
+    // Buff id -> Buff
+//   [AllocateOnComponentAdded, FreeOnComponentRemoved, ExcludeFromPrototype]
+    [ExcludeFromPrototype]
+    dictionary<int, BuffModel> Models;
+}

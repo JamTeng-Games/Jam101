@@ -1,0 +1,1 @@
+signal OnPlayerSpawned(entity_ref entityRef);

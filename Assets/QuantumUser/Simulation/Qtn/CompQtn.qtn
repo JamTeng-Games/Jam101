@@ -1,16 +1,43 @@
-
-component InputComp
+component PlayerComp
 {
-    [HideInInspector] Input Input;
-}
-
-component PlayerLinkComp
-{
+    [HideInInspector]
     player_ref PlayerRef;
 }
 
-component AttributesComp
+// 属性组件
+component AttribComp
 {
-    dictionary<EAttributeType, FP> BaseAttribs;
-    dictionary<EAttributeType, FP> PercentAttribs;
+    // 所有属性都是由Buff给的
+    [HideInInspector] dictionary<int, FP> BaseAttribs;
+    [HideInInspector] dictionary<int, FP> PercentAttribs;
+    // 控制状态
+    [HideInInspector] bool canUseSkill;
+    [HideInInspector] bool canMove;
+}
+
+component MoveComp
+{
+    [HideInInspector] FPVector2 Vector;
+    [HideInInspector] FP RotationDegree;
+}
+
+// 强制位移组件
+component ForceMoveComp
+{
+    [AllocateOnComponentAdded, FreeOnComponentRemoved, HideInInspector]
+    list<MovePreorder> MovePreorder;
+}
+
+// Skill
+component SkillComp
+{
+    [AllocateOnComponentAdded, FreeOnComponentRemoved, HideInInspector]
+    list<SkillObj> Skills;
+}
+
+// Buff
+component BuffComp
+{
+    [AllocateOnComponentAdded, FreeOnComponentRemoved, HideInInspector]
+    list<BuffObj> Buffs;
 }

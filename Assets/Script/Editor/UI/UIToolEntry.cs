@@ -42,6 +42,9 @@ namespace Jam.Editor_.UITool
         [MenuItem("GameObject/UITool/生成UI", true)]
         private static bool ValidateGeneratePanelForGameObject()
         {
+            if (Selection.activeGameObject == null)
+                return false;
+
             if (!Selection.activeGameObject.name.EndsWith("Panel") &&
                 !Selection.activeGameObject.name.EndsWith("Widget"))
             {
@@ -54,6 +57,9 @@ namespace Jam.Editor_.UITool
         [MenuItem("Assets/UITool/生成UI", true)]
         private static bool ValidateGeneratePanelForPrefab()
         {
+            if (Selection.activeGameObject == null)
+                return false;
+
             if (!Selection.activeGameObject.name.EndsWith("Panel") &&
                 !Selection.activeGameObject.name.EndsWith("Widget"))
             {

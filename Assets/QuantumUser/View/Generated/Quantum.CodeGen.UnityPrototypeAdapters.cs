@@ -49,6 +49,178 @@ namespace Quantum.Prototypes.Unity {
   using RuntimeInitializeOnLoadMethodAttribute = UnityEngine.RuntimeInitializeOnLoadMethodAttribute;
   #endif //;
   
+  [System.SerializableAttribute()]
+  public unsafe partial class AddBuffInfoPrototype : Quantum.QuantumUnityPrototypeAdapter<Quantum.Prototypes.AddBuffInfoPrototype> {
+    public QBoolean isPermanent;
+    public QBoolean isDurationSetTo;
+    public Int32 addStack;
+    public Int32 duration;
+    public Quantum.QuantumEntityPrototype caster;
+    public Quantum.QuantumEntityPrototype target;
+    public Quantum.Prototypes.DataContainerPrototype args;
+    public Quantum.Prototypes.BuffModelPrototype buffModel;
+    partial void ConvertUser(Quantum.QuantumEntityPrototypeConverter converter, ref Quantum.Prototypes.AddBuffInfoPrototype prototype);
+    public override Quantum.Prototypes.AddBuffInfoPrototype Convert(Quantum.QuantumEntityPrototypeConverter converter) {
+      var result = new Quantum.Prototypes.AddBuffInfoPrototype();
+      converter.Convert(this.isPermanent, out result.isPermanent);
+      converter.Convert(this.isDurationSetTo, out result.isDurationSetTo);
+      converter.Convert(this.addStack, out result.addStack);
+      converter.Convert(this.duration, out result.duration);
+      converter.Convert(this.caster, out result.caster);
+      converter.Convert(this.target, out result.target);
+      converter.Convert(this.args, out result.args);
+      converter.Convert(this.buffModel, out result.buffModel);
+      ConvertUser(converter, ref result);
+      return result;
+    }
+  }
+  [System.SerializableAttribute()]
+  public unsafe partial class BuffCompPrototype : Quantum.QuantumUnityPrototypeAdapter<Quantum.Prototypes.BuffCompPrototype> {
+    [AllocateOnComponentAdded()]
+    [FreeOnComponentRemoved()]
+    [HideInInspector()]
+    [DynamicCollectionAttribute()]
+    public Quantum.Prototypes.Unity.BuffObjPrototype[] Buffs = {};
+    partial void ConvertUser(Quantum.QuantumEntityPrototypeConverter converter, ref Quantum.Prototypes.BuffCompPrototype prototype);
+    public override Quantum.Prototypes.BuffCompPrototype Convert(Quantum.QuantumEntityPrototypeConverter converter) {
+      var result = new Quantum.Prototypes.BuffCompPrototype();
+      converter.Convert(this.Buffs, out result.Buffs);
+      ConvertUser(converter, ref result);
+      return result;
+    }
+  }
+  [System.SerializableAttribute()]
+  public unsafe partial class BuffObjPrototype : Quantum.QuantumUnityPrototypeAdapter<Quantum.Prototypes.BuffObjPrototype> {
+    public QBoolean isPermanent;
+    public Int32 remainFrame;
+    public Int32 stack;
+    public Int32 elapsedFrame;
+    public Int32 tickTimes;
+    public Quantum.QuantumEntityPrototype caster;
+    public Quantum.QuantumEntityPrototype target;
+    public Quantum.Prototypes.BuffModelPrototype model;
+    public Quantum.Prototypes.DataContainerPrototype args;
+    partial void ConvertUser(Quantum.QuantumEntityPrototypeConverter converter, ref Quantum.Prototypes.BuffObjPrototype prototype);
+    public override Quantum.Prototypes.BuffObjPrototype Convert(Quantum.QuantumEntityPrototypeConverter converter) {
+      var result = new Quantum.Prototypes.BuffObjPrototype();
+      converter.Convert(this.isPermanent, out result.isPermanent);
+      converter.Convert(this.remainFrame, out result.remainFrame);
+      converter.Convert(this.stack, out result.stack);
+      converter.Convert(this.elapsedFrame, out result.elapsedFrame);
+      converter.Convert(this.tickTimes, out result.tickTimes);
+      converter.Convert(this.caster, out result.caster);
+      converter.Convert(this.target, out result.target);
+      converter.Convert(this.model, out result.model);
+      converter.Convert(this.args, out result.args);
+      ConvertUser(converter, ref result);
+      return result;
+    }
+  }
+  [System.SerializableAttribute()]
+  public unsafe partial class SSkillModelContainerCompPrototype : Quantum.QuantumUnityPrototypeAdapter<Quantum.Prototypes.SSkillModelContainerCompPrototype> {
+    [HideInInspector()]
+    public Int32 _empty_prototype_dummy_field_;
+    partial void ConvertUser(Quantum.QuantumEntityPrototypeConverter converter, ref Quantum.Prototypes.SSkillModelContainerCompPrototype prototype);
+    public override Quantum.Prototypes.SSkillModelContainerCompPrototype Convert(Quantum.QuantumEntityPrototypeConverter converter) {
+      var result = new Quantum.Prototypes.SSkillModelContainerCompPrototype();
+      ConvertUser(converter, ref result);
+      return result;
+    }
+  }
+  [System.SerializableAttribute()]
+  public unsafe partial class STimelineCompPrototype : Quantum.QuantumUnityPrototypeAdapter<Quantum.Prototypes.STimelineCompPrototype> {
+    [HideInInspector()]
+    public Int32 _empty_prototype_dummy_field_;
+    partial void ConvertUser(Quantum.QuantumEntityPrototypeConverter converter, ref Quantum.Prototypes.STimelineCompPrototype prototype);
+    public override Quantum.Prototypes.STimelineCompPrototype Convert(Quantum.QuantumEntityPrototypeConverter converter) {
+      var result = new Quantum.Prototypes.STimelineCompPrototype();
+      ConvertUser(converter, ref result);
+      return result;
+    }
+  }
+  [System.SerializableAttribute()]
+  public unsafe partial class SkillCompPrototype : Quantum.QuantumUnityPrototypeAdapter<Quantum.Prototypes.SkillCompPrototype> {
+    [AllocateOnComponentAdded()]
+    [FreeOnComponentRemoved()]
+    [HideInInspector()]
+    [DynamicCollectionAttribute()]
+    public Quantum.Prototypes.Unity.SkillObjPrototype[] Skills = {};
+    partial void ConvertUser(Quantum.QuantumEntityPrototypeConverter converter, ref Quantum.Prototypes.SkillCompPrototype prototype);
+    public override Quantum.Prototypes.SkillCompPrototype Convert(Quantum.QuantumEntityPrototypeConverter converter) {
+      var result = new Quantum.Prototypes.SkillCompPrototype();
+      converter.Convert(this.Skills, out result.Skills);
+      ConvertUser(converter, ref result);
+      return result;
+    }
+  }
+  [System.SerializableAttribute()]
+  public unsafe partial class SkillModelPrototype : Quantum.QuantumUnityPrototypeAdapter<Quantum.Prototypes.SkillModelPrototype> {
+    public Int32 id;
+    public Int32 cd;
+    public QBoolean isAttack;
+    public Int32 condition;
+    public Int32 indicatorType;
+    public Int32 timelineModelId;
+    [DynamicCollectionAttribute()]
+    public Quantum.Prototypes.AttributeCostPrototype[] attrCosts = {};
+    [DynamicCollectionAttribute()]
+    public Quantum.Prototypes.Unity.AddBuffInfoPrototype[] addBuffs = {};
+    partial void ConvertUser(Quantum.QuantumEntityPrototypeConverter converter, ref Quantum.Prototypes.SkillModelPrototype prototype);
+    public override Quantum.Prototypes.SkillModelPrototype Convert(Quantum.QuantumEntityPrototypeConverter converter) {
+      var result = new Quantum.Prototypes.SkillModelPrototype();
+      converter.Convert(this.id, out result.id);
+      converter.Convert(this.cd, out result.cd);
+      converter.Convert(this.isAttack, out result.isAttack);
+      converter.Convert(this.condition, out result.condition);
+      converter.Convert(this.indicatorType, out result.indicatorType);
+      converter.Convert(this.timelineModelId, out result.timelineModelId);
+      converter.Convert(this.attrCosts, out result.attrCosts);
+      converter.Convert(this.addBuffs, out result.addBuffs);
+      ConvertUser(converter, ref result);
+      return result;
+    }
+  }
+  [System.SerializableAttribute()]
+  public unsafe partial class SkillObjPrototype : Quantum.QuantumUnityPrototypeAdapter<Quantum.Prototypes.SkillObjPrototype> {
+    public Int32 level;
+    public Int32 cd;
+    public Quantum.Prototypes.Unity.SkillModelPrototype model;
+    partial void ConvertUser(Quantum.QuantumEntityPrototypeConverter converter, ref Quantum.Prototypes.SkillObjPrototype prototype);
+    public override Quantum.Prototypes.SkillObjPrototype Convert(Quantum.QuantumEntityPrototypeConverter converter) {
+      var result = new Quantum.Prototypes.SkillObjPrototype();
+      converter.Convert(this.level, out result.level);
+      converter.Convert(this.cd, out result.cd);
+      converter.Convert(this.model, out result.model);
+      ConvertUser(converter, ref result);
+      return result;
+    }
+  }
+  [System.SerializableAttribute()]
+  public unsafe partial class TimelineObjPrototype : Quantum.QuantumUnityPrototypeAdapter<Quantum.Prototypes.TimelineObjPrototype> {
+    public Int32 elapsedFrame;
+    public Quantum.QuantumEntityPrototype caster;
+    public Quantum.Prototypes.TimelineModelPrototype model;
+    partial void ConvertUser(Quantum.QuantumEntityPrototypeConverter converter, ref Quantum.Prototypes.TimelineObjPrototype prototype);
+    public override Quantum.Prototypes.TimelineObjPrototype Convert(Quantum.QuantumEntityPrototypeConverter converter) {
+      var result = new Quantum.Prototypes.TimelineObjPrototype();
+      converter.Convert(this.elapsedFrame, out result.elapsedFrame);
+      converter.Convert(this.caster, out result.caster);
+      converter.Convert(this.model, out result.model);
+      ConvertUser(converter, ref result);
+      return result;
+    }
+  }
+  [System.SerializableAttribute()]
+  public unsafe partial class DictionaryEntry_Int32_SkillModel : Quantum.Prototypes.DictionaryEntry, Quantum.IQuantumPrototypeConvertible<Quantum.Prototypes.DictionaryEntry_Int32_SkillModel> {
+    public Int32 Key;
+    public Quantum.Prototypes.Unity.SkillModelPrototype Value;
+    public Quantum.Prototypes.DictionaryEntry_Int32_SkillModel Convert(Quantum.QuantumEntityPrototypeConverter converter) {
+      var result = new Quantum.Prototypes.DictionaryEntry_Int32_SkillModel();
+      converter.Convert(Key, out result.Key);
+      converter.Convert(Value, out result.Value);
+      return result;
+    }
+  }
 }
 #pragma warning restore 0109
 #pragma warning restore 1591

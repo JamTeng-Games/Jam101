@@ -1,6 +1,8 @@
 {
   "dependencies": {
     "com.code-philosophy.luban": "https://gitee.com/focus-creative-games/luban_unity.git",
+    "com.gentlymad.graphviewbase": "https://github.com/Gentlymad-Studios/GraphViewBase.git",
+    "com.gentlymad.odinserializer": "https://github.com/Gentlymad-Studios/OdinSerializer.git",
     "com.tuyoogame.yooasset": "2.2.4-preview",
     "com.unity.cinemachine": "2.10.1",
     "com.unity.feature.development": "1.0.1",

@@ -1,11 +1,15 @@
 input
 {
-    FPVector2 MovementDirection;
+    FPVector2 MoveDirection;
     // Attack
-    FPVector2 AttackDirection;
-    FP AttackDistance;
+    button Attack;
+    FPVector2 AttackScreenPos;
     // Skill
-    FPVector2 SkillDirection;
-    FP SkillDistance;
+    button Skill;
+    FPVector2 SkillScreenPos;
 }
 
+component InputComp
+{
+    [HideInInspector] Input Input;
+}

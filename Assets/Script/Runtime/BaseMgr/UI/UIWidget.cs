@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace Jam
+namespace Jam.Runtime.UI_
 {
 
     public class UIWidget : MonoBehaviour
