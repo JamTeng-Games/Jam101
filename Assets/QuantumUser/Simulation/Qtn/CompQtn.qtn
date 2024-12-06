@@ -8,8 +8,12 @@ component PlayerComp
 component AttribComp
 {
     // 所有属性都是由Buff给的
-    [HideInInspector] dictionary<int, FP> BaseAttribs;
-    [HideInInspector] dictionary<int, FP> PercentAttribs;
+    // 基础属性 index 对应 AttributeType -> value
+    [AllocateOnComponentAdded, FreeOnComponentRemoved, HideInInspector]
+    dictionary<int, int> BaseAttribs;
+    // 百分比加成 index 对应 AttributeType -> value
+    [AllocateOnComponentAdded, FreeOnComponentRemoved, HideInInspector]
+    dictionary<int, FP> PercentAttribs;
     // 控制状态
     [HideInInspector] bool canUseSkill;
     [HideInInspector] bool canMove;

@@ -1,11 +1,9 @@
 ﻿namespace Quantum.Graph.Skill
 {
 
-    public enum BuffId
+    public enum TagType
     {
         None,
-        AutoReload,
-        Dash,
     }
 
 }

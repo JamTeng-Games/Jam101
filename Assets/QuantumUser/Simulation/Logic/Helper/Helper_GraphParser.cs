@@ -76,7 +76,9 @@ namespace Quantum.Helper
                 }
                 else if (g_node is AddBuffToCasterNode g_addBuffToCasterNode)
                 {
-                    tlmNode.nodeType = ETLNodeType.None;
+                    tlmNode.nodeType = ETLNodeType.AddBuffToCaster;
+                    tlmNode.node = new TLNode();
+                    tlmNode.node.AddBuffToCaster->addBuffInfo = g_addBuffToCasterNode.ToAddBuffInfo(f);
                 }
                 tlmNodes.Add(tlmNode);
             }

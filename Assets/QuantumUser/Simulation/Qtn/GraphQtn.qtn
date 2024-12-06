@@ -25,7 +25,7 @@ struct SkillModel
 
 struct AttributeCost
 {
-    int attrType; 
+    int attrType;
     int cost;
 }
 
@@ -49,7 +49,7 @@ struct TimelineNode
     int frame;
     ETLNodeType nodeType;
     TLNode node;
-    DataContainer Args;
+    DataContainer args;
 }
 
 // TL -> Timeline
@@ -63,6 +63,7 @@ enum ETLNodeType
 {
     None,
     Log,
+    AddBuffToCaster,
 }
 
 struct TLNode_Log
@@ -72,7 +73,7 @@ struct TLNode_Log
 
 struct TLNode_AddBuffToCaster
 {
-    int BuffId;
+    AddBuffInfo addBuffInfo;
 }
 
 // Buff
@@ -84,7 +85,6 @@ struct AddBuffInfo
     int duration;           // 持续时间
     entity_ref caster;      // 释放者
     entity_ref target;      // 目标
-    DataContainer args;     // buff 数据
     BuffModel buffModel;    // buff 数据模板
 }
 
@@ -98,7 +98,6 @@ struct BuffObj
     entity_ref caster;  // 释放者，可以空
     entity_ref target;  // 携带者目标
     BuffModel model;    // buff 数据模板
-    DataContainer args; // buff 数据
 }
 
 // BM -> BuffModel
@@ -108,26 +107,14 @@ struct BuffModel
     int priority;   // 优先级，越小的越先执行
     int maxStack;   // 最大层数
     int interval;   // 间隔时间
-    // TODO: Tag list<int> tag;
-    BM_Instance instance;
-}
-
-union BM_Instance
-{
-    BM_Dash dash;
-}
-//
-//struct BM_AutoCheckReload
-//{
-//}
-//
-//struct BM_TeleportTo
-//{
-//}
-
-struct BM_Dash
-{
-    FP distance;    // 冲刺距离
+    // 属性修改
+    dictionary<int, int> baseAttribs;    // 基础属性
+    dictionary<int, FP> percentAttribs;  // 百分比属性
+    // 状态修改
+    bool canUseSkill;   // 可释放技能
+    bool canMove;       // 可移动
+    list<int> tags;     // 标签
+    BM_Instance instance;   // 具体的Buff数据
 }
 
 // Bullet

@@ -25,14 +25,18 @@ MonoBehaviour:
     - rid: 6822295958629646344
     - rid: 6822295958697541632
     - rid: 6822295958697541634
+    - rid: 6822296074516430852
+    - rid: 6822296074516430856
     utilityNodes: []
     tmpName: skill001
     viewportInitiallySet: 1
-    viewPosition: {x: -323.9552, y: -37.531097, z: 0}
+    viewPosition: {x: -770.2543, y: -648.2346, z: 0}
     viewScale: {x: 1, y: 1, z: 1}
   references:
     version: 2
     RefIds:
+    - rid: -2
+      type: {class: , ns: , asm: }
     - rid: 6822295958629646336
       type: {class: NodeModel, ns: NewGraph, asm: NewGraph}
       data:
@@ -76,6 +80,8 @@ MonoBehaviour:
         - rid: 6822295958629646345
         - rid: 6822295958697541633
         - rid: 6822295958697541635
+        - rid: 6822296074516430853
+        - rid: 6822296074516430857
     - rid: 6822295958629646340
       type: {class: NodeModel, ns: NewGraph, asm: NewGraph}
       data:
@@ -151,3 +157,41 @@ MonoBehaviour:
       data:
         frame: 200
         msg: "\u8C03\u8BD5\u65E5\u5FD7 5"
+    - rid: 6822296074516430852
+      type: {class: NodeModel, ns: NewGraph, asm: NewGraph}
+      data:
+        nodeData:
+          rid: 6822296074516430853
+        nodeX: 1003.4383
+        nodeY: 820.67236
+        name: "\u6DFB\u52A0Buff\u7ED9\u91CA\u653E\u8005"
+        isUtilityNode: 0
+        foldouts: []
+    - rid: 6822296074516430853
+      type: {class: AddBuffToCasterNode, ns: Quantum.Graph.Skill, asm: Quantum.Simulation}
+      data:
+        frame: 0
+        buffNode:
+          rid: -2
+        isPermanent: 0
+        addStack: 0
+        duration: 0
+    - rid: 6822296074516430856
+      type: {class: NodeModel, ns: NewGraph, asm: NewGraph}
+      data:
+        nodeData:
+          rid: 6822296074516430857
+        nodeX: 993.18677
+        nodeY: 1090.0905
+        name: "\u6DFB\u52A0Buff\u7ED9\u91CA\u653E\u8005"
+        isUtilityNode: 0
+        foldouts: []
+    - rid: 6822296074516430857
+      type: {class: AddBuffToCasterNode, ns: Quantum.Graph.Skill, asm: Quantum.Simulation}
+      data:
+        frame: 0
+        buffNode:
+          rid: -2
+        isPermanent: 0
+        addStack: 0
+        duration: 0

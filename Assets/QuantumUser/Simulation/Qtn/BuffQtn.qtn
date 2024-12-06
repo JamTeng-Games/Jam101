@@ -1,0 +1,15 @@
+union BM_Instance
+{
+    BM_Dash dash;
+    BM_AutoReloadAttack autoReloadAttack;
+}
+
+struct BM_Dash
+{
+    FP distance;    // 冲刺距离
+}
+
+struct BM_AutoReloadAttack
+{
+    int reloadFrame;  // 重新装填所需帧数
+}

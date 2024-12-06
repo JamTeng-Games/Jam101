@@ -50,6 +50,12 @@ namespace Quantum.Prototypes {
   #endif //;
   
   [System.SerializableAttribute()]
+  [Quantum.Prototypes.Prototype(typeof(System.Collections.Generic.KeyValuePair<Int32, Int32>))]
+  public unsafe class DictionaryEntry_Int32_Int32 : Quantum.Prototypes.DictionaryEntry {
+    public Int32 Key;
+    public Int32 Value;
+  }
+  [System.SerializableAttribute()]
   [Quantum.Prototypes.Prototype(typeof(System.Collections.Generic.KeyValuePair<Int32, FP>))]
   public unsafe class DictionaryEntry_Int32_FP : Quantum.Prototypes.DictionaryEntry {
     public Int32 Key;
@@ -94,7 +100,6 @@ namespace Quantum.Prototypes {
     public Int32 duration;
     public MapEntityId caster;
     public MapEntityId target;
-    public Quantum.Prototypes.DataContainerPrototype args;
     public Quantum.Prototypes.BuffModelPrototype buffModel;
     public void Materialize(Frame frame, ref Quantum.AddBuffInfo result, in PrototypeMaterializationContext context = default) {
         result.isPermanent = this.isPermanent;
@@ -103,17 +108,20 @@ namespace Quantum.Prototypes {
         result.duration = this.duration;
         PrototypeValidator.FindMapEntity(this.caster, in context, out result.caster);
         PrototypeValidator.FindMapEntity(this.target, in context, out result.target);
-        this.args.Materialize(frame, ref result.args, in context);
         this.buffModel.Materialize(frame, ref result.buffModel, in context);
     }
   }
   [System.SerializableAttribute()]
   [Quantum.Prototypes.Prototype(typeof(Quantum.AttribComp))]
   public unsafe partial class AttribCompPrototype : ComponentPrototype<Quantum.AttribComp> {
+    [AllocateOnComponentAdded()]
+    [FreeOnComponentRemoved()]
     [HideInInspector()]
     [DictionaryAttribute()]
     [DynamicCollectionAttribute()]
-    public DictionaryEntry_Int32_FP[] BaseAttribs = {};
+    public DictionaryEntry_Int32_Int32[] BaseAttribs = {};
+    [AllocateOnComponentAdded()]
+    [FreeOnComponentRemoved()]
     [HideInInspector()]
     [DictionaryAttribute()]
     [DynamicCollectionAttribute()]
@@ -135,7 +143,7 @@ namespace Quantum.Prototypes {
           var dict = frame.AllocateDictionary(out result.BaseAttribs, this.BaseAttribs.Length);
           for (int i = 0; i < this.BaseAttribs.Length; ++i) {
             Int32 tmpKey = default;
-            FP tmpValue = default;
+            Int32 tmpValue = default;
             tmpKey = this.BaseAttribs[i].Key;
             tmpValue = this.BaseAttribs[i].Value;
             PrototypeValidator.AddToDictionary(dict, tmpKey, tmpValue, in context);
@@ -171,6 +179,16 @@ namespace Quantum.Prototypes {
     }
   }
   [System.SerializableAttribute()]
+  [Quantum.Prototypes.Prototype(typeof(Quantum.BM_AutoReloadAttack))]
+  public unsafe partial class BM_AutoReloadAttackPrototype : StructPrototype {
+    public Int32 reloadFrame;
+    partial void MaterializeUser(Frame frame, ref Quantum.BM_AutoReloadAttack result, in PrototypeMaterializationContext context);
+    public void Materialize(Frame frame, ref Quantum.BM_AutoReloadAttack result, in PrototypeMaterializationContext context = default) {
+        result.reloadFrame = this.reloadFrame;
+        MaterializeUser(frame, ref result, in context);
+    }
+  }
+  [System.SerializableAttribute()]
   [Quantum.Prototypes.Prototype(typeof(Quantum.BM_Dash))]
   public unsafe partial class BM_DashPrototype : StructPrototype {
     public FP distance;
@@ -185,10 +203,12 @@ namespace Quantum.Prototypes {
   public unsafe partial class BM_InstancePrototype : UnionPrototype {
     public string _field_used_;
     public Quantum.Prototypes.BM_DashPrototype dash;
+    public Quantum.Prototypes.BM_AutoReloadAttackPrototype autoReloadAttack;
     partial void MaterializeUser(Frame frame, ref Quantum.BM_Instance result, in PrototypeMaterializationContext context);
     public void Materialize(Frame frame, ref Quantum.BM_Instance result, in PrototypeMaterializationContext context = default) {
         switch (_field_used_) {
           case "DASH": this.dash.Materialize(frame, ref *result.dash, in context); break;
+          case "AUTORELOADATTACK": this.autoReloadAttack.Materialize(frame, ref *result.autoReloadAttack, in context); break;
           case "": case null: break;
           default: PrototypeValidator.UnknownUnionField(_field_used_, in context); break;
         }
@@ -228,6 +248,16 @@ namespace Quantum.Prototypes {
     public Int32 priority;
     public Int32 maxStack;
     public Int32 interval;
+    [DictionaryAttribute()]
+    [DynamicCollectionAttribute()]
+    public DictionaryEntry_Int32_Int32[] baseAttribs = {};
+    [DictionaryAttribute()]
+    [DynamicCollectionAttribute()]
+    public DictionaryEntry_Int32_FP[] percentAttribs = {};
+    public QBoolean canUseSkill;
+    public QBoolean canMove;
+    [DynamicCollectionAttribute()]
+    public Int32[] tags = {};
     public Quantum.Prototypes.BM_InstancePrototype instance;
     partial void MaterializeUser(Frame frame, ref Quantum.BuffModel result, in PrototypeMaterializationContext context);
     public void Materialize(Frame frame, ref Quantum.BuffModel result, in PrototypeMaterializationContext context = default) {
@@ -235,6 +265,42 @@ namespace Quantum.Prototypes {
         result.priority = this.priority;
         result.maxStack = this.maxStack;
         result.interval = this.interval;
+        if (this.baseAttribs.Length == 0) {
+          result.baseAttribs = default;
+        } else {
+          var dict = frame.AllocateDictionary(out result.baseAttribs, this.baseAttribs.Length);
+          for (int i = 0; i < this.baseAttribs.Length; ++i) {
+            Int32 tmpKey = default;
+            Int32 tmpValue = default;
+            tmpKey = this.baseAttribs[i].Key;
+            tmpValue = this.baseAttribs[i].Value;
+            PrototypeValidator.AddToDictionary(dict, tmpKey, tmpValue, in context);
+          }
+        }
+        if (this.percentAttribs.Length == 0) {
+          result.percentAttribs = default;
+        } else {
+          var dict = frame.AllocateDictionary(out result.percentAttribs, this.percentAttribs.Length);
+          for (int i = 0; i < this.percentAttribs.Length; ++i) {
+            Int32 tmpKey = default;
+            FP tmpValue = default;
+            tmpKey = this.percentAttribs[i].Key;
+            tmpValue = this.percentAttribs[i].Value;
+            PrototypeValidator.AddToDictionary(dict, tmpKey, tmpValue, in context);
+          }
+        }
+        result.canUseSkill = this.canUseSkill;
+        result.canMove = this.canMove;
+        if (this.tags.Length == 0) {
+          result.tags = default;
+        } else {
+          var list = frame.AllocateList(out result.tags, this.tags.Length);
+          for (int i = 0; i < this.tags.Length; ++i) {
+            Int32 tmp = default;
+            tmp = this.tags[i];
+            list.Add(tmp);
+          }
+        }
         this.instance.Materialize(frame, ref result.instance, in context);
         MaterializeUser(frame, ref result, in context);
     }
@@ -250,7 +316,6 @@ namespace Quantum.Prototypes {
     public MapEntityId caster;
     public MapEntityId target;
     public Quantum.Prototypes.BuffModelPrototype model;
-    public Quantum.Prototypes.DataContainerPrototype args;
     public void Materialize(Frame frame, ref Quantum.BuffObj result, in PrototypeMaterializationContext context = default) {
         result.isPermanent = this.isPermanent;
         result.remainFrame = this.remainFrame;
@@ -260,7 +325,6 @@ namespace Quantum.Prototypes {
         PrototypeValidator.FindMapEntity(this.caster, in context, out result.caster);
         PrototypeValidator.FindMapEntity(this.target, in context, out result.target);
         this.model.Materialize(frame, ref result.model, in context);
-        this.args.Materialize(frame, ref result.args, in context);
     }
   }
   [System.SerializableAttribute()]
@@ -494,17 +558,15 @@ namespace Quantum.Prototypes {
   }
   [System.SerializableAttribute()]
   [Quantum.Prototypes.Prototype(typeof(Quantum.STimelineModelContainerComp))]
-  public unsafe partial class STimelineModelContainerCompPrototype : ComponentPrototype<Quantum.STimelineModelContainerComp> {
+  public unsafe class STimelineModelContainerCompPrototype : ComponentPrototype<Quantum.STimelineModelContainerComp> {
     [HideInInspector()]
     public Int32 _empty_prototype_dummy_field_;
-    partial void MaterializeUser(Frame frame, ref Quantum.STimelineModelContainerComp result, in PrototypeMaterializationContext context);
     public override Boolean AddToEntity(FrameBase f, EntityRef entity, in PrototypeMaterializationContext context) {
         Quantum.STimelineModelContainerComp component = default;
         Materialize((Frame)f, ref component, in context);
         return f.Set(entity, component) == SetResult.ComponentAdded;
     }
     public void Materialize(Frame frame, ref Quantum.STimelineModelContainerComp result, in PrototypeMaterializationContext context = default) {
-        MaterializeUser(frame, ref result, in context);
     }
   }
   [System.SerializableAttribute()]
@@ -589,11 +651,10 @@ namespace Quantum.Prototypes {
   }
   [System.SerializableAttribute()]
   [Quantum.Prototypes.Prototype(typeof(Quantum.TLNode))]
-  public unsafe partial class TLNodePrototype : UnionPrototype {
+  public unsafe class TLNodePrototype : UnionPrototype {
     public string _field_used_;
     public Quantum.Prototypes.TLNode_LogPrototype Log;
     public Quantum.Prototypes.TLNode_AddBuffToCasterPrototype AddBuffToCaster;
-    partial void MaterializeUser(Frame frame, ref Quantum.TLNode result, in PrototypeMaterializationContext context);
     public void Materialize(Frame frame, ref Quantum.TLNode result, in PrototypeMaterializationContext context = default) {
         switch (_field_used_) {
           case "LOG": this.Log.Materialize(frame, ref *result.Log, in context); break;
@@ -601,17 +662,14 @@ namespace Quantum.Prototypes {
           case "": case null: break;
           default: PrototypeValidator.UnknownUnionField(_field_used_, in context); break;
         }
-        MaterializeUser(frame, ref result, in context);
     }
   }
   [System.SerializableAttribute()]
   [Quantum.Prototypes.Prototype(typeof(Quantum.TLNode_AddBuffToCaster))]
-  public unsafe partial class TLNode_AddBuffToCasterPrototype : StructPrototype {
-    public Int32 BuffId;
-    partial void MaterializeUser(Frame frame, ref Quantum.TLNode_AddBuffToCaster result, in PrototypeMaterializationContext context);
+  public unsafe class TLNode_AddBuffToCasterPrototype : StructPrototype {
+    public Quantum.Prototypes.AddBuffInfoPrototype addBuffInfo;
     public void Materialize(Frame frame, ref Quantum.TLNode_AddBuffToCaster result, in PrototypeMaterializationContext context = default) {
-        result.BuffId = this.BuffId;
-        MaterializeUser(frame, ref result, in context);
+        this.addBuffInfo.Materialize(frame, ref result.addBuffInfo, in context);
     }
   }
   [System.SerializableAttribute()]
@@ -627,12 +685,11 @@ namespace Quantum.Prototypes {
   }
   [System.SerializableAttribute()]
   [Quantum.Prototypes.Prototype(typeof(Quantum.TimelineModel))]
-  public unsafe partial class TimelineModelPrototype : StructPrototype {
+  public unsafe class TimelineModelPrototype : StructPrototype {
     public Int32 id;
     public Int32 totalFrame;
     [DynamicCollectionAttribute()]
     public Quantum.Prototypes.TimelineNodePrototype[] nodes = {};
-    partial void MaterializeUser(Frame frame, ref Quantum.TimelineModel result, in PrototypeMaterializationContext context);
     public void Materialize(Frame frame, ref Quantum.TimelineModel result, in PrototypeMaterializationContext context = default) {
         result.id = this.id;
         result.totalFrame = this.totalFrame;
@@ -646,23 +703,20 @@ namespace Quantum.Prototypes {
             list.Add(tmp);
           }
         }
-        MaterializeUser(frame, ref result, in context);
     }
   }
   [System.SerializableAttribute()]
   [Quantum.Prototypes.Prototype(typeof(Quantum.TimelineNode))]
-  public unsafe partial class TimelineNodePrototype : StructPrototype {
+  public unsafe class TimelineNodePrototype : StructPrototype {
     public Int32 frame;
     public Quantum.QEnum32<ETLNodeType> nodeType;
     public Quantum.Prototypes.TLNodePrototype node;
-    public Quantum.Prototypes.DataContainerPrototype Args;
-    partial void MaterializeUser(Frame frame, ref Quantum.TimelineNode result, in PrototypeMaterializationContext context);
+    public Quantum.Prototypes.DataContainerPrototype args;
     public void Materialize(Frame frame, ref Quantum.TimelineNode result, in PrototypeMaterializationContext context = default) {
         result.frame = this.frame;
         result.nodeType = this.nodeType;
         this.node.Materialize(frame, ref result.node, in context);
-        this.Args.Materialize(frame, ref result.Args, in context);
-        MaterializeUser(frame, ref result, in context);
+        this.args.Materialize(frame, ref result.args, in context);
     }
   }
   [System.SerializableAttribute()]

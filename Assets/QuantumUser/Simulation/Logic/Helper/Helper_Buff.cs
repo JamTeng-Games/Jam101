@@ -8,37 +8,32 @@ namespace Quantum.Helper
     {
     }
 
-    public static unsafe class Helper_Buff
+    public static unsafe partial class Helper_Buff
     {
-        // Buff id -> BuffBase
-        private static Dictionary<int, BuffBase> _buffCmds;
-
-        static Helper_Buff()
-        {
-            _buffCmds = new Dictionary<int, BuffBase>() { };
-        }
+        // Buff id -> BuffCmd
+        private static Dictionary<int, BuffCmd> _buffCmds;
 
         public static void OnAdd(Frame f, EntityRef entity, ref BuffObj buffObj, int modifyStack)
         {
-            if (_buffCmds.TryGetValue(buffObj.model.id, out var buffBase))
+            if (_buffCmds.TryGetValue(buffObj.model.id, out var buffCmd))
             {
-                buffBase.OnAdd(f, entity, ref buffObj, modifyStack);
+                buffCmd.OnAdd(f, entity, ref buffObj, modifyStack);
             }
         }
 
         public static void OnRemove(Frame f, EntityRef entity, ref BuffObj buffObj)
         {
-            if (_buffCmds.TryGetValue(buffObj.model.id, out var buffBase))
+            if (_buffCmds.TryGetValue(buffObj.model.id, out var buffCmd))
             {
-                buffBase.OnRemove(f, entity, ref buffObj);
+                buffCmd.OnRemove(f, entity, ref buffObj);
             }
         }
 
         public static void OnTick(Frame f, EntityRef entity, ref BuffObj buffObj)
         {
-            if (_buffCmds.TryGetValue(buffObj.model.id, out var buffBase))
+            if (_buffCmds.TryGetValue(buffObj.model.id, out var buffCmd))
             {
-                buffBase.OnTick(f, entity, ref buffObj);
+                buffCmd.OnTick(f, entity, ref buffObj);
             }
         }
 
@@ -48,9 +43,9 @@ namespace Quantum.Helper
                                        SkillObj skillObj,
                                        ref TimelineObj timelineObj)
         {
-            if (_buffCmds.TryGetValue(buffObj.model.id, out var buffBase))
+            if (_buffCmds.TryGetValue(buffObj.model.id, out var buffCmd))
             {
-                buffBase.OnCastSkill(f, entity, ref buffObj, skillObj, ref timelineObj);
+                buffCmd.OnCastSkill(f, entity, ref buffObj, skillObj, ref timelineObj);
             }
         }
 
@@ -60,9 +55,9 @@ namespace Quantum.Helper
                                  EntityRef targetEntity,
                                  ref DamageInfo damageInfo)
         {
-            if (_buffCmds.TryGetValue(buffObj.model.id, out var buffBase))
+            if (_buffCmds.TryGetValue(buffObj.model.id, out var buffCmd))
             {
-                buffBase.OnHit(f, entity, ref buffObj, targetEntity, ref damageInfo);
+                buffCmd.OnHit(f, entity, ref buffObj, targetEntity, ref damageInfo);
             }
         }
 
@@ -72,9 +67,9 @@ namespace Quantum.Helper
                                    EntityRef attacker,
                                    ref DamageInfo damageInfo)
         {
-            if (_buffCmds.TryGetValue(buffObj.model.id, out var buffBase))
+            if (_buffCmds.TryGetValue(buffObj.model.id, out var buffCmd))
             {
-                buffBase.OnBeHit(f, entity, ref buffObj, attacker, ref damageInfo);
+                buffCmd.OnBeHit(f, entity, ref buffObj, attacker, ref damageInfo);
             }
         }
 
@@ -84,9 +79,9 @@ namespace Quantum.Helper
                                   EntityRef target,
                                   ref DamageInfo damageInfo)
         {
-            if (_buffCmds.TryGetValue(buffObj.model.id, out var buffBase))
+            if (_buffCmds.TryGetValue(buffObj.model.id, out var buffCmd))
             {
-                buffBase.OnKill(f, entity, ref buffObj, target, ref damageInfo);
+                buffCmd.OnKill(f, entity, ref buffObj, target, ref damageInfo);
             }
         }
 
@@ -96,10 +91,14 @@ namespace Quantum.Helper
                                       EntityRef attacker,
                                       ref DamageInfo damageInfo)
         {
-            if (_buffCmds.TryGetValue(buffObj.model.id, out var buffBase))
+            if (_buffCmds.TryGetValue(buffObj.model.id, out var buffCmd))
             {
-                buffBase.OnBeKilled(f, entity, ref buffObj, attacker, ref damageInfo);
+                buffCmd.OnBeKilled(f, entity, ref buffObj, attacker, ref damageInfo);
             }
+        }
+
+        public static void AddBuff(Frame f, EntityRef target, AddBuffInfo addBuffInfo)
+        {
         }
     }
 

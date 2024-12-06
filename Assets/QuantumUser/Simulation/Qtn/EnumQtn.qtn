@@ -6,7 +6,6 @@ enum EGameState
     Over
 }
 
-
 enum EStateType
 {
     Idle,

@@ -3,7 +3,7 @@
 namespace Quantum.Helper
 {
 
-    public unsafe class Buff_AutoReloadAttack : BuffBase
+    public unsafe class BuffCmdAutoReloadAttack : BuffCmd
     {
         // public override BuffObj OnRemove(Frame f, EntityRef entity, BuffObj buffObj)
         // {

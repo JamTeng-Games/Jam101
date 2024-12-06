@@ -57,7 +57,6 @@ namespace Quantum.Prototypes.Unity {
     public Int32 duration;
     public Quantum.QuantumEntityPrototype caster;
     public Quantum.QuantumEntityPrototype target;
-    public Quantum.Prototypes.DataContainerPrototype args;
     public Quantum.Prototypes.BuffModelPrototype buffModel;
     partial void ConvertUser(Quantum.QuantumEntityPrototypeConverter converter, ref Quantum.Prototypes.AddBuffInfoPrototype prototype);
     public override Quantum.Prototypes.AddBuffInfoPrototype Convert(Quantum.QuantumEntityPrototypeConverter converter) {
@@ -68,7 +67,6 @@ namespace Quantum.Prototypes.Unity {
       converter.Convert(this.duration, out result.duration);
       converter.Convert(this.caster, out result.caster);
       converter.Convert(this.target, out result.target);
-      converter.Convert(this.args, out result.args);
       converter.Convert(this.buffModel, out result.buffModel);
       ConvertUser(converter, ref result);
       return result;
@@ -99,7 +97,6 @@ namespace Quantum.Prototypes.Unity {
     public Quantum.QuantumEntityPrototype caster;
     public Quantum.QuantumEntityPrototype target;
     public Quantum.Prototypes.BuffModelPrototype model;
-    public Quantum.Prototypes.DataContainerPrototype args;
     partial void ConvertUser(Quantum.QuantumEntityPrototypeConverter converter, ref Quantum.Prototypes.BuffObjPrototype prototype);
     public override Quantum.Prototypes.BuffObjPrototype Convert(Quantum.QuantumEntityPrototypeConverter converter) {
       var result = new Quantum.Prototypes.BuffObjPrototype();
@@ -111,7 +108,6 @@ namespace Quantum.Prototypes.Unity {
       converter.Convert(this.caster, out result.caster);
       converter.Convert(this.target, out result.target);
       converter.Convert(this.model, out result.model);
-      converter.Convert(this.args, out result.args);
       ConvertUser(converter, ref result);
       return result;
     }
@@ -134,6 +130,17 @@ namespace Quantum.Prototypes.Unity {
     partial void ConvertUser(Quantum.QuantumEntityPrototypeConverter converter, ref Quantum.Prototypes.STimelineCompPrototype prototype);
     public override Quantum.Prototypes.STimelineCompPrototype Convert(Quantum.QuantumEntityPrototypeConverter converter) {
       var result = new Quantum.Prototypes.STimelineCompPrototype();
+      ConvertUser(converter, ref result);
+      return result;
+    }
+  }
+  [System.SerializableAttribute()]
+  public unsafe partial class STimelineModelContainerCompPrototype : Quantum.QuantumUnityPrototypeAdapter<Quantum.Prototypes.STimelineModelContainerCompPrototype> {
+    [HideInInspector()]
+    public Int32 _empty_prototype_dummy_field_;
+    partial void ConvertUser(Quantum.QuantumEntityPrototypeConverter converter, ref Quantum.Prototypes.STimelineModelContainerCompPrototype prototype);
+    public override Quantum.Prototypes.STimelineModelContainerCompPrototype Convert(Quantum.QuantumEntityPrototypeConverter converter) {
+      var result = new Quantum.Prototypes.STimelineModelContainerCompPrototype();
       ConvertUser(converter, ref result);
       return result;
     }
@@ -196,10 +203,69 @@ namespace Quantum.Prototypes.Unity {
     }
   }
   [System.SerializableAttribute()]
+  public unsafe partial class TLNodePrototype : Quantum.QuantumUnityUnionPrototypeAdapter<Quantum.Prototypes.TLNodePrototype> {
+    public string _field_used_;
+    public Quantum.Prototypes.TLNode_LogPrototype Log;
+    public Quantum.Prototypes.Unity.TLNode_AddBuffToCasterPrototype AddBuffToCaster;
+    partial void ConvertUser(Quantum.QuantumEntityPrototypeConverter converter, ref Quantum.Prototypes.TLNodePrototype prototype);
+    public override Quantum.Prototypes.TLNodePrototype Convert(Quantum.QuantumEntityPrototypeConverter converter) {
+      var result = new Quantum.Prototypes.TLNodePrototype();
+      converter.Convert(this._field_used_, out result._field_used_);
+      converter.Convert(this.Log, out result.Log);
+      converter.Convert(this.AddBuffToCaster, out result.AddBuffToCaster);
+      ConvertUser(converter, ref result);
+      return result;
+    }
+  }
+  [System.SerializableAttribute()]
+  public unsafe partial class TLNode_AddBuffToCasterPrototype : Quantum.QuantumUnityPrototypeAdapter<Quantum.Prototypes.TLNode_AddBuffToCasterPrototype> {
+    public Quantum.Prototypes.Unity.AddBuffInfoPrototype addBuffInfo;
+    partial void ConvertUser(Quantum.QuantumEntityPrototypeConverter converter, ref Quantum.Prototypes.TLNode_AddBuffToCasterPrototype prototype);
+    public override Quantum.Prototypes.TLNode_AddBuffToCasterPrototype Convert(Quantum.QuantumEntityPrototypeConverter converter) {
+      var result = new Quantum.Prototypes.TLNode_AddBuffToCasterPrototype();
+      converter.Convert(this.addBuffInfo, out result.addBuffInfo);
+      ConvertUser(converter, ref result);
+      return result;
+    }
+  }
+  [System.SerializableAttribute()]
+  public unsafe partial class TimelineModelPrototype : Quantum.QuantumUnityPrototypeAdapter<Quantum.Prototypes.TimelineModelPrototype> {
+    public Int32 id;
+    public Int32 totalFrame;
+    [DynamicCollectionAttribute()]
+    public Quantum.Prototypes.Unity.TimelineNodePrototype[] nodes = {};
+    partial void ConvertUser(Quantum.QuantumEntityPrototypeConverter converter, ref Quantum.Prototypes.TimelineModelPrototype prototype);
+    public override Quantum.Prototypes.TimelineModelPrototype Convert(Quantum.QuantumEntityPrototypeConverter converter) {
+      var result = new Quantum.Prototypes.TimelineModelPrototype();
+      converter.Convert(this.id, out result.id);
+      converter.Convert(this.totalFrame, out result.totalFrame);
+      converter.Convert(this.nodes, out result.nodes);
+      ConvertUser(converter, ref result);
+      return result;
+    }
+  }
+  [System.SerializableAttribute()]
+  public unsafe partial class TimelineNodePrototype : Quantum.QuantumUnityPrototypeAdapter<Quantum.Prototypes.TimelineNodePrototype> {
+    public Int32 frame;
+    public Quantum.QEnum32<ETLNodeType> nodeType;
+    public Quantum.Prototypes.Unity.TLNodePrototype node;
+    public Quantum.Prototypes.DataContainerPrototype args;
+    partial void ConvertUser(Quantum.QuantumEntityPrototypeConverter converter, ref Quantum.Prototypes.TimelineNodePrototype prototype);
+    public override Quantum.Prototypes.TimelineNodePrototype Convert(Quantum.QuantumEntityPrototypeConverter converter) {
+      var result = new Quantum.Prototypes.TimelineNodePrototype();
+      converter.Convert(this.frame, out result.frame);
+      converter.Convert(this.nodeType, out result.nodeType);
+      converter.Convert(this.node, out result.node);
+      converter.Convert(this.args, out result.args);
+      ConvertUser(converter, ref result);
+      return result;
+    }
+  }
+  [System.SerializableAttribute()]
   public unsafe partial class TimelineObjPrototype : Quantum.QuantumUnityPrototypeAdapter<Quantum.Prototypes.TimelineObjPrototype> {
     public Int32 elapsedFrame;
     public Quantum.QuantumEntityPrototype caster;
-    public Quantum.Prototypes.TimelineModelPrototype model;
+    public Quantum.Prototypes.Unity.TimelineModelPrototype model;
     partial void ConvertUser(Quantum.QuantumEntityPrototypeConverter converter, ref Quantum.Prototypes.TimelineObjPrototype prototype);
     public override Quantum.Prototypes.TimelineObjPrototype Convert(Quantum.QuantumEntityPrototypeConverter converter) {
       var result = new Quantum.Prototypes.TimelineObjPrototype();
@@ -216,6 +282,17 @@ namespace Quantum.Prototypes.Unity {
     public Quantum.Prototypes.Unity.SkillModelPrototype Value;
     public Quantum.Prototypes.DictionaryEntry_Int32_SkillModel Convert(Quantum.QuantumEntityPrototypeConverter converter) {
       var result = new Quantum.Prototypes.DictionaryEntry_Int32_SkillModel();
+      converter.Convert(Key, out result.Key);
+      converter.Convert(Value, out result.Value);
+      return result;
+    }
+  }
+  [System.SerializableAttribute()]
+  public unsafe partial class DictionaryEntry_Int32_TimelineModel : Quantum.Prototypes.DictionaryEntry, Quantum.IQuantumPrototypeConvertible<Quantum.Prototypes.DictionaryEntry_Int32_TimelineModel> {
+    public Int32 Key;
+    public Quantum.Prototypes.Unity.TimelineModelPrototype Value;
+    public Quantum.Prototypes.DictionaryEntry_Int32_TimelineModel Convert(Quantum.QuantumEntityPrototypeConverter converter) {
+      var result = new Quantum.Prototypes.DictionaryEntry_Int32_TimelineModel();
       converter.Convert(Key, out result.Key);
       converter.Convert(Value, out result.Value);
       return result;

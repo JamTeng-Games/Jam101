@@ -1,7 +1,8 @@
 ﻿namespace Quantum.Helper
 {
 
-    public class BuffBase
+    // 执行Buff Command
+    public class BuffCmd
     {
         public virtual void OnAdd(Frame f, EntityRef entity, ref BuffObj buffObj, int modifyStack)
         {

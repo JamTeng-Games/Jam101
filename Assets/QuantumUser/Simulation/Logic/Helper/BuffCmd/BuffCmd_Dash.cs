@@ -3,7 +3,7 @@
 namespace Quantum.Helper
 {
 
-    public unsafe class Buff_Dash : BuffBase
+    public unsafe class BuffCmd_Dash : BuffCmd
     {
         // public override (BuffObj, TimelineObj) OnCastSkill(Frame f, EntityRef entity, BuffObj buffObj, SkillObj sKillObj, TimelineObj tlObj)
         // {

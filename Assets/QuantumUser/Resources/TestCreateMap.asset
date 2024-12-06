@@ -39,50 +39,7 @@ MonoBehaviour:
   GridNodeSize: 4
   NavMeshLinks: []
   Regions: []
-  StaticColliders2D:
-  - Rotation:
-      RawValue: 0
-    Position:
-      X:
-        RawValue: -327680
-      Y:
-        RawValue: -16384
-    Height:
-      RawValue: 131072
-    VerticalOffset:
-      RawValue: 0
-    PhysicsMaterial:
-      Id:
-        Value: 0
-    Layer: 4
-    ShapeType: 4
-    CircleRadius:
-      RawValue: 0
-    BoxExtents:
-      X:
-        RawValue: 131072
-      Y:
-        RawValue: 16384
-    CapsuleSize:
-      X:
-        RawValue: 0
-      Y:
-        RawValue: 0
-    EdgeExtent:
-      RawValue: 0
-    PolygonCollider:
-      Vertices: []
-      Normals: []
-    StaticData:
-      Name: bartop_B_large (1)
-      Tag: Untagged
-      Layer: 4
-      Asset:
-        Id:
-          Value: 0
-      IsTrigger: 1
-      ColliderIndex: 0
-      MutableMode: 0
+  StaticColliders2D: []
   StaticColliders3D: []
   MapEntities: []
   SerializedTriangleDataUncompressedSize: 8
