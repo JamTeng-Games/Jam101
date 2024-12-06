@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 549796846061789639}
   - component: {fileID: 1673821573837915476}
   - component: {fileID: 7564023685275410742}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: bar_straight_C_short
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -142,4 +142,4 @@ MonoBehaviour:
     Asset:
       Id:
         Value: 0
-    Trigger: 0
+    Trigger: 1

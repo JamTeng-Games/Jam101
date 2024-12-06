@@ -6,22 +6,6 @@ using UnityEngine;
 namespace Jam.Runtime
 {
 
-    [Serializable]
-    public struct MapObjectData
-    {
-        public MapObjectType objectType;
-        public FP height;
-    }
-
-    [Serializable]
-    public enum MapObjectType
-    {
-        Ground,
-        Block,
-        Water,
-        Shrub,
-    }
-
     // [ExecuteInEditMode]
     public class MapObject : MonoBehaviour
     {
@@ -29,7 +13,6 @@ namespace Jam.Runtime
 
         public MapObjectData Data;
 #if UNITY_EDITOR
-
         public int xMin;
         public int xMax;
         public int zMin;
@@ -74,21 +57,17 @@ namespace Jam.Runtime
             {
                 qc = gameObject.AddComponent<QuantumStaticBoxCollider2D>();
                 qc.Height = Data.height;
-                qc.Settings.Trigger = Data.objectType != MapObjectType.Block;
             }
-            else
-            {
-                qc.Settings.Trigger = Data.objectType != MapObjectType.Block;
-            }
+            qc.Settings.Trigger = Data.objectType != MapObjectType.Block;
             qc.SourceCollider = box;
         }
 
         public void RemoveBox()
         {
-            // if (gameObject.TryGetComponent<Collider>(out var collider))
-            //     DestroyImmediate(collider);
-            // if (gameObject.TryGetComponent<QuantumStaticBoxCollider2D>(out var qc))
-            //     qc.SourceCollider = null;
+            if (gameObject.TryGetComponent<Collider>(out var collider))
+                DestroyImmediate(collider);
+            if (gameObject.TryGetComponent<QuantumStaticBoxCollider2D>(out var qc))
+                qc.SourceCollider = null;
         }
 
         private void Reset()
@@ -100,9 +79,16 @@ namespace Jam.Runtime
         private void OnValidate()
         {
             ResetMinMax();
-            // if (gameObject.TryGetComponent<QuantumStaticBoxCollider2D>(out var qc))
-            //     qc.Settings.Trigger = Data.objectType != MapObjectType.Block;
-            // Debug.Log("OnValidate");
+            if (gameObject.TryGetComponent<QuantumStaticBoxCollider2D>(out var qc))
+                qc.Settings.Trigger = Data.objectType != MapObjectType.Block;
+            if (Data.objectType != MapObjectType.None)
+            {
+                gameObject.layer = UnityEngine.LayerMask.NameToLayer(Data.objectType.ToString());
+            }
+            else
+            {
+                gameObject.layer = UnityEngine.LayerMask.NameToLayer("Default");
+            }
         }
 
         private void OnDrawGizmosSelected()
@@ -113,13 +99,13 @@ namespace Jam.Runtime
                 MapObjectType.Block  => Color.red,
                 MapObjectType.Water  => Color.blue,
                 MapObjectType.Shrub  => Color.green,
+                _                    => Color.white,
             };
             Vector3 center = new Vector3(xMax + xMin, 0, zMax + zMin) / 4f;
             Vector3 size = new Vector3(xMax - xMin, 0.1f, zMax - zMin) / 2f;
             center.y = yMin - 0.1f;
             Gizmos.DrawCube(center, size);
         }
-
 #endif
     }
 
