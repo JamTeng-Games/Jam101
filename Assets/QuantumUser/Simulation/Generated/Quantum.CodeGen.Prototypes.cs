@@ -179,11 +179,11 @@ namespace Quantum.Prototypes {
     }
   }
   [System.SerializableAttribute()]
-  [Quantum.Prototypes.Prototype(typeof(Quantum.BM_AutoReloadAttack))]
-  public unsafe partial class BM_AutoReloadAttackPrototype : StructPrototype {
+  [Quantum.Prototypes.Prototype(typeof(Quantum.BM_AutoReload))]
+  public unsafe partial class BM_AutoReloadPrototype : StructPrototype {
     public Int32 reloadFrame;
-    partial void MaterializeUser(Frame frame, ref Quantum.BM_AutoReloadAttack result, in PrototypeMaterializationContext context);
-    public void Materialize(Frame frame, ref Quantum.BM_AutoReloadAttack result, in PrototypeMaterializationContext context = default) {
+    partial void MaterializeUser(Frame frame, ref Quantum.BM_AutoReload result, in PrototypeMaterializationContext context);
+    public void Materialize(Frame frame, ref Quantum.BM_AutoReload result, in PrototypeMaterializationContext context = default) {
         result.reloadFrame = this.reloadFrame;
         MaterializeUser(frame, ref result, in context);
     }
@@ -199,19 +199,59 @@ namespace Quantum.Prototypes {
     }
   }
   [System.SerializableAttribute()]
+  [Quantum.Prototypes.Prototype(typeof(Quantum.BM_Hot))]
+  public unsafe partial class BM_HotPrototype : StructPrototype {
+    public Int16 tick;
+    public UInt16 area;
+    public Int16 damage;
+    partial void MaterializeUser(Frame frame, ref Quantum.BM_Hot result, in PrototypeMaterializationContext context);
+    public void Materialize(Frame frame, ref Quantum.BM_Hot result, in PrototypeMaterializationContext context = default) {
+        result.tick = this.tick;
+        result.area = this.area;
+        result.damage = this.damage;
+        MaterializeUser(frame, ref result, in context);
+    }
+  }
+  [System.SerializableAttribute()]
   [Quantum.Prototypes.Prototype(typeof(Quantum.BM_Instance))]
   public unsafe partial class BM_InstancePrototype : UnionPrototype {
     public string _field_used_;
-    public Quantum.Prototypes.BM_DashPrototype dash;
-    public Quantum.Prototypes.BM_AutoReloadAttackPrototype autoReloadAttack;
+    public Quantum.Prototypes.BM_AutoReloadPrototype AutoReload;
+    public Quantum.Prototypes.BM_DashPrototype Dash;
+    public Quantum.Prototypes.BM_HotPrototype Hot;
+    public Quantum.Prototypes.BM_PoisonPrototype Poison;
+    public Quantum.Prototypes.BM_Test1Prototype Test1;
     partial void MaterializeUser(Frame frame, ref Quantum.BM_Instance result, in PrototypeMaterializationContext context);
     public void Materialize(Frame frame, ref Quantum.BM_Instance result, in PrototypeMaterializationContext context = default) {
         switch (_field_used_) {
-          case "DASH": this.dash.Materialize(frame, ref *result.dash, in context); break;
-          case "AUTORELOADATTACK": this.autoReloadAttack.Materialize(frame, ref *result.autoReloadAttack, in context); break;
+          case "AUTORELOAD": this.AutoReload.Materialize(frame, ref *result.AutoReload, in context); break;
+          case "DASH": this.Dash.Materialize(frame, ref *result.Dash, in context); break;
+          case "HOT": this.Hot.Materialize(frame, ref *result.Hot, in context); break;
+          case "POISON": this.Poison.Materialize(frame, ref *result.Poison, in context); break;
+          case "TEST1": this.Test1.Materialize(frame, ref *result.Test1, in context); break;
           case "": case null: break;
           default: PrototypeValidator.UnknownUnionField(_field_used_, in context); break;
         }
+        MaterializeUser(frame, ref result, in context);
+    }
+  }
+  [System.SerializableAttribute()]
+  [Quantum.Prototypes.Prototype(typeof(Quantum.BM_Poison))]
+  public unsafe partial class BM_PoisonPrototype : StructPrototype {
+    [HideInInspector()]
+    public Int32 _empty_prototype_dummy_field_;
+    partial void MaterializeUser(Frame frame, ref Quantum.BM_Poison result, in PrototypeMaterializationContext context);
+    public void Materialize(Frame frame, ref Quantum.BM_Poison result, in PrototypeMaterializationContext context = default) {
+        MaterializeUser(frame, ref result, in context);
+    }
+  }
+  [System.SerializableAttribute()]
+  [Quantum.Prototypes.Prototype(typeof(Quantum.BM_Test1))]
+  public unsafe partial class BM_Test1Prototype : StructPrototype {
+    [HideInInspector()]
+    public Int32 _empty_prototype_dummy_field_;
+    partial void MaterializeUser(Frame frame, ref Quantum.BM_Test1 result, in PrototypeMaterializationContext context);
+    public void Materialize(Frame frame, ref Quantum.BM_Test1 result, in PrototypeMaterializationContext context = default) {
         MaterializeUser(frame, ref result, in context);
     }
   }
@@ -244,7 +284,7 @@ namespace Quantum.Prototypes {
   [System.SerializableAttribute()]
   [Quantum.Prototypes.Prototype(typeof(Quantum.BuffModel))]
   public unsafe partial class BuffModelPrototype : StructPrototype {
-    public Int32 id;
+    public Int32 type;
     public Int32 priority;
     public Int32 maxStack;
     public Int32 interval;
@@ -261,7 +301,7 @@ namespace Quantum.Prototypes {
     public Quantum.Prototypes.BM_InstancePrototype instance;
     partial void MaterializeUser(Frame frame, ref Quantum.BuffModel result, in PrototypeMaterializationContext context);
     public void Materialize(Frame frame, ref Quantum.BuffModel result, in PrototypeMaterializationContext context = default) {
-        result.id = this.id;
+        result.type = this.type;
         result.priority = this.priority;
         result.maxStack = this.maxStack;
         result.interval = this.interval;

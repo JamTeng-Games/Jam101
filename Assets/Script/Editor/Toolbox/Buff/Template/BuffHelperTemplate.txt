@@ -1,0 +1,18 @@
+﻿using System.Collections.Generic;
+using Quantum.Graph.Skill;
+
+namespace Quantum.Helper
+{
+
+    public static unsafe partial class Helper_Buff
+    {
+        static Helper_Buff()
+        {
+            _buffCmds = new Dictionary<int, BuffCmd>() 
+            {
+__BUFF_CMD_HELPER__
+            };
+        }
+    }
+
+}

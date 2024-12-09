@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 95023f83235a45adb1e07159cfa33261, type: 3}
+  m_Name: Hot
+  m_EditorClassIdentifier: 
+  descName: "\u70ED\u533A"
+  name: Hot
+  args:
+  - type: 3
+    argName: tick
+    desc: "\u591A\u5C11tick\u70ED\u4E00\u6B21"
+  - type: 7
+    argName: area
+    desc: "\u8303\u56F4"
+  - type: 3
+    argName: damage
+    desc: "\u9020\u6210\u4F24\u5BB3\u6570\u503C"
+  desc: "\u6BCFtick\u6B21\u7ED9area\u8303\u56F4\u7684\u5355\u4F4D\u9020\u6210damage\u4F24\u5BB3"

@@ -23,7 +23,7 @@ namespace Quantum
             int toRemoveCount = 0;
             for (int i = 0; i < buffs.Count; i++)
             {
-                var buff = buffs[i];
+                BuffObj buff = buffs[i];
                 if (!buff.isPermanent)
                     buff.remainFrame--;
                 buff.elapsedFrame++;

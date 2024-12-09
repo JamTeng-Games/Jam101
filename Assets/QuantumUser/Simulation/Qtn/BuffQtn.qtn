@@ -1,15 +1,33 @@
-union BM_Instance
+﻿union BM_Instance
 {
-    BM_Dash dash;
-    BM_AutoReloadAttack autoReloadAttack;
+    BM_AutoReload AutoReload;
+    BM_Dash Dash;
+    BM_Hot Hot;
+    BM_Poison Poison;
+    BM_Test1 Test1;
+}
+
+struct BM_AutoReload
+{
+    int reloadFrame;  // 
 }
 
 struct BM_Dash
 {
-    FP distance;    // 冲刺距离
+    FP distance;  // 
 }
 
-struct BM_AutoReloadAttack
+struct BM_Hot
 {
-    int reloadFrame;  // 重新装填所需帧数
+    short tick;  // 多少tick热一次
+    ushort area;  // 范围
+    short damage;  // 造成伤害数值
+}
+
+struct BM_Poison
+{
+}
+
+struct BM_Test1
+{
 }

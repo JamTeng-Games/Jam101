@@ -1,0 +1,6 @@
+﻿union BM_Instance
+{
+    __BM_UNION__
+}
+
+__BM_INSTANCE__

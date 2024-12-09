@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using NewGraph;
 using Photon.Deterministic;
+using UnityEngine.Serialization;
 
 namespace Quantum.Graph.Skill
 {
@@ -24,9 +25,6 @@ namespace Quantum.Graph.Skill
     [Serializable]
     public unsafe class BuffNode : NodeBase
     {
-        [GraphDisplay(DisplayType.Inspector, editability: Editability.None)]
-        public BuffId id;
-
         // 越小的越先执行，优先级越低
         [GraphDisplay(DisplayType.BothViews)]
         public int priority;

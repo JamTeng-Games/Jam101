@@ -103,7 +103,7 @@ struct BuffObj
 // BM -> BuffModel
 struct BuffModel
 {
-    int id;         // Buff类型
+    int type;       // Buff类型
     int priority;   // 优先级，越小的越先执行
     int maxStack;   // 最大层数
     int interval;   // 间隔时间

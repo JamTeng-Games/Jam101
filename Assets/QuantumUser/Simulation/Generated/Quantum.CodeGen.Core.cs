@@ -554,20 +554,20 @@ namespace Quantum {
     }
   }
   [StructLayout(LayoutKind.Explicit)]
-  public unsafe partial struct BM_AutoReloadAttack {
+  public unsafe partial struct BM_AutoReload {
     public const Int32 SIZE = 4;
     public const Int32 ALIGNMENT = 4;
     [FieldOffset(0)]
     public Int32 reloadFrame;
     public override Int32 GetHashCode() {
       unchecked { 
-        var hash = 10211;
+        var hash = 5869;
         hash = hash * 31 + reloadFrame.GetHashCode();
         return hash;
       }
     }
     public static void Serialize(void* ptr, FrameSerializer serializer) {
-        var p = (BM_AutoReloadAttack*)ptr;
+        var p = (BM_AutoReload*)ptr;
         serializer.Stream.Serialize(&p->reloadFrame);
     }
   }
@@ -590,16 +590,74 @@ namespace Quantum {
     }
   }
   [StructLayout(LayoutKind.Explicit)]
+  public unsafe partial struct BM_Hot {
+    public const Int32 SIZE = 6;
+    public const Int32 ALIGNMENT = 2;
+    [FieldOffset(2)]
+    public Int16 tick;
+    [FieldOffset(4)]
+    public UInt16 area;
+    [FieldOffset(0)]
+    public Int16 damage;
+    public override Int32 GetHashCode() {
+      unchecked { 
+        var hash = 14653;
+        hash = hash * 31 + tick.GetHashCode();
+        hash = hash * 31 + area.GetHashCode();
+        hash = hash * 31 + damage.GetHashCode();
+        return hash;
+      }
+    }
+    public static void Serialize(void* ptr, FrameSerializer serializer) {
+        var p = (BM_Hot*)ptr;
+        serializer.Stream.Serialize(&p->damage);
+        serializer.Stream.Serialize(&p->tick);
+        serializer.Stream.Serialize(&p->area);
+    }
+  }
+  [StructLayout(LayoutKind.Explicit)]
+  public unsafe partial struct BM_Poison {
+    public const Int32 SIZE = 4;
+    public const Int32 ALIGNMENT = 4;
+    [FieldOffset(0)]
+    private fixed Byte _alignment_padding_[4];
+    public override Int32 GetHashCode() {
+      unchecked { 
+        var hash = 18503;
+        return hash;
+      }
+    }
+    public static void Serialize(void* ptr, FrameSerializer serializer) {
+        var p = (BM_Poison*)ptr;
+    }
+  }
+  [StructLayout(LayoutKind.Explicit)]
+  public unsafe partial struct BM_Test1 {
+    public const Int32 SIZE = 4;
+    public const Int32 ALIGNMENT = 4;
+    [FieldOffset(0)]
+    private fixed Byte _alignment_padding_[4];
+    public override Int32 GetHashCode() {
+      unchecked { 
+        var hash = 12043;
+        return hash;
+      }
+    }
+    public static void Serialize(void* ptr, FrameSerializer serializer) {
+        var p = (BM_Test1*)ptr;
+    }
+  }
+  [StructLayout(LayoutKind.Explicit)]
   public unsafe partial struct BuffModel {
     public const Int32 SIZE = 56;
     public const Int32 ALIGNMENT = 8;
-    [FieldOffset(0)]
-    public Int32 id;
     [FieldOffset(12)]
-    public Int32 priority;
+    public Int32 type;
     [FieldOffset(8)]
-    public Int32 maxStack;
+    public Int32 priority;
     [FieldOffset(4)]
+    public Int32 maxStack;
+    [FieldOffset(0)]
     public Int32 interval;
     [FieldOffset(28)]
     public QDictionaryPtr<Int32, Int32> baseAttribs;
@@ -616,7 +674,7 @@ namespace Quantum {
     public override Int32 GetHashCode() {
       unchecked { 
         var hash = 21407;
-        hash = hash * 31 + id.GetHashCode();
+        hash = hash * 31 + type.GetHashCode();
         hash = hash * 31 + priority.GetHashCode();
         hash = hash * 31 + maxStack.GetHashCode();
         hash = hash * 31 + interval.GetHashCode();
@@ -636,10 +694,10 @@ namespace Quantum {
     }
     public static void Serialize(void* ptr, FrameSerializer serializer) {
         var p = (BuffModel*)ptr;
-        serializer.Stream.Serialize(&p->id);
         serializer.Stream.Serialize(&p->interval);
         serializer.Stream.Serialize(&p->maxStack);
         serializer.Stream.Serialize(&p->priority);
+        serializer.Stream.Serialize(&p->type);
         QBoolean.Serialize(&p->canMove, serializer);
         QBoolean.Serialize(&p->canUseSkill, serializer);
         QDictionary.Serialize(&p->percentAttribs, serializer, Statics.SerializeInt32, Statics.SerializeFP);
@@ -1146,22 +1204,48 @@ namespace Quantum {
     private Int32 _field_used_;
     [FieldOffset(8)]
     [FieldOverlap(8)]
-    [FramePrinter.PrintIf("_field_used_", Quantum.BM_Instance.DASH)]
-    private BM_Dash _dash;
+    [FramePrinter.PrintIf("_field_used_", Quantum.BM_Instance.AUTORELOAD)]
+    private BM_AutoReload _AutoReload;
     [FieldOffset(8)]
     [FieldOverlap(8)]
-    [FramePrinter.PrintIf("_field_used_", Quantum.BM_Instance.AUTORELOADATTACK)]
-    private BM_AutoReloadAttack _autoReloadAttack;
-    public const Int32 DASH = 1;
-    public const Int32 AUTORELOADATTACK = 2;
+    [FramePrinter.PrintIf("_field_used_", Quantum.BM_Instance.DASH)]
+    private BM_Dash _Dash;
+    [FieldOffset(8)]
+    [FieldOverlap(8)]
+    [FramePrinter.PrintIf("_field_used_", Quantum.BM_Instance.HOT)]
+    private BM_Hot _Hot;
+    [FieldOffset(8)]
+    [FieldOverlap(8)]
+    [FramePrinter.PrintIf("_field_used_", Quantum.BM_Instance.POISON)]
+    private BM_Poison _Poison;
+    [FieldOffset(8)]
+    [FieldOverlap(8)]
+    [FramePrinter.PrintIf("_field_used_", Quantum.BM_Instance.TEST1)]
+    private BM_Test1 _Test1;
+    public const Int32 AUTORELOAD = 1;
+    public const Int32 DASH = 2;
+    public const Int32 HOT = 3;
+    public const Int32 POISON = 4;
+    public const Int32 TEST1 = 5;
     public Int32 Field {
       get {
         return _field_used_;
       }
     }
-    public BM_Dash* dash {
+    public BM_AutoReload* AutoReload {
       get {
-        fixed (BM_Dash* p = &_dash) {
+        fixed (BM_AutoReload* p = &_AutoReload) {
+          if (_field_used_ != AUTORELOAD) {
+            Native.Utils.Clear(p, 4);
+            _field_used_ = AUTORELOAD;
+          }
+          return p;
+        }
+      }
+    }
+    public BM_Dash* Dash {
+      get {
+        fixed (BM_Dash* p = &_Dash) {
           if (_field_used_ != DASH) {
             Native.Utils.Clear(p, 8);
             _field_used_ = DASH;
@@ -1170,12 +1254,34 @@ namespace Quantum {
         }
       }
     }
-    public BM_AutoReloadAttack* autoReloadAttack {
+    public BM_Hot* Hot {
       get {
-        fixed (BM_AutoReloadAttack* p = &_autoReloadAttack) {
-          if (_field_used_ != AUTORELOADATTACK) {
+        fixed (BM_Hot* p = &_Hot) {
+          if (_field_used_ != HOT) {
+            Native.Utils.Clear(p, 6);
+            _field_used_ = HOT;
+          }
+          return p;
+        }
+      }
+    }
+    public BM_Poison* Poison {
+      get {
+        fixed (BM_Poison* p = &_Poison) {
+          if (_field_used_ != POISON) {
             Native.Utils.Clear(p, 4);
-            _field_used_ = AUTORELOADATTACK;
+            _field_used_ = POISON;
+          }
+          return p;
+        }
+      }
+    }
+    public BM_Test1* Test1 {
+      get {
+        fixed (BM_Test1* p = &_Test1) {
+          if (_field_used_ != TEST1) {
+            Native.Utils.Clear(p, 4);
+            _field_used_ = TEST1;
           }
           return p;
         }
@@ -1185,8 +1291,11 @@ namespace Quantum {
       unchecked { 
         var hash = 20903;
         hash = hash * 31 + _field_used_.GetHashCode();
-        hash = hash * 31 + _dash.GetHashCode();
-        hash = hash * 31 + _autoReloadAttack.GetHashCode();
+        hash = hash * 31 + _AutoReload.GetHashCode();
+        hash = hash * 31 + _Dash.GetHashCode();
+        hash = hash * 31 + _Hot.GetHashCode();
+        hash = hash * 31 + _Poison.GetHashCode();
+        hash = hash * 31 + _Test1.GetHashCode();
         return hash;
       }
     }
@@ -1197,11 +1306,20 @@ namespace Quantum {
           return;
         }
         serializer.Stream.Serialize(&p->_field_used_);
-        if (p->_field_used_ == AUTORELOADATTACK) {
-          Quantum.BM_AutoReloadAttack.Serialize(&p->_autoReloadAttack, serializer);
+        if (p->_field_used_ == AUTORELOAD) {
+          Quantum.BM_AutoReload.Serialize(&p->_AutoReload, serializer);
         }
         if (p->_field_used_ == DASH) {
-          Quantum.BM_Dash.Serialize(&p->_dash, serializer);
+          Quantum.BM_Dash.Serialize(&p->_Dash, serializer);
+        }
+        if (p->_field_used_ == HOT) {
+          Quantum.BM_Hot.Serialize(&p->_Hot, serializer);
+        }
+        if (p->_field_used_ == POISON) {
+          Quantum.BM_Poison.Serialize(&p->_Poison, serializer);
+        }
+        if (p->_field_used_ == TEST1) {
+          Quantum.BM_Test1.Serialize(&p->_Test1, serializer);
         }
     }
   }
@@ -1964,9 +2082,12 @@ namespace Quantum {
       typeRegistry.Register(typeof(AssetRef), AssetRef.SIZE);
       typeRegistry.Register(typeof(Quantum.AttribComp), Quantum.AttribComp.SIZE);
       typeRegistry.Register(typeof(Quantum.AttributeCost), Quantum.AttributeCost.SIZE);
-      typeRegistry.Register(typeof(Quantum.BM_AutoReloadAttack), Quantum.BM_AutoReloadAttack.SIZE);
+      typeRegistry.Register(typeof(Quantum.BM_AutoReload), Quantum.BM_AutoReload.SIZE);
       typeRegistry.Register(typeof(Quantum.BM_Dash), Quantum.BM_Dash.SIZE);
+      typeRegistry.Register(typeof(Quantum.BM_Hot), Quantum.BM_Hot.SIZE);
       typeRegistry.Register(typeof(Quantum.BM_Instance), Quantum.BM_Instance.SIZE);
+      typeRegistry.Register(typeof(Quantum.BM_Poison), Quantum.BM_Poison.SIZE);
+      typeRegistry.Register(typeof(Quantum.BM_Test1), Quantum.BM_Test1.SIZE);
       typeRegistry.Register(typeof(BTAgent), BTAgent.SIZE);
       typeRegistry.Register(typeof(Quantum.BitSet1024), Quantum.BitSet1024.SIZE);
       typeRegistry.Register(typeof(Quantum.BitSet128), Quantum.BitSet128.SIZE);

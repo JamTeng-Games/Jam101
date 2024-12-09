@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Quantum.Graph.Skill;
 
 namespace Quantum.Helper
 {
@@ -7,7 +8,15 @@ namespace Quantum.Helper
     {
         static Helper_Buff()
         {
-            _buffCmds = new Dictionary<int, BuffCmd>() { };
+            _buffCmds = new Dictionary<int, BuffCmd>() 
+            {
+                { (int)BuffType.AutoReload, new BuffCmd_AutoReload() },
+                { (int)BuffType.Dash, new BuffCmd_Dash() },
+                { (int)BuffType.Hot, new BuffCmd_Hot() },
+                { (int)BuffType.Poison, new BuffCmd_Poison() },
+                { (int)BuffType.Test1, new BuffCmd_Test1() },
+
+            };
         }
     }
 

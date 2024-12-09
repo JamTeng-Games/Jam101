@@ -15,7 +15,7 @@ namespace Quantum.Helper
 
         public static void OnAdd(Frame f, EntityRef entity, ref BuffObj buffObj, int modifyStack)
         {
-            if (_buffCmds.TryGetValue(buffObj.model.id, out var buffCmd))
+            if (_buffCmds.TryGetValue(buffObj.model.type, out var buffCmd))
             {
                 buffCmd.OnAdd(f, entity, ref buffObj, modifyStack);
             }
@@ -23,7 +23,7 @@ namespace Quantum.Helper
 
         public static void OnRemove(Frame f, EntityRef entity, ref BuffObj buffObj)
         {
-            if (_buffCmds.TryGetValue(buffObj.model.id, out var buffCmd))
+            if (_buffCmds.TryGetValue(buffObj.model.type, out var buffCmd))
             {
                 buffCmd.OnRemove(f, entity, ref buffObj);
             }
@@ -31,7 +31,7 @@ namespace Quantum.Helper
 
         public static void OnTick(Frame f, EntityRef entity, ref BuffObj buffObj)
         {
-            if (_buffCmds.TryGetValue(buffObj.model.id, out var buffCmd))
+            if (_buffCmds.TryGetValue(buffObj.model.type, out var buffCmd))
             {
                 buffCmd.OnTick(f, entity, ref buffObj);
             }
@@ -43,7 +43,7 @@ namespace Quantum.Helper
                                        SkillObj skillObj,
                                        ref TimelineObj timelineObj)
         {
-            if (_buffCmds.TryGetValue(buffObj.model.id, out var buffCmd))
+            if (_buffCmds.TryGetValue(buffObj.model.type, out var buffCmd))
             {
                 buffCmd.OnCastSkill(f, entity, ref buffObj, skillObj, ref timelineObj);
             }
@@ -55,7 +55,7 @@ namespace Quantum.Helper
                                  EntityRef targetEntity,
                                  ref DamageInfo damageInfo)
         {
-            if (_buffCmds.TryGetValue(buffObj.model.id, out var buffCmd))
+            if (_buffCmds.TryGetValue(buffObj.model.type, out var buffCmd))
             {
                 buffCmd.OnHit(f, entity, ref buffObj, targetEntity, ref damageInfo);
             }
@@ -67,7 +67,7 @@ namespace Quantum.Helper
                                    EntityRef attacker,
                                    ref DamageInfo damageInfo)
         {
-            if (_buffCmds.TryGetValue(buffObj.model.id, out var buffCmd))
+            if (_buffCmds.TryGetValue(buffObj.model.type, out var buffCmd))
             {
                 buffCmd.OnBeHit(f, entity, ref buffObj, attacker, ref damageInfo);
             }
@@ -79,7 +79,7 @@ namespace Quantum.Helper
                                   EntityRef target,
                                   ref DamageInfo damageInfo)
         {
-            if (_buffCmds.TryGetValue(buffObj.model.id, out var buffCmd))
+            if (_buffCmds.TryGetValue(buffObj.model.type, out var buffCmd))
             {
                 buffCmd.OnKill(f, entity, ref buffObj, target, ref damageInfo);
             }
@@ -91,7 +91,7 @@ namespace Quantum.Helper
                                       EntityRef attacker,
                                       ref DamageInfo damageInfo)
         {
-            if (_buffCmds.TryGetValue(buffObj.model.id, out var buffCmd))
+            if (_buffCmds.TryGetValue(buffObj.model.type, out var buffCmd))
             {
                 buffCmd.OnBeKilled(f, entity, ref buffObj, attacker, ref damageInfo);
             }
