@@ -11,7 +11,7 @@ namespace Quantum
         {
             if (firstTime)
             {
-                var runtimePlayer = f.GetPlayerData(playerRef);
+                RuntimePlayer runtimePlayer = f.GetPlayerData(playerRef);
                 var playerEntity = f.Create(runtimePlayer.PlayerAvatar);
                 f.AddOrGet<PlayerComp>(playerEntity, out var playerComp);
                 playerComp->PlayerRef = playerRef;

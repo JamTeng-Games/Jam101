@@ -241,6 +241,7 @@ namespace Jam.Core
             }
         }
 
+        /// 延迟触发事件，会推迟到下一帧或者这帧末尾
         public void SendObj(TEventType name, object arg)
         {
             if (IsAttached)
@@ -287,7 +288,7 @@ namespace Jam.Core
 
         private void Subscribe(TEventType name, IEventCallback @event)
         {
-            if (!GetSignalList(name, @event, out var transList, out var callbackLists))
+            if (!GetEventList(name, @event, out var transList, out var callbackLists))
             {
                 callbackLists = new List<IEventCallback>(16);
                 transList.Add(name, callbackLists);
@@ -302,7 +303,7 @@ namespace Jam.Core
 
         private void Unsubscribe(TEventType name, IEventCallback @event)
         {
-            if (!GetSignalList(name, @event, out var transList, out var callbackLists))
+            if (!GetEventList(name, @event, out var transList, out var callbackLists))
                 return;
 
             for (int i = callbackLists.Count - 1; i >= 0; i--)
@@ -320,10 +321,10 @@ namespace Jam.Core
             }
         }
 
-        private bool GetSignalList(TEventType name,
-                                   IEventCallback @event,
-                                   out Dictionary<TEventType, List<IEventCallback>> transList,
-                                   out List<IEventCallback> callbackLists)
+        private bool GetEventList(TEventType name,
+                                  IEventCallback @event,
+                                  out Dictionary<TEventType, List<IEventCallback>> transList,
+                                  out List<IEventCallback> callbackLists)
         {
             transList = default;
             if (@event.TypeId == 0)

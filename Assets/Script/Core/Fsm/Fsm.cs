@@ -174,13 +174,13 @@ namespace Jam.Core
             if (!_isRunning)
                 return;
 
+            _nextState = null;
             var oldState = _currentState;
             _currentState?.OnExit();
             _currentState = GetState(stateType);
             if (_currentState == null)
                 throw new Exception($"Can not find state {stateType.Name}");
             _currentState.OnEnter(oldState);
-            _nextState = null;
         }
 
         // Transition config class

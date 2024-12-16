@@ -44,7 +44,7 @@ namespace Jam.Runtime.GameFsm
 
         public override void OnEnter(Fsm.State fromState)
         {
-            OpenStartupPanel();
+            StartupPanel.OpenSelf();
 
             JLog.Info("Enter ResourcePipeline");
             _resFsm.Start<InitializePackage>();
@@ -62,18 +62,6 @@ namespace Jam.Runtime.GameFsm
                 G.Event.Send(GlobalEventId.ResPipelineDone);
                 // To preload
                 ChangeState<Preload>();
-            }
-        }
-
-        private void OpenStartupPanel()
-        {
-            var startUpAsset = Resources.Load<GameObject>("UI/StartupPanel");
-            if (startUpAsset != null)
-            {
-                var startUpPanel = GameObject.Instantiate(startUpAsset, G.Instance.UICanvas.transform);
-                startUpPanel.name = "StartupPanel";
-                StartupPanel panel = startUpPanel.GetComponent<StartupPanel>();
-                G.IOC.Register(panel);
             }
         }
     }

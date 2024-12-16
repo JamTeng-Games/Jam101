@@ -1,0 +1,17 @@
+event OnMove
+{
+    EntityRef entity;
+    FPVector2 moveVector;
+}
+
+event OnStopMove
+{
+    EntityRef entity;
+}
+
+event PlayAnim
+{
+    EntityRef entity;
+    int animKey;
+    bool force;
+}

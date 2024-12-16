@@ -20,6 +20,17 @@ namespace Quantum.Helper
                     if (!IsSkillLearned(skillList, skillId))
                     {
                         skillList.Add(skillObj);
+
+                        // Add buff
+                        var addBuffs = f.ResolveList(skillModel.addBuffs);
+                        if (addBuffs.Count > 0)
+                        {
+                            for (int i = 0; i < addBuffs.Count; i++)
+                            {
+                                Helper_Buff.AddBuff(f, entity, addBuffs[i]);
+                            }
+                        }
+
                         return true;
                     }
                 }
@@ -148,7 +159,7 @@ namespace Quantum.Helper
                     }
                 }
                 // TODO: Do resource cost
-                Helper_Timeline.AddTimelineObj(f, tlObj);
+                Helper_Timeline.AddTimelineObj(f, tlObj, skillObj.model.canInterrupt);
             }
 
             // 因为是struct，需要赋值回去

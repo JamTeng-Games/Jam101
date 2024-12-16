@@ -12,6 +12,8 @@ struct SkillModel
     int cd;
     // 是否是普通攻击
     bool isAttack;
+    // 是否可以被打断
+    bool canInterrupt;
     // 释放条件，会映射到一个函数
     int condition;
     int indicatorType;
@@ -52,42 +54,6 @@ struct TimelineNode
     DataContainer args;
 }
 
-// TL -> Timeline
-union TLNode
-{
-    TLNode_Log Log;
-    TLNode_AddBuffToCaster AddBuffToCaster;
-}
-
-enum ETLNodeType
-{
-    None,
-    Log,
-    AddBuffToCaster,
-}
-
-struct TLNode_Log
-{
-    QString<64> content;
-}
-
-struct TLNode_AddBuffToCaster
-{
-    AddBuffInfo addBuffInfo;
-}
-
-// Buff
-struct AddBuffInfo
-{
-    bool isPermanent;       // 是否永久
-    bool isDurationSetTo;   // 关于时间，是改变还是设置为, true代表设置为，false代表改变
-    int addStack;           // 添加的层数
-    int duration;           // 持续时间
-    entity_ref caster;      // 释放者
-    entity_ref target;      // 目标
-    BuffModel buffModel;    // buff 数据模板
-}
-
 struct BuffObj
 {
     bool isPermanent;   // 是否永久
@@ -96,7 +62,7 @@ struct BuffObj
     int elapsedFrame;   // 已经过去的帧数
     int tickTimes;      // 一共执行了多少次 OnTick
     entity_ref caster;  // 释放者，可以空
-    entity_ref target;  // 携带者目标
+    entity_ref owner;   // 携带者
     BuffModel model;    // buff 数据模板
 }
 
@@ -108,11 +74,8 @@ struct BuffModel
     int maxStack;   // 最大层数
     int interval;   // 间隔时间
     // 属性修改
-    dictionary<int, int> baseAttribs;    // 基础属性
+    dictionary<int, int> valueAttribs;   // 基础属性, 数值
     dictionary<int, FP> percentAttribs;  // 百分比属性
-    // 状态修改
-    bool canUseSkill;   // 可释放技能
-    bool canMove;       // 可移动
     list<int> tags;     // 标签
     BM_Instance instance;   // 具体的Buff数据
 }

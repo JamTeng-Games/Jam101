@@ -30,19 +30,24 @@ MonoBehaviour:
   - us
   - usw
   _availableScenes:
-  - Name: ArenaGameplay
-    ScenePath: Assets/Res_Nopack/Scenes/Arena.unity
+  - Name: TestArena
+    ScenePath: Assets/Res_Nopack/Scenes/TestArena.unity
     Preview: {fileID: 21300000, guid: 56b5563dca97ef04e9d85233b310eaa0, type: 3}
     RuntimeConfig:
-      Seed: 0
+      Seed: 1297716507
       Map:
         Id:
-          Value: 477700799046405574
+          Value: 335813105318994987
       SimulationConfig:
         Id:
-          Value: 442089458455835007
+          Value: 692146927557440293
       SystemsConfig:
         Id:
-          Value: 285306802963724605
+          Value: 504795861161054055
+      SkillGraphs:
+      - Id:
+          Value: 496026114857364531
+      - Id:
+          Value: 527353218117790001
   _machineId: {fileID: -755480892457977500, guid: fbd1d0c57fd428c44b08e505acb8d851, type: 3}
   _codeGenerator: {fileID: 11400000, guid: e38f1fac5a1a5c94da2b4ef21bd48419, type: 2}

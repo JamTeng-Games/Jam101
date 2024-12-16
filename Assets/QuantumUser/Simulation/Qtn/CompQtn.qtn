@@ -1,7 +1,21 @@
+// 玩家组件
 component PlayerComp
 {
     [HideInInspector]
     player_ref PlayerRef;
+}
+
+// 角色当前状态值
+component StatsComp
+{
+    [HideInInspector] int Hp;         // 血量
+    [HideInInspector] int Mp;         // 蓝量
+    [HideInInspector] int Defence;    // 护甲
+    [HideInInspector] int AttackClip; // 普通攻击弹夹数
+    [HideInInspector] int SuperPower; // 大招能量条
+    // 控制状态
+    [HideInInspector] int CanUseSkill;
+    [HideInInspector] int CanMove;
 }
 
 // 属性组件
@@ -10,15 +24,13 @@ component AttribComp
     // 所有属性都是由Buff给的
     // 基础属性 index 对应 AttributeType -> value
     [AllocateOnComponentAdded, FreeOnComponentRemoved, HideInInspector]
-    dictionary<int, int> BaseAttribs;
+    dictionary<int, int> ValueAttribs;
     // 百分比加成 index 对应 AttributeType -> value
     [AllocateOnComponentAdded, FreeOnComponentRemoved, HideInInspector]
     dictionary<int, FP> PercentAttribs;
-    // 控制状态
-    [HideInInspector] bool canUseSkill;
-    [HideInInspector] bool canMove;
 }
 
+// 位移组件
 component MoveComp
 {
     [HideInInspector] FPVector2 Vector;
@@ -44,4 +56,7 @@ component BuffComp
 {
     [AllocateOnComponentAdded, FreeOnComponentRemoved, HideInInspector]
     list<BuffObj> Buffs;
+    [AllocateOnComponentAdded, FreeOnComponentRemoved, HideInInspector]
+    list<AddBuffInfo> AddBuffs;
+
 }

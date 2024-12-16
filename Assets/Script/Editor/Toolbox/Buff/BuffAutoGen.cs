@@ -73,7 +73,7 @@ namespace Jam.Editor_
         private static void GenBuffNodeCode(List<BuffTemplateSO> buffs)
         {
             // Clear folder
-            BuffAutoGenUtils.ClearNodeFolder();
+            // BuffAutoGenUtils.ClearNodeFolder();
 
             foreach (var buff in buffs)
             {
@@ -106,8 +106,17 @@ namespace Jam.Editor_
 
         private static void GenBuffCmdCode(List<BuffTemplateSO> buffs)
         {
+            List<string> files = null;
+            if (Directory.Exists(Define.BuffCmdFolder))
+            {
+                files = Directory.GetFiles(Define.BuffCmdFolder).Select(Path.GetFileNameWithoutExtension).ToList();
+            }
+
             foreach (var buff in buffs)
             {
+                if (files != null && files.Contains($"BuffCmd_{buff.name}"))
+                    continue;
+
                 string fileContent = Define.BuffCmdTemplate.Replace(Define.__BUFF_NAME__, buff.name);
                 BuffAutoGenUtils.SaveBuffCmd(buff.name, fileContent);
             }

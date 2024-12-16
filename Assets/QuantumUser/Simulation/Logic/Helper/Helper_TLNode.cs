@@ -14,7 +14,12 @@ namespace Quantum.Helper
 
         static Helper_TLNode()
         {
-            _nodeCmd = new Dictionary<ETLNodeType, ITLNodeCmd>() { { ETLNodeType.Log, new TLNodeCmd_Log() }, };
+            _nodeCmd = new Dictionary<ETLNodeType, ITLNodeCmd>()
+            {
+                { ETLNodeType.Log, new TLNodeCmd_Log() },
+                { ETLNodeType.AddBuffToCaster, new TLNodeCmd_AddBuffToCaster() },
+                { ETLNodeType.PlayAnim, new TLNodeCmd_PlayAnim() },
+            };
         }
 
         public static void Execute(Frame f, TimelineObj tlObj, TimelineNode tlNode)

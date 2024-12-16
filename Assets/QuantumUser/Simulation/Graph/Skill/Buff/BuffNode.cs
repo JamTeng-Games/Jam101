@@ -31,23 +31,23 @@ namespace Quantum.Graph.Skill
         [GraphDisplay(DisplayType.BothViews)]
         public int maxStack = 1;
         [GraphDisplay(DisplayType.BothViews)]
-        public int interval = 8;
+        public int interval = -1;
 
-        // 状态修改
-        [GraphDisplay(DisplayType.BothViews)]
-        public bool canUseSkill = true;
-        [GraphDisplay(DisplayType.BothViews)]
-        public bool canMove = true;
+        // // 状态修改
+        // [GraphDisplay(DisplayType.BothViews)]
+        // public bool canUseSkill = true;
+        // [GraphDisplay(DisplayType.BothViews)]
+        // public bool canMove = true;
 
         // 属性加成
         [GraphDisplay(DisplayType.Inspector)]
-        public List<BaseAttribute> baseAttribs;
+        public List<BaseAttribute> valueAttribs;
         [GraphDisplay(DisplayType.Inspector)]
         public List<PercentAttribute> percentAttribs;
 
         // Tag
         [GraphDisplay(DisplayType.Inspector)]
-        public List<TagType> tags;
+        public List<BuffTag> tags;
 
         public virtual BuffModel ToBuffModel(Frame f)
         {
@@ -56,8 +56,8 @@ namespace Quantum.Graph.Skill
                 priority = priority,
                 maxStack = maxStack,
                 interval = interval,
-                canUseSkill = canUseSkill,
-                canMove = canMove,
+                // canUseSkill = canUseSkill,
+                // canMove = canMove,
             };
 
             // tags
@@ -68,13 +68,13 @@ namespace Quantum.Graph.Skill
             }
             model.tags = tags;
 
-            // base attribs
-            var baseAttr = f.AllocateDictionary<int, int>(8);
-            for (int i = 0; i < this.baseAttribs.Count; i++)
+            // value attribs
+            var valueAttr = f.AllocateDictionary<int, int>(8);
+            for (int i = 0; i < this.valueAttribs.Count; i++)
             {
-                baseAttr.Add((int)this.baseAttribs[i].type, this.baseAttribs[i].value);
+                valueAttr.Add((int)this.valueAttribs[i].type, this.valueAttribs[i].value);
             }
-            model.baseAttribs = baseAttr;
+            model.valueAttribs = valueAttr;
 
             // percent attribs
             var percentAttr = f.AllocateDictionary<int, FP>(8);

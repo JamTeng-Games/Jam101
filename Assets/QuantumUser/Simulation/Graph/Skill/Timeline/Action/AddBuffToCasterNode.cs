@@ -14,21 +14,24 @@ namespace Quantum.Graph.Skill
         [GraphDisplay(DisplayType.BothViews)]
         public bool isPermanent;
         [GraphDisplay(DisplayType.BothViews)]
-        public int addStack;
+        public int addStack = 1;
         [GraphDisplay(DisplayType.BothViews)]
-        public int duration;
+        public int duration = 1;
+        [GraphDisplay(DisplayType.BothViews)]
+        public bool isDurationSetTo;
 
         [GraphDisplay(DisplayType.Hide)]
         public EntityRef caster;
         [GraphDisplay(DisplayType.Hide)]
         public EntityRef target;
 
-        public AddBuffInfo ToAddBuffInfo(Frame f)
+        public AddBuffInfo ConvertToAddBuffInfo(Frame f)
         {
             AddBuffInfo info = new AddBuffInfo();
             info.isPermanent = isPermanent;
             info.addStack = addStack;
             info.duration = duration;
+            info.isDurationSetTo = isDurationSetTo;
             info.buffModel = buffNode.ToBuffModel(f);
             return info;
         }

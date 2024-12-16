@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Quantum.Collections;
 using Quantum.Graph.Skill;
 
 namespace Quantum.Helper
@@ -12,6 +13,35 @@ namespace Quantum.Helper
     {
         // Buff id -> BuffCmd
         private static Dictionary<int, BuffCmd> _buffCmds;
+
+        public static void AddBuff(Frame f, EntityRef target, in AddBuffInfo addBuffInfo)
+        {
+            if (f.Unsafe.TryGetPointer<BuffComp>(target, out var buffComp))
+            {
+                var addBuffs = f.ResolveList(buffComp->AddBuffs);
+                addBuffs.Add(addBuffInfo);
+            }
+        }
+
+        public static bool TryGetFirstBuff(in QList<BuffObj> buffs,
+                                           int buffType,
+                                           EntityRef caster,
+                                           out int firstBuffIndex)
+        {
+            firstBuffIndex = -1;
+            for (int i = 0; i < buffs.Count; i++)
+            {
+                var buff = buffs[i];
+                if (buff.model.type == buffType && (caster == EntityRef.None || buff.caster == caster))
+                {
+                    firstBuffIndex = i;
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        #region Buff Cmds
 
         public static void OnAdd(Frame f, EntityRef entity, ref BuffObj buffObj, int modifyStack)
         {
@@ -97,8 +127,16 @@ namespace Quantum.Helper
             }
         }
 
-        public static void AddBuff(Frame f, EntityRef target, AddBuffInfo addBuffInfo)
+        #endregion
+
+        public class BuffCompare : IComparer<BuffObj>
         {
+            public static BuffCompare Instance = new BuffCompare();
+
+            public int Compare(BuffObj a, BuffObj b)
+            {
+                return a.model.priority.CompareTo(b.model.priority);
+            }
         }
     }
 

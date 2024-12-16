@@ -24,7 +24,7 @@ singleton component STimelineModelContainerComp
 singleton component STimelineComp
 {
 //    [ExcludeFromPrototype]
-   [AllocateOnComponentAdded, FreeOnComponentRemoved, ExcludeFromPrototype]
+    [AllocateOnComponentAdded, FreeOnComponentRemoved, ExcludeFromPrototype]
     list<TimelineObj> Timelines;
 }
 

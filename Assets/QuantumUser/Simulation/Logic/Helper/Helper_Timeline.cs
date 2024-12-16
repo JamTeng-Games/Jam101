@@ -3,20 +3,27 @@
 
     public static unsafe class Helper_Timeline
     {
-        public static void AddTimeline(Frame f, TimelineModel model, EntityRef caster)
+        public static void AddTimeline(Frame f, TimelineModel model, EntityRef caster, bool force)
         {
             TimelineObj tlObj = CreateTimelineObj(model, caster);
-            AddTimelineObj(f, tlObj);
+            AddTimelineObj(f, tlObj, force);
         }
 
-        public static void AddTimelineObj(Frame f, TimelineObj tlObj)
+        public static void AddTimelineObj(Frame f, TimelineObj tlObj, bool force)
         {
             if (f.Unsafe.TryGetPointerSingleton<STimelineComp>(out var tlComp))
             {
-                if (tlObj.caster == EntityRef.None && CasterHasTimeline(f, tlObj.caster))
+                if (tlObj.caster == EntityRef.None)
                     return;
-
                 var tlObjs = f.ResolveList(tlComp->Timelines);
+                if (CasterHasTimeline(f, tlObj.caster, out int index))
+                {
+                    if (!force)
+                        return;
+                    var oldTlObj = tlObjs[index];
+                    oldTlObj.elapsedFrame = oldTlObj.model.totalFrame;
+                    tlObjs[index] = oldTlObj;
+                }
                 tlObjs.Add(tlObj);
             }
         }
@@ -32,15 +39,20 @@
             return false;
         }
 
-        public static bool CasterHasTimeline(Frame f, EntityRef caster)
+        public static bool CasterHasTimeline(Frame f, EntityRef caster, out int index)
         {
+            index = -1;
             if (f.TryGetSingleton<STimelineComp>(out var tlComp))
             {
                 var tlObjs = f.ResolveList(tlComp.Timelines);
-                foreach (var tlObj in tlObjs)
+                for (int i = 0; i < tlObjs.Count; i++)
                 {
+                    var tlObj = tlObjs[i];
                     if (tlObj.caster == caster)
+                    {
+                        index = i;
                         return true;
+                    }
                 }
             }
             return false;

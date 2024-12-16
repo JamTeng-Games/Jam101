@@ -150,6 +150,30 @@ namespace Jam.Runtime.UI_
             }
         }
 
+        public void CloseAll()
+        {
+            // Close all loading panels
+            foreach (var (id, _) in _loadingPanels)
+            {
+                Close(id);
+            }
+
+            // Close all exist panels
+            for (int i = _panels.Count - 1; i >= 0; i--)
+            {
+                var panel = _panels[i];
+                if (panel.IsVisible)
+                {
+                    panel.OnHide();
+                }
+                panel.OnClose();
+                panel.gameObject.SetActive(false);
+                _panels.RemoveAt(i);
+                _panelOpStack.Remove(panel);
+                _recycleQueue.Enqueue(panel);
+            }
+        }
+
         public void Back()
         {
             if (_panelOpStack.Count <= 1)

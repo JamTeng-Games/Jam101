@@ -41,6 +41,14 @@ namespace cfg
         /// 策略回合商店界面
         /// </summary>
         Store = 6,
+        /// <summary>
+        /// 匹配界面
+        /// </summary>
+        Matching = 7,
+        /// <summary>
+        /// 战斗主界面
+        /// </summary>
+        ArenaMain = 8,
     }
 
 } 

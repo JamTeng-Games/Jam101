@@ -40,15 +40,35 @@ namespace Quantum.Helper
             if (g_skillNode == null)
                 return false;
 
+            ////////////////////// Skill //////////////////////
+
             // 解析技能 skm -> SkillModel
             SkillModel skm = new SkillModel()
             {
                 id = (int)g_skillNode.id,
                 cd = g_skillNode.cd,
                 isAttack = g_skillNode.isAttack,
+                canInterrupt = g_skillNode.canInterrupt,
                 indicatorType = (int)g_skillNode.indicatorType,
-                timelineModelId = (int)g_skillNode.timeline.id
             };
+            if (g_skillNode.timeline != null)
+            {
+                skm.timelineModelId = (int)g_skillNode.timeline.id;
+            }
+            // 技能消耗的资源
+            var skillCosts = f.AllocateList<AttributeCost>(16);
+            foreach (AttributeWrap attrib in g_skillNode.costAttributes)
+            {
+                skillCosts.Add(new AttributeCost() { attrType = (int)attrib.type, cost = attrib.value });
+            }
+            skm.attrCosts = skillCosts;
+            // 技能的addbuff
+            var skillAddBuffs = f.AllocateList<AddBuffInfo>();
+            foreach (AddBuffToCasterNode addBuff in g_skillNode.buffs)
+            {
+                skillAddBuffs.Add(addBuff.ConvertToAddBuffInfo(f));
+            }
+            skm.addBuffs = skillAddBuffs;
 
             if (!skillDict.TryAdd(skm.id, skm))
             {
@@ -56,37 +76,59 @@ namespace Quantum.Helper
                 return false;
             }
 
+            ////////////////////// Timeline //////////////////////
+
             // 解析Timeline
             var g_timeline = g_skillNode.timeline;
-            // tlm -> TimelineModel
-            TimelineModel tlm = new TimelineModel() { id = (int)g_timeline.id, totalFrame = g_timeline.totalFrame, };
-            var tlmNodes = f.AllocateList<TimelineNode>(16);
-            // sort
-            g_timeline.nodes.Sort((a, b) => a.frame.CompareTo(b.frame));
-            for (int i = 0; i < g_timeline.nodes.Count; i++)
+            if (g_timeline != null)
             {
-                var g_node = g_timeline.nodes[i];
-                TimelineNode tlmNode = new TimelineNode();
-                tlmNode.frame = g_node.frame;
-                if (g_node is LogNode g_logNode)
+                // tlm -> TimelineModel
+                TimelineModel tlm =
+                    new TimelineModel() { id = (int)g_timeline.id, totalFrame = g_timeline.totalFrame, };
+                var tlmNodes = f.AllocateList<TimelineNode>(16);
+                // sort
+                g_timeline.nodes.Sort((a, b) =>
                 {
-                    tlmNode.nodeType = ETLNodeType.Log;
-                    tlmNode.node = new TLNode();
-                    tlmNode.node.Log->content = g_logNode.msg;
-                }
-                else if (g_node is AddBuffToCasterNode g_addBuffToCasterNode)
+                    if (a == null && b == null)
+                        return 0;
+                    if (a == null)
+                        return 1;
+                    if (b == null)
+                        return -1;
+                    return a.frame.CompareTo(b.frame);
+                });
+                for (int i = 0; i < g_timeline.nodes.Count; i++)
                 {
-                    tlmNode.nodeType = ETLNodeType.AddBuffToCaster;
+                    var g_node = g_timeline.nodes[i];
+                    if (g_node == null)
+                        continue;
+                    TimelineNode tlmNode = new TimelineNode();
+                    tlmNode.frame = g_node.frame;
                     tlmNode.node = new TLNode();
-                    tlmNode.node.AddBuffToCaster->addBuffInfo = g_addBuffToCasterNode.ToAddBuffInfo(f);
+                    if (g_node is LogNode g_logNode)
+                    {
+                        tlmNode.nodeType = ETLNodeType.Log;
+                        tlmNode.node.Log->content = g_logNode.msg;
+                    }
+                    else if (g_node is AddBuffToCasterNode g_addBuffToCasterNode)
+                    {
+                        tlmNode.nodeType = ETLNodeType.AddBuffToCaster;
+                        tlmNode.node.AddBuffToCaster->addBuffInfo = g_addBuffToCasterNode.ConvertToAddBuffInfo(f);
+                    }
+                    else if (g_node is PlayAnimationNode g_playAnimNode)
+                    {
+                        tlmNode.nodeType = ETLNodeType.PlayAnim;
+                        tlmNode.node.PlayAnim->animKey = (int)g_playAnimNode.animationKey;
+                        tlmNode.node.PlayAnim->force = g_playAnimNode.force;
+                    }
+                    tlmNodes.Add(tlmNode);
                 }
-                tlmNodes.Add(tlmNode);
-            }
-            tlm.nodes = tlmNodes;
-            if (!timelineDict.TryAdd(tlm.id, tlm))
-            {
-                Log.Error($"Timeline {tlm.id} already exists.");
-                return false;
+                tlm.nodes = tlmNodes;
+                if (!timelineDict.TryAdd(tlm.id, tlm))
+                {
+                    Log.Error($"Timeline {tlm.id} already exists.");
+                    return false;
+                }
             }
             return true;
         }

@@ -16,6 +16,7 @@
 
         LoginSuccess,
         EnterCombat,
+        ExitCombat,
 
         // Init res
         ResPipelineProgressUpdate,

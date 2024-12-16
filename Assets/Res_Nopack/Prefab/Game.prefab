@@ -64,6 +64,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 2384799993155041865}
+  - {fileID: 33387836453797471}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &73370598296567218
@@ -80,6 +81,91 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   PlayMode: 0
   UICanvas: {fileID: 5215108203384909275}
+  QuantumChannel: {fileID: 7796226951394270760}
+--- !u!1 &6253591440561076524
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 33387836453797471}
+  - component: {fileID: 7796226951394270760}
+  m_Layer: 0
+  m_Name: QuantumChannel
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &33387836453797471
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6253591440561076524}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 6072152072232386734}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &7796226951394270760
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6253591440561076524}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6726d06c45fd47daa7d93312d14a3705, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _connectArgs:
+    Username: 
+    PreferredRegion: 
+    AppVersion: 
+    MaxPlayerCount: 10
+    ScenePath: Assets/Res_Nopack/Scenes/TestArena.unity
+    PhotonPluginName: QuantumPlugin
+    RuntimeConfig:
+      Seed: 0
+      Map:
+        Id:
+          Value: 335813105318994987
+      SimulationConfig:
+        Id:
+          Value: 429472548183905649
+      SystemsConfig:
+        Id:
+          Value: 504795861161054055
+      SkillGraphs:
+      - Id:
+          Value: 496026114857364531
+      - Id:
+          Value: 527353218117790001
+    RuntimePlayers:
+    - PlayerAvatar:
+        Id:
+          Value: 1526882926222888806
+      PlayerNickname: 
+    SessionConfig: {fileID: 11400000, guid: 15db8dbd211ce53428aff96a6158c43c, type: 2}
+    ServerSettings: {fileID: 11400000, guid: 47b5304659f049a4f8271c9dbf4b166b, type: 2}
+    ShutdownFlags: 3
+    GameMode: 0
+    RecordingFlags: 0
+    InstantReplaySettings:
+      SnapshotsPerSecond: 1
+      LengthSeconds:
+        RawValue: 196608
+    DeltaTimeType: 1
+    StartGameTimeoutInSeconds: 10
+  IsReconnectionCheckEnabled: 0
 --- !u!1 &7853619024803806881
 GameObject:
   m_ObjectHideFlags: 0

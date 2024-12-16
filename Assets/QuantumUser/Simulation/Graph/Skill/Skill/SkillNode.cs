@@ -19,18 +19,21 @@ namespace Quantum.Graph.Skill
         [GraphDisplay(DisplayType.BothViews)]
         public bool isAttack;
 
+        [GraphDisplay(DisplayType.BothViews)]
+        public bool canInterrupt;
+
         [Port(name: "时间轴"), SerializeReference]
         public Timeline timeline;
 
         [PortList, SerializeReference]
-        public List<BuffNode> buffs;
+        public List<AddBuffToCasterNode> buffs;
 
         // 消耗属性
-        [GraphDisplay(DisplayType.BothViews)]
+        [GraphDisplay(DisplayType.Inspector)]
         public List<AttributeWrap> costAttributes;
 
         // 状态条件 (在什么状态下可以释放)
-        [GraphDisplay(DisplayType.BothViews)]
+        [GraphDisplay(DisplayType.Inspector)]
         public List<StateType> stateConditions;
 
         // 技能指示器类型
@@ -41,8 +44,8 @@ namespace Quantum.Graph.Skill
     [Serializable]
     public struct AttributeWrap
     {
-        public AttributeType name;
-        public float value;
+        public AttributeType type;
+        public int value;
     }
 
 }

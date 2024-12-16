@@ -6,6 +6,7 @@ using Jam.Runtime.Fsm_;
 using Jam.Runtime.Input_;
 using Jam.Runtime.IOC;
 using Jam.Runtime.ObjectPool;
+using Jam.Runtime.Quantum_;
 using Jam.Runtime.UI_;
 using UnityEngine;
 
@@ -21,6 +22,7 @@ namespace Jam.Runtime
         // SerializeField
         public Asset.PlayMode PlayMode;
         public Canvas UICanvas;
+        public QuantumChannel QuantumChannel;
 
         // 字母序排列
         private IAssetMgr _assetMgr;

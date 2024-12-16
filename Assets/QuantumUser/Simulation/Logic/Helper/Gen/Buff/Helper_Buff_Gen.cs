@@ -12,8 +12,12 @@ namespace Quantum.Helper
             {
                 { (int)BuffType.AutoReload, new BuffCmd_AutoReload() },
                 { (int)BuffType.Dash, new BuffCmd_Dash() },
+                { (int)BuffType.DisableMove, new BuffCmd_DisableMove() },
+                { (int)BuffType.DisableMove_NoEffect, new BuffCmd_DisableMove_NoEffect() },
+                { (int)BuffType.DisableSkill, new BuffCmd_DisableSkill() },
                 { (int)BuffType.Hot, new BuffCmd_Hot() },
                 { (int)BuffType.Poison, new BuffCmd_Poison() },
+                { (int)BuffType.PureAttrib, new BuffCmd_PureAttrib() },
                 { (int)BuffType.Test1, new BuffCmd_Test1() },
 
             };

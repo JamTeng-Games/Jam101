@@ -2,8 +2,12 @@
 {
     BM_AutoReload AutoReload;
     BM_Dash Dash;
+    BM_DisableMove DisableMove;
+    BM_DisableMove_NoEffect DisableMove_NoEffect;
+    BM_DisableSkill DisableSkill;
     BM_Hot Hot;
     BM_Poison Poison;
+    BM_PureAttrib PureAttrib;
     BM_Test1 Test1;
 }
 
@@ -17,6 +21,18 @@ struct BM_Dash
     FP distance;  // 
 }
 
+struct BM_DisableMove
+{
+}
+
+struct BM_DisableMove_NoEffect
+{
+}
+
+struct BM_DisableSkill
+{
+}
+
 struct BM_Hot
 {
     short tick;  // 多少tick热一次
@@ -25,6 +41,10 @@ struct BM_Hot
 }
 
 struct BM_Poison
+{
+}
+
+struct BM_PureAttrib
 {
 }
 

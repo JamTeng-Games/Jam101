@@ -519,10 +519,11 @@ namespace Quantum {
     }
 
     internal void RegisterSnapshot(Frame frame) {
-      if (frame.IsVerified == false) return;
-      QuantumSnapshotInterpolationTimer.QuantumTransformData data =
-        new QuantumSnapshotInterpolationTimer.QuantumTransformData();
-      if (frame.TryGet<Transform2D>(EntityRef, out data.Transform2D) || frame.TryGet<Transform3D>(EntityRef, out data.Transform3D)) {
+      if (frame.IsVerified == false)
+        return;
+      QuantumSnapshotInterpolationTimer.QuantumTransformData data = new QuantumSnapshotInterpolationTimer.QuantumTransformData();
+      if (frame.TryGet<Transform2D>(EntityRef, out data.Transform2D) || frame.TryGet<Transform3D>(EntityRef, out data.Transform3D))
+      {
         data.Has2DVertical = frame.TryGet<Transform2DVertical>(EntityRef, out data.Transform2DVertical);
         data.IsValid = true;
         _interpolationBuffer.Add(data, frame.Number);

@@ -88,9 +88,26 @@ namespace Jam.Runtime.UI_
             }
         }
 
-        private void CloseSelf()
+        public static void OpenSelf()
         {
-            Destroy(gameObject);
+            var startUpAsset = Resources.Load<GameObject>("UI/StartupPanel");
+            if (startUpAsset != null)
+            {
+                var startUpPanel = GameObject.Instantiate(startUpAsset, G.Instance.UICanvas.transform);
+                startUpPanel.name = "StartupPanel";
+                StartupPanel panel = startUpPanel.GetComponent<StartupPanel>();
+                G.IOC.Register(panel);
+            }
+        }
+
+        public static void CloseSelf()
+        {
+            StartupPanel panel = G.IOC.Resolve<StartupPanel>();
+            if (panel != null)
+            {
+                G.IOC.Unregister<StartupPanel>();
+                Destroy(panel.gameObject);
+            }
         }
     }
 

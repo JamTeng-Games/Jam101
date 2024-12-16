@@ -33,11 +33,11 @@ namespace Jam.Editor_
 
         public static void ClearNodeFolder()
         {
-            // if (Directory.Exists(BuffAutoGenDefine.BuffNodeFolder))
-            // {
-            //     Directory.Delete(BuffAutoGenDefine.BuffNodeFolder, true);
-            // }
-            // Directory.CreateDirectory(BuffAutoGenDefine.BuffNodeFolder);
+            if (Directory.Exists(BuffAutoGenDefine.BuffNodeFolder))
+            {
+                Directory.Delete(BuffAutoGenDefine.BuffNodeFolder, true);
+            }
+            Directory.CreateDirectory(BuffAutoGenDefine.BuffNodeFolder);
         }
 
         public static string GetArgTypeStr(BuffArgType argType)

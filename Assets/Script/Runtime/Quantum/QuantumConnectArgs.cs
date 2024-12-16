@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using Photon.Deterministic;
 using Photon.Realtime;
 using Quantum;
 using UnityEngine;
@@ -19,7 +20,7 @@ namespace Jam.Runtime.Quantum_
         [HideInInspector] public string PreferredRegion;
         [NonSerialized] public string Region;
         [HideInInspector] public string AppVersion;
-        [HideInInspector] public int MaxPlayerCount;
+        public int MaxPlayerCount;
         [NonSerialized] public bool Creating;         // Toggle to create or join-only game sessions/rooms.
         [NonSerialized] public RealtimeClient Client; // For reconnection
         [ScenePath] public string ScenePath;
@@ -35,7 +36,8 @@ namespace Jam.Runtime.Quantum_
         /// The reconnection information used to try to reconnect quickly to the same room.
         [NonSerialized]
         public MatchmakingReconnectInformation ReconnectInformation = new QuantumReconnectInformation();
-        [NonSerialized] public RuntimeConfig RuntimeConfig;
+
+        public RuntimeConfig RuntimeConfig;
         /// The RuntimePlayer which are automatically added to the simulation after is started.
         /// When empty a default player is created when connecting.
         public RuntimePlayer[] RuntimePlayers = new RuntimePlayer[] { new RuntimePlayer() };
@@ -43,6 +45,7 @@ namespace Jam.Runtime.Quantum_
         public PhotonServerSettings ServerSettings;
         /// Fine-tune what internals gets disposed when the connection is terminated.
         public QuantumConnectionShutdownFlag ShutdownFlags = QuantumConnectionShutdownFlag.All;
+        public DeterministicGameMode GameMode = DeterministicGameMode.Multiplayer;
         public RecordingFlags RecordingFlags = RecordingFlags.None; // Start Quantum game in recording mode.
         public InstantReplaySettings InstantReplaySettings = InstantReplaySettings.Default;
         public SimulationUpdateTime DeltaTimeType = SimulationUpdateTime.EngineDeltaTime;

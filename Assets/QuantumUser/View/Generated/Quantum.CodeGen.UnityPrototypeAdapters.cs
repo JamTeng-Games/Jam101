@@ -79,10 +79,16 @@ namespace Quantum.Prototypes.Unity {
     [HideInInspector()]
     [DynamicCollectionAttribute()]
     public Quantum.Prototypes.Unity.BuffObjPrototype[] Buffs = {};
+    [AllocateOnComponentAdded()]
+    [FreeOnComponentRemoved()]
+    [HideInInspector()]
+    [DynamicCollectionAttribute()]
+    public Quantum.Prototypes.Unity.AddBuffInfoPrototype[] AddBuffs = {};
     partial void ConvertUser(Quantum.QuantumEntityPrototypeConverter converter, ref Quantum.Prototypes.BuffCompPrototype prototype);
     public override Quantum.Prototypes.BuffCompPrototype Convert(Quantum.QuantumEntityPrototypeConverter converter) {
       var result = new Quantum.Prototypes.BuffCompPrototype();
       converter.Convert(this.Buffs, out result.Buffs);
+      converter.Convert(this.AddBuffs, out result.AddBuffs);
       ConvertUser(converter, ref result);
       return result;
     }
@@ -95,7 +101,7 @@ namespace Quantum.Prototypes.Unity {
     public Int32 elapsedFrame;
     public Int32 tickTimes;
     public Quantum.QuantumEntityPrototype caster;
-    public Quantum.QuantumEntityPrototype target;
+    public Quantum.QuantumEntityPrototype owner;
     public Quantum.Prototypes.BuffModelPrototype model;
     partial void ConvertUser(Quantum.QuantumEntityPrototypeConverter converter, ref Quantum.Prototypes.BuffObjPrototype prototype);
     public override Quantum.Prototypes.BuffObjPrototype Convert(Quantum.QuantumEntityPrototypeConverter converter) {
@@ -106,7 +112,7 @@ namespace Quantum.Prototypes.Unity {
       converter.Convert(this.elapsedFrame, out result.elapsedFrame);
       converter.Convert(this.tickTimes, out result.tickTimes);
       converter.Convert(this.caster, out result.caster);
-      converter.Convert(this.target, out result.target);
+      converter.Convert(this.owner, out result.owner);
       converter.Convert(this.model, out result.model);
       ConvertUser(converter, ref result);
       return result;
@@ -165,6 +171,7 @@ namespace Quantum.Prototypes.Unity {
     public Int32 id;
     public Int32 cd;
     public QBoolean isAttack;
+    public QBoolean canInterrupt;
     public Int32 condition;
     public Int32 indicatorType;
     public Int32 timelineModelId;
@@ -178,6 +185,7 @@ namespace Quantum.Prototypes.Unity {
       converter.Convert(this.id, out result.id);
       converter.Convert(this.cd, out result.cd);
       converter.Convert(this.isAttack, out result.isAttack);
+      converter.Convert(this.canInterrupt, out result.canInterrupt);
       converter.Convert(this.condition, out result.condition);
       converter.Convert(this.indicatorType, out result.indicatorType);
       converter.Convert(this.timelineModelId, out result.timelineModelId);
@@ -207,12 +215,14 @@ namespace Quantum.Prototypes.Unity {
     public string _field_used_;
     public Quantum.Prototypes.TLNode_LogPrototype Log;
     public Quantum.Prototypes.Unity.TLNode_AddBuffToCasterPrototype AddBuffToCaster;
+    public Quantum.Prototypes.TLNode_PlayAnimPrototype PlayAnim;
     partial void ConvertUser(Quantum.QuantumEntityPrototypeConverter converter, ref Quantum.Prototypes.TLNodePrototype prototype);
     public override Quantum.Prototypes.TLNodePrototype Convert(Quantum.QuantumEntityPrototypeConverter converter) {
       var result = new Quantum.Prototypes.TLNodePrototype();
       converter.Convert(this._field_used_, out result._field_used_);
       converter.Convert(this.Log, out result.Log);
       converter.Convert(this.AddBuffToCaster, out result.AddBuffToCaster);
+      converter.Convert(this.PlayAnim, out result.PlayAnim);
       ConvertUser(converter, ref result);
       return result;
     }

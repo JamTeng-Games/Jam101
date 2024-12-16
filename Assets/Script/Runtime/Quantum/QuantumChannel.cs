@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Jam.Core;
+using Jam.Runtime.Event;
 using Jam.Runtime.Scene_;
 using Photon.Deterministic;
 using Photon.Realtime;
@@ -50,8 +51,10 @@ namespace Jam.Runtime.Quantum_
         //     await Controller.HandleConnectionResult(result, this.Controller);
         // }
 
-        public async Task<QuantumConnectResult> ConnectAsync(QuantumConnectArgs connectArgs)
+        public async Task<QuantumConnectResult> ConnectAsync(QuantumConnectArgs connectArgs = null)
         {
+            if (connectArgs == null)
+                connectArgs = _connectArgs;
             PatchConnectArgs(connectArgs);
             if (_cancellation != null)
                 throw new Exception("Connection instance still in use");
@@ -76,12 +79,11 @@ namespace Jam.Runtime.Quantum_
                 PlayerTtlInSeconds = connectArgs.ServerSettings.PlayerTtlInSeconds,
                 MaxPlayers = connectArgs.MaxPlayerCount,
                 RoomName = connectArgs.Session,
-                CanOnlyJoin = string.IsNullOrEmpty(connectArgs.Session) == false && !connectArgs.Creating,
+                CanOnlyJoin = !string.IsNullOrEmpty(connectArgs.Session) && !connectArgs.Creating,
                 PluginName = connectArgs.PhotonPluginName,
                 AsyncConfig = new AsyncConfig()
                 {
-                    TaskFactory = AsyncConfig.CreateUnityTaskFactory(),
-                    CancellationToken = _linkedCancellation.Token
+                    TaskFactory = AsyncConfig.CreateUnityTaskFactory(), CancellationToken = _linkedCancellation.Token
                 },
                 NetworkClient = connectArgs.Client,
                 AuthValues = connectArgs.AuthValues,
@@ -90,7 +92,7 @@ namespace Jam.Runtime.Quantum_
             // Connect to Photon
             try
             {
-                if (connectArgs.Reconnecting == false)
+                if (!connectArgs.Reconnecting)
                 {
                     JLog.Info("Connecting..");
                     _client = await MatchmakingExtensions.ConnectToRoomAsync(arguments);
@@ -124,7 +126,7 @@ namespace Jam.Runtime.Quantum_
             //  Make sure to notice socket disconnects during the rest of the connection/start process
             _disconnectSubscription = Client.CallbackMessage.ListenManual<OnDisconnectedMsg>(m =>
             {
-                if (_cancellation != null && _cancellation.IsCancellationRequested == false)
+                if (_cancellation != null && !_cancellation.IsCancellationRequested)
                 {
                     _disconnectCause = m.cause;
                     _cancellation.Cancel();
@@ -143,8 +145,7 @@ namespace Jam.Runtime.Quantum_
                 {
                     // Only preload the scene if SimulationConfig.AutoLoadSceneFromMap is not enabled.
                     // Caveat: preloading the scene here only works if the runtime config is not expected to change (e.g. by other clients/random matchmaking or webhooks)
-                    preloadMap = simulationConfigAsset.AutoLoadSceneFromMap ==
-                                 SimulationConfig.AutoLoadSceneFromMapMode.Disabled;
+                    preloadMap = simulationConfigAsset.AutoLoadSceneFromMap == SimulationConfig.AutoLoadSceneFromMapMode.Disabled;
                 }
             }
 
@@ -193,8 +194,6 @@ namespace Jam.Runtime.Quantum_
                             WaitForCleanup = CleanupAsync()
                         };
                     }
-
-                    SceneMgr.SetActiveScene(SceneMgr.GetSceneByName(map.Scene));
                 }
             }
 
@@ -207,15 +206,14 @@ namespace Jam.Runtime.Quantum_
                 GameParameters = QuantumRunnerUnityFactory.CreateGameParameters,
                 ClientId =
                     // Use client id from connection args first
-                    string.IsNullOrEmpty(connectArgs.QuantumClientId) == false ? connectArgs.QuantumClientId :
+                    !string.IsNullOrEmpty(connectArgs.QuantumClientId) ? connectArgs.QuantumClientId :
                     // Then chose the user id that was returned by the authentication
-                    string.IsNullOrEmpty(Client.UserId) == false ? Client.UserId :
-                                                                   // Or create a random id
-                                                                   Guid.NewGuid().ToString(),
+                    !string.IsNullOrEmpty(Client.UserId) ? Client.UserId :
+                                                           // Or create a random id
+                                                           Guid.NewGuid().ToString(),
                 RuntimeConfig = connectArgs.RuntimeConfig,
-                SessionConfig =
-                    connectArgs.SessionConfig?.Config ?? QuantumDeterministicSessionConfigAsset.DefaultConfig,
-                GameMode = DeterministicGameMode.Multiplayer,
+                SessionConfig = connectArgs.SessionConfig?.Config ?? QuantumDeterministicSessionConfigAsset.DefaultConfig,
+                GameMode = connectArgs.GameMode,
                 PlayerCount = connectArgs.MaxPlayerCount,
                 Communicator = new QuantumNetworkCommunicator(Client),
                 CancellationToken = _linkedCancellation.Token,
@@ -262,10 +260,7 @@ namespace Jam.Runtime.Quantum_
             _disconnectSubscription.Dispose();
             _disconnectSubscription = null;
 
-            for (int i = 0; i < connectArgs.RuntimePlayers.Length; i++)
-            {
-                Runner.Game.AddPlayer(i, connectArgs.RuntimePlayers[i]);
-            }
+            Runner.Game.AddPlayer(connectArgs.RuntimePlayers[0]);
 
             return new QuantumConnectResult { Success = true };
         }
@@ -312,7 +307,7 @@ namespace Jam.Runtime.Quantum_
         private async Task ProcessDisconnect(string disconnectReason)
         {
             var reconnectInformation = QuantumReconnectInformation.Load();
-            if (IsReconnectionCheckEnabled && reconnectInformation != null && reconnectInformation.HasTimedOut == false)
+            if (IsReconnectionCheckEnabled && reconnectInformation != null && !reconnectInformation.HasTimedOut)
             {
                 // If none set in the connection args, save the client object to use for reconnection
                 var client = _connectArgs.Client == null ? Client : null;
@@ -366,6 +361,7 @@ namespace Jam.Runtime.Quantum_
             {
                 try
                 {
+                    Runner.Game.RemovePlayer();
                     if (AsyncConfig.Global.IsCancellationRequested)
                     {
                         Runner.Shutdown();
@@ -402,13 +398,14 @@ namespace Jam.Runtime.Quantum_
             }
             _client = null;
 
-            if (string.IsNullOrEmpty(_loadedScene) == false &&
+            if (!string.IsNullOrEmpty(_loadedScene) &&
                 (_shutdownFlags & QuantumConnectionShutdownFlag.ShutdownRunner) >= 0 &&
-                AsyncConfig.Global.IsCancellationRequested == false)
+                !AsyncConfig.Global.IsCancellationRequested)
             {
                 try
                 {
-                    await SceneMgr.UnloadSceneAsync(_loadedScene);
+                    // await SceneMgr.UnloadSceneAsync(_loadedScene);
+                    G.Event.Send(GlobalEventId.ExitCombat);
                 }
                 catch (Exception e)
                 {
@@ -479,7 +476,7 @@ namespace Jam.Runtime.Quantum_
             {
                 case DisconnectCause.None: return QuantumConnectFailReason.RunnerFailed;
                 case DisconnectCause.DisconnectByClientLogic:
-                    if (string.IsNullOrEmpty(pluginDisconnectReason) == false)
+                    if (!string.IsNullOrEmpty(pluginDisconnectReason))
                     {
                         return QuantumConnectFailReason.PluginError;
                     }

@@ -2,6 +2,7 @@ using cfg;
 using Jam.Core;
 using Jam.Arena;
 using Jam.Runtime.Event;
+using Jam.Runtime.UI_;
 
 namespace Jam.Runtime.GameFsm
 {
@@ -23,13 +24,15 @@ namespace Jam.Runtime.GameFsm
 
             // Game.UI.Open(UIPanelId.Login);
             // Game.Event.Subscribe(GlobalEventId.LoginSuccess, OnLoginSuccess);
-            
-            G.UI.Open(UIPanelId.Home);
+
+            ChangeState<Home>();
         }
 
         public override void OnExit()
         {
-            G.Event.Unsubscribe(GlobalEventId.LoginSuccess, OnLoginSuccess);
+            JLog.Info("Login.OnExit");
+            StartupPanel.CloseSelf();
+            // G.Event.Unsubscribe(GlobalEventId.LoginSuccess, OnLoginSuccess);
         }
 
         public override void OnTick(float dt)

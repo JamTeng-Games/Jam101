@@ -17,7 +17,7 @@ namespace Quantum
                 Log.Debug($"PlayerRef: {(int)p.PlayerRef}");
                 var playerInput = *f.GetPlayerInput(p.PlayerRef);
                 filter.InputComp->Input = playerInput;
-                Helper_Trans.ReqMove(f, filter.Entity, playerInput.MoveDirection);
+                Helper_Move.ReqMove(f, filter.Entity, playerInput.MoveDirection);
             }
             // AI
             else

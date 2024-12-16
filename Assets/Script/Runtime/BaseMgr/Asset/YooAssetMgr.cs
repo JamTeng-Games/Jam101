@@ -40,6 +40,7 @@ namespace Jam.Runtime.Asset
 
         public void Shutdown(bool isAppQuit)
         {
+            G.Event.Unsubscribe(GlobalEventId.ResPipelineDone, OnResPipelineDone);
         }
 
         // UniTask load async

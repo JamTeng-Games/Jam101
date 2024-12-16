@@ -1,0 +1,43 @@
+// TL -> Timeline
+union TLNode
+{
+    TLNode_Log Log;
+    TLNode_AddBuffToCaster AddBuffToCaster;
+    TLNode_PlayAnim PlayAnim;
+}
+
+enum ETLNodeType
+{
+    None,
+    Log,
+    AddBuffToCaster,
+    PlayAnim,
+}
+
+struct TLNode_Log
+{
+    QString<64> content;
+}
+
+struct TLNode_AddBuffToCaster
+{
+    AddBuffInfo addBuffInfo;
+}
+
+struct TLNode_PlayAnim
+{
+    int animKey;
+    bool force;
+}
+
+// Buff
+struct AddBuffInfo
+{
+    bool isPermanent;       // 是否永久
+    bool isDurationSetTo;   // 关于时间，是改变还是设置为, true代表设置为，false代表改变
+    int addStack;           // 添加的层数
+    int duration;           // 持续时间
+    entity_ref caster;      // 释放者
+    entity_ref target;      // 目标
+    BuffModel buffModel;    // buff 数据模板
+}

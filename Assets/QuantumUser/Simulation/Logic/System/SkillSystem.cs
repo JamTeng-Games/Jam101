@@ -28,6 +28,7 @@ namespace Quantum
                 skills[i] = skillObj;
             }
 
+            // 普通攻击
             if (filter.InputComp->Input.Attack.WasPressed)
             {
                 Helper_Skill.CastAttackSkill(f, filter.Entity);
@@ -37,10 +38,18 @@ namespace Quantum
         public void OnPlayerSpawned(Frame f, EntityRef entityRef)
         {
             Log.Debug($"SkillSystem OnPlayerSpawned");
-            if (!Helper_Skill.LearnSkill(f, entityRef, SkillId.Fireball))
+            if (!Helper_Skill.LearnSkill(f, entityRef, SkillId.Knight))
             {
-                Log.Error($"Learn skill failed {SkillId.Fireball}");
+                Log.Error($"Learn skill failed {SkillId.Knight}");
             }
+            if (!Helper_Skill.LearnSkill(f, entityRef, SkillId.KnightAttack))
+            {
+                Log.Error($"Learn skill failed {SkillId.Knight}");
+            }
+            // if (!Helper_Skill.LearnSkill(f, entityRef, SkillId.Fireball))
+            // {
+            //     Log.Error($"Learn skill failed {SkillId.Fireball}");
+            // }
         }
     }
 

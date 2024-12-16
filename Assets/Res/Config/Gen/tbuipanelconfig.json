@@ -40,5 +40,19 @@
     "level": 0,
     "show_mode": 1,
     "asset_name": "StorePanel"
+  },
+  {
+    "id": 7,
+    "name": "匹配界面",
+    "level": 2,
+    "show_mode": 1,
+    "asset_name": "MatchingPanel"
+  },
+  {
+    "id": 8,
+    "name": "战斗主界面",
+    "level": 2,
+    "show_mode": 1,
+    "asset_name": "ArenaMainPanel"
   }
 ]
