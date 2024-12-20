@@ -5,6 +5,7 @@ using Jam.Runtime.Event;
 using Jam.Runtime.Fsm_;
 using Jam.Runtime.Input_;
 using Jam.Runtime.IOC;
+using Jam.Runtime.Net_;
 using Jam.Runtime.ObjectPool;
 using Jam.Runtime.Quantum_;
 using Jam.Runtime.UI_;
@@ -32,6 +33,7 @@ namespace Jam.Runtime
         private InputMgr _inputMgr;
         private IOCMgr _iocMgr;
         private IObjectPoolMgr _objectPoolMgr;
+        private NetMgr _netMgr;
         private UIMgr _uiMgr; // need asset
 
         // 字母序排列
@@ -42,6 +44,7 @@ namespace Jam.Runtime
         public static InputMgr Input => _instance._inputMgr;
         public static IOCMgr IOC => _instance._iocMgr;
         public static IObjectPoolMgr ObjectPool => _instance._objectPoolMgr;
+        public static NetMgr Net => _instance._netMgr;
         public static UIMgr UI => _instance._uiMgr;
 
         private void Awake()
@@ -61,6 +64,7 @@ namespace Jam.Runtime
             _inputMgr = new InputMgr();
             _iocMgr = new IOCMgr();
             _objectPoolMgr = new ObjectPoolMgr();
+            _netMgr = new NetMgr();
             _uiMgr = new UIMgr();
         }
 
@@ -71,6 +75,7 @@ namespace Jam.Runtime
             _inputMgr.Init();
             _assetMgr.Init();
             _uiMgr.Init();
+            _netMgr.Init();
 
             StartFsm();
         }
@@ -78,6 +83,7 @@ namespace Jam.Runtime
         private void OnApplicationQuit()
         {
             _uiMgr.Shutdown(true);
+            _netMgr.Shutdown(true);
             _objectPoolMgr.Shutdown(true);
             _inputMgr.Shutdown(true);
             _cfgMgr.Shutdown(true);
@@ -89,6 +95,7 @@ namespace Jam.Runtime
         {
             float dt = Time.deltaTime;
 
+            _netMgr.Tick(dt);
             _fsmMgr.Tick(dt);
             _uiMgr.Tick(dt);
             _objectPoolMgr.Tick(dt);
