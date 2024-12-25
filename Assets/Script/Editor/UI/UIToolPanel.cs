@@ -94,7 +94,7 @@ namespace Jam.Editor_.UITool
                 else
                 {
                     // 添加脚本A
-                    Type panelType = Util.Assembly.GetType($"Jam.{panelFileName}");
+                    Type panelType = Utils.Assembly.GetType($"Jam.{panelFileName}");
                     if (panelType != null)
                     {
                         prefab.AddComponent(panelType);

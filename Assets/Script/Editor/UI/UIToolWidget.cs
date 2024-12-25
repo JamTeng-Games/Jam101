@@ -77,7 +77,7 @@ namespace Jam.Editor_.UITool
                 else
                 {
                     // 添加脚本A
-                    Type widgetType = Util.Assembly.GetType($"Jam.{widgetFileName}");
+                    Type widgetType = Utils.Assembly.GetType($"Jam.{widgetFileName}");
                     if (widgetType != null)
                     {
                         prefab.AddComponent(widgetType);

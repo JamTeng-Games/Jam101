@@ -62,7 +62,7 @@ namespace Jam.Runtime.ObjectPool
         {
             if (target == null)
             {
-                throw new Exception(Util.Text.Format("Target '{0}' is invalid.", name));
+                throw new Exception(Utils.Text.Format("Target '{0}' is invalid.", name));
             }
 
             _name = name ?? string.Empty;

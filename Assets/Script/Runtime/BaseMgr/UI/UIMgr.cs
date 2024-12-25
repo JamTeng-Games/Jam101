@@ -489,7 +489,7 @@ namespace Jam.Runtime.UI_
                 }
                 _loadingPanels.Remove(openInfo.PanelId);
                 openInfo.Dispose();
-                string appendErrorMessage = Util.Text.Format("Load UI panel failure, asset name '{0}'", wrap.AssetPath);
+                string appendErrorMessage = Utils.Text.Format("Load UI panel failure, asset name '{0}'", wrap.AssetPath);
                 throw new Exception(appendErrorMessage);
             }
         }
@@ -503,7 +503,7 @@ namespace Jam.Runtime.UI_
 
         private void LoadTypeIdMap()
         {
-            foreach (var type in Util.Assembly.GetTypes())
+            foreach (var type in Utils.Assembly.GetTypes())
             {
                 if (type.IsDefined(typeof(UIPanelAttribute), false))
                 {

@@ -51,22 +51,22 @@ namespace Jam.Runtime.Net_
             return _channel.IsConnected();
         }
 
-        public void AddMessageHook(MsgId msgId, Action<MsgId, Packet> func)
+        public void AddMessageHook(NetCmd netCmd, Action<NetCmd, Packet> func)
         {
-            _channel.AddMessageHook(msgId, func);
+            _channel.AddMessageHook(netCmd, func);
         }
 
-        public void RemoveMessageHook(MsgId msgId, Action<MsgId, Packet> func)
+        public void RemoveMessageHook(NetCmd netCmd, Action<NetCmd, Packet> func)
         {
-            _channel.RemoveMessageHook(msgId, func);
+            _channel.RemoveMessageHook(netCmd, func);
         }
 
-        public void AddGlobalHook(Action<MsgId, Packet> func)
+        public void AddGlobalHook(Action<NetCmd, Packet> func)
         {
             _channel.AddGlobalHook(func);
         }
 
-        public void RemoveGlobalHook(Action<MsgId, Packet> func)
+        public void RemoveGlobalHook(Action<NetCmd, Packet> func)
         {
             _channel.RemoveGlobalHook(func);
         }
@@ -79,6 +79,11 @@ namespace Jam.Runtime.Net_
         public void RemoveEventHook(Action<NetEvent, int> func)
         {
             _channel.RemoveEventHook(func);
+        }
+        
+        public void TestSend(byte[] data)
+        {
+            _channel.TestSend(data);
         }
     }
 

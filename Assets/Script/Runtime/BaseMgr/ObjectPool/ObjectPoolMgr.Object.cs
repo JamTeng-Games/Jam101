@@ -69,7 +69,7 @@ namespace Jam.Runtime.ObjectPool
                 _spawnCount--;
                 if (_spawnCount < 0)
                 {
-                    throw new Exception(Util.Text.Format("Object '{0}' spawn count is less than 0.", Name));
+                    throw new Exception(Utils.Text.Format("Object '{0}' spawn count is less than 0.", Name));
                 }
             }
 

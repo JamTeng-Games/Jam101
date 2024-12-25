@@ -29,11 +29,16 @@ namespace Jam.Runtime.Net_
             // 1.读出 整体长度
             byte[] tempBytes = ByteArrayPool.Rent(sizeof(ushort));
             CopyTo(tempBytes, sizeof(ushort));
+            // 大端序
+            if (BitConverter.IsLittleEndian)
+            {
+                (tempBytes[0], tempBytes[1]) = (tempBytes[1], tempBytes[0]);
+            }
             ushort totalSize = BitConverter.ToUInt16(tempBytes);
             ByteArrayPool.Return(tempBytes, true);
 
             // 协议体长度不够，等待
-            if (_dataSize < totalSize)
+            if (_dataSize < totalSize + 2)
                 return null;
 
             RemoveData(sizeof(ushort));
@@ -47,8 +52,8 @@ namespace Jam.Runtime.Net_
             ByteArrayPool.Return(tempBytes, true);
 
             // 3.读出 协议
-            Packet newPacket = Packet.Create(head.msgId);
-            int dataLength = totalSize - packetHeadSize - sizeof(ushort);
+            Packet newPacket = Packet.Create(head.cmdId);
+            int dataLength = totalSize - packetHeadSize;
             while (newPacket.TotalSize < dataLength)
             {
                 newPacket.ReAllocBuffer();

@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Text;
+using UnityEngine;
 
 namespace Jam.Runtime.Net_
 {
@@ -27,19 +29,29 @@ namespace Jam.Runtime.Net_
             {
                 ReAllocBuffer();
             }
-            
+
             // TODO: 用 CopyFromSpan 代替 CopyFrom
 
+            // Unsafe.As<byte, int>(ref tempBytes[0]) = totalSize;
             // 1.整体长度
             byte[] tempBytes = ByteArrayPool.Rent(sizeof(ushort));
-            // Unsafe.As<byte, int>(ref tempBytes[0]) = totalSize;
-            unsafe
-            {
-                fixed (byte* pData = tempBytes)
-                {
-                    *((int*)pData) = totalSize;
-                }
-            }
+            // 不包括头部的长度
+            ushort sizeWithoutLenHead = (ushort)(totalSize - 2);
+            // 直接写入大端序
+            tempBytes[0] = (byte)((sizeWithoutLenHead >> 8) & 0xFF); // 高位字节
+            tempBytes[1] = (byte)(sizeWithoutLenHead & 0xFF);        // 低位字节
+            // unsafe
+            // {
+            //     fixed (byte* pData = tempBytes)
+            //     {
+            //         *((ushort*)pData) = (ushort)totalSize;
+            //     }
+            //     // 转成大端序
+            //     if (BitConverter.IsLittleEndian)
+            //     {
+            //         Array.Reverse(tempBytes);
+            //     }
+            // }
 
             CopyFrom(tempBytes, sizeof(ushort));
             ByteArrayPool.Return(tempBytes, true);
@@ -47,13 +59,20 @@ namespace Jam.Runtime.Net_
             // 2.头部
             // tempBytes = ByteArrayPool.Rent(packetHeadSize);
             byte[] tempBytes2 = ByteArrayPool.Rent(packetHeadSize);
-            PacketHead head = new PacketHead() { msgId = (ushort)packetToAdd.MsgId };
+            PacketHead head = new PacketHead() { cmdId = (ushort)packetToAdd.CmdId };
             CopyFrom(head.ToBytes(ref tempBytes2), packetHeadSize);
             // ByteArrayPool.Return(tempBytes, true);
             ByteArrayPool.Return(tempBytes2, true);
 
             // 3.数据
             CopyFrom(packetToAdd.GetBuffer(), packetToAdd.GetDataLength());
+
+            StringBuilder sb = new StringBuilder();
+            for (int i = 0; i < totalSize; i++)
+            {
+                sb.Append(_buffer[i] + " ");
+            }
+            Debug.Log($"PacketSend sz: {_endIndex - _beginIndex}, c: {sb}");
         }
 
         /// 将 source 拷贝到 _buffer

@@ -38,7 +38,7 @@ namespace Jam.Core
             }
 
             string typeName = _type.FullName;
-            return string.IsNullOrEmpty(_name) ? typeName : Util.Text.Format("{0}.{1}", typeName, _name);
+            return string.IsNullOrEmpty(_name) ? typeName : Utils.Text.Format("{0}.{1}", typeName, _name);
         }
 
         public override int GetHashCode()

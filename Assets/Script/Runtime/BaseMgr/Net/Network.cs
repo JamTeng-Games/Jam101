@@ -345,6 +345,19 @@ namespace Jam.Runtime.Net_
             }
         }
 
+        public void TestSend(byte[] data)
+        {
+            int size = _socket.Send(data, SocketFlags.None, out SocketError errorCode);
+            if (size > 0)
+            {
+                JLog.Info($"TestSend pBuffer size: {data.Length}");
+            }
+            else
+            {
+                JLog.Info($"TestSend pBuffer size: 0");
+            }
+        }
+
         public void Close()
         {
             if (_status == NetStatus.Closed)

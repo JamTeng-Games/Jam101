@@ -64,7 +64,7 @@ namespace Jam.Runtime.ObjectPool
             if (!typeof(ObjectBase).IsAssignableFrom(objectType))
             {
                 throw new Exception(
-                    Util.Text.Format("Object type '{0}' is invalid.", objectType.FullName));
+                    Utils.Text.Format("Object type '{0}' is invalid.", objectType.FullName));
             }
 
             return InternalHasObjectPool(new TypeNamePair(objectType));
@@ -85,7 +85,7 @@ namespace Jam.Runtime.ObjectPool
             if (!typeof(ObjectBase).IsAssignableFrom(objectType))
             {
                 throw new Exception(
-                    Util.Text.Format("Object type '{0}' is invalid.", objectType.FullName));
+                    Utils.Text.Format("Object type '{0}' is invalid.", objectType.FullName));
             }
 
             return InternalHasObjectPool(new TypeNamePair(objectType, name));
@@ -124,7 +124,7 @@ namespace Jam.Runtime.ObjectPool
             if (!typeof(ObjectBase).IsAssignableFrom(objectType))
             {
                 throw new Exception(
-                    Util.Text.Format("Object type '{0}' is invalid.", objectType.FullName));
+                    Utils.Text.Format("Object type '{0}' is invalid.", objectType.FullName));
             }
 
             return InternalGetObjectPool(new TypeNamePair(objectType));
@@ -145,7 +145,7 @@ namespace Jam.Runtime.ObjectPool
             if (!typeof(ObjectBase).IsAssignableFrom(objectType))
             {
                 throw new Exception(
-                    Util.Text.Format("Object type '{0}' is invalid.", objectType.FullName));
+                    Utils.Text.Format("Object type '{0}' is invalid.", objectType.FullName));
             }
 
             return InternalGetObjectPool(new TypeNamePair(objectType, name));
@@ -655,7 +655,7 @@ namespace Jam.Runtime.ObjectPool
             if (!typeof(ObjectBase).IsAssignableFrom(objectType))
             {
                 throw new Exception(
-                    Util.Text.Format("Object type '{0}' is invalid.", objectType.FullName));
+                    Utils.Text.Format("Object type '{0}' is invalid.", objectType.FullName));
             }
 
             return InternalDestroyObjectPool(new TypeNamePair(objectType));
@@ -676,7 +676,7 @@ namespace Jam.Runtime.ObjectPool
             if (!typeof(ObjectBase).IsAssignableFrom(objectType))
             {
                 throw new Exception(
-                    Util.Text.Format("Object type '{0}' is invalid.", objectType.FullName));
+                    Utils.Text.Format("Object type '{0}' is invalid.", objectType.FullName));
             }
 
             return InternalDestroyObjectPool(new TypeNamePair(objectType, name));
@@ -746,7 +746,7 @@ namespace Jam.Runtime.ObjectPool
             TypeNamePair typeNamePair = new TypeNamePair(typeof(T), name);
             if (HasObjectPool<T>(name))
             {
-                throw new Exception(Util.Text.Format("Already exist object pool '{0}'.", typeNamePair));
+                throw new Exception(Utils.Text.Format("Already exist object pool '{0}'.", typeNamePair));
             }
 
             ObjectPool<T> objectPool =
@@ -771,13 +771,13 @@ namespace Jam.Runtime.ObjectPool
             if (!typeof(ObjectBase).IsAssignableFrom(objectType))
             {
                 throw new Exception(
-                    Util.Text.Format("Object type '{0}' is invalid.", objectType.FullName));
+                    Utils.Text.Format("Object type '{0}' is invalid.", objectType.FullName));
             }
 
             TypeNamePair typeNamePair = new TypeNamePair(objectType, name);
             if (HasObjectPool(objectType, name))
             {
-                throw new Exception(Util.Text.Format("Already exist object pool '{0}'.", typeNamePair));
+                throw new Exception(Utils.Text.Format("Already exist object pool '{0}'.", typeNamePair));
             }
 
             Type objectPoolType = typeof(ObjectPool<>).MakeGenericType(objectType);

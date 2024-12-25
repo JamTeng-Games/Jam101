@@ -4,7 +4,7 @@ using System.Text;
 namespace Jam.Core
 {
 
-    public static partial class Util
+    public static partial class Utils
     {
         public static class Text
         {

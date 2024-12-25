@@ -4,7 +4,7 @@ using System.Collections.Generic;
 namespace Jam.Core
 {
 
-    public static partial class Util
+    public static partial class Utils
     {
         /// <summary>
         /// 程序集相关的实用函数。

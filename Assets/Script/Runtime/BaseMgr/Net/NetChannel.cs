@@ -19,8 +19,8 @@ namespace Jam.Runtime.Net_
         private Network _net;
 
         private int _recvBufSize;
-        private Dictionary<MsgId, List<Action<MsgId, Packet>>> _messageHooks;
-        private List<Action<MsgId, Packet>> _globalHooks;
+        private Dictionary<NetCmd, List<Action<NetCmd, Packet>>> _messageHooks;
+        private List<Action<NetCmd, Packet>> _globalHooks;
         private List<Action<NetEvent, int>> _eventHooks;
         private Action<bool> _connectCallback;
 
@@ -28,8 +28,8 @@ namespace Jam.Runtime.Net_
         {
             _net = new Network();
             _recvBufSize = recvBufSize;
-            _messageHooks = new Dictionary<MsgId, List<Action<MsgId, Packet>>>();
-            _globalHooks = new List<Action<MsgId, Packet>>();
+            _messageHooks = new Dictionary<NetCmd, List<Action<NetCmd, Packet>>>();
+            _globalHooks = new List<Action<NetCmd, Packet>>();
             _eventHooks = new List<Action<NetEvent, int>>();
 
             _net.SetEventCallback(OnNetEvent);
@@ -94,10 +94,10 @@ namespace Jam.Runtime.Net_
                 JLog.Warning($"NetChannel not connected");
                 return;
             }
-            if (packet.MsgId != (int)MsgId.KeepAlive)
-            {
-                JLog.Debug($"Send msgId: {packet.MsgId}");
-            }
+            // if (packet.MsgId != (int)NetCmd.KeepAlive)
+            // {
+            //     JLog.Debug($"Send msgId: {packet.MsgId}");
+            // }
 
             _net.SendPacket(packet);
         }
@@ -127,36 +127,36 @@ namespace Jam.Runtime.Net_
 
         private void OnNetMessage(Packet packet)
         {
-            MsgId msgId = (MsgId)packet.MsgId;
+            NetCmd netCmd = (NetCmd)packet.CmdId;
             // 分发消息Hook
-            if (_messageHooks.TryGetValue(msgId, out var msgHooks))
+            if (_messageHooks.TryGetValue(netCmd, out var msgHooks))
             {
                 foreach (var func in msgHooks)
                 {
-                    func(msgId, packet);
+                    func(netCmd, packet);
                 }
             }
 
             // 分发全局Hook
             foreach (var func in _globalHooks)
             {
-                func(msgId, packet);
+                func(netCmd, packet);
             }
         }
 
-        public void AddMessageHook(MsgId msgId, Action<MsgId, Packet> func)
+        public void AddMessageHook(NetCmd netCmd, Action<NetCmd, Packet> func)
         {
-            if (!_messageHooks.TryGetValue(msgId, out var msgHooks))
+            if (!_messageHooks.TryGetValue(netCmd, out var msgHooks))
             {
-                msgHooks = new List<Action<MsgId, Packet>>();
-                _messageHooks.Add(msgId, msgHooks);
+                msgHooks = new List<Action<NetCmd, Packet>>();
+                _messageHooks.Add(netCmd, msgHooks);
             }
             msgHooks.Add(func);
         }
 
-        public void RemoveMessageHook(MsgId msgId, Action<MsgId, Packet> func)
+        public void RemoveMessageHook(NetCmd netCmd, Action<NetCmd, Packet> func)
         {
-            if (_messageHooks.TryGetValue(msgId, out var msgHooks))
+            if (_messageHooks.TryGetValue(netCmd, out var msgHooks))
             {
                 for (int i = msgHooks.Count - 1; i >= 0; i--)
                 {
@@ -167,10 +167,10 @@ namespace Jam.Runtime.Net_
                     }
                 }
             }
-            JLog.Warning($"NetChannel RemoveMessageHook failed, not found msgId: {msgId}");
+            JLog.Warning($"NetChannel RemoveMessageHook failed, not found cmdId: {netCmd}");
         }
 
-        public void AddGlobalHook(Action<MsgId, Packet> func)
+        public void AddGlobalHook(Action<NetCmd, Packet> func)
         {
             foreach (var v in _globalHooks)
             {
@@ -183,7 +183,7 @@ namespace Jam.Runtime.Net_
             _globalHooks.Add(func);
         }
 
-        public void RemoveGlobalHook(Action<MsgId, Packet> func)
+        public void RemoveGlobalHook(Action<NetCmd, Packet> func)
         {
             for (int i = _globalHooks.Count - 1; i >= 0; i--)
             {
@@ -220,6 +220,11 @@ namespace Jam.Runtime.Net_
                 }
             }
             JLog.Warning("NetChannel RemoveEventHook failed, not found");
+        }
+
+        public void TestSend(byte[] data)
+        {
+            _net.TestSend(data);
         }
     }
 

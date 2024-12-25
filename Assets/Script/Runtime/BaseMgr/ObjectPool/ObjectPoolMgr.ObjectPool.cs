@@ -208,7 +208,7 @@ namespace Jam.Runtime.ObjectPool
                 }
                 else
                 {
-                    throw new Exception(Util.Text.Format(
+                    throw new Exception(Utils.Text.Format(
                                             "Can not find target in object pool '{0}', target type is '{1}', target value is '{2}'.",
                                             new TypeNamePair(typeof(T), Name), target.GetType().FullName, target));
                 }
@@ -238,7 +238,7 @@ namespace Jam.Runtime.ObjectPool
                 }
                 else
                 {
-                    throw new Exception(Util.Text.Format(
+                    throw new Exception(Utils.Text.Format(
                                             "Can not find target in object pool '{0}', target type is '{1}', target value is '{2}'.",
                                             new TypeNamePair(typeof(T), Name), target.GetType().FullName, target));
                 }
@@ -268,7 +268,7 @@ namespace Jam.Runtime.ObjectPool
                 }
                 else
                 {
-                    throw new Exception(Util.Text.Format(
+                    throw new Exception(Utils.Text.Format(
                                             "Can not find target in object pool '{0}', target type is '{1}', target value is '{2}'.",
                                             new TypeNamePair(typeof(T), Name), target.GetType().FullName, target));
                 }

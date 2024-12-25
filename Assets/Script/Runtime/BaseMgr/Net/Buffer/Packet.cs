@@ -10,14 +10,19 @@ namespace Jam.Runtime.Net_
     [StructLayout(LayoutKind.Explicit, Size = 4)]
     public struct PacketHead
     {
-        [FieldOffset(0)] public ushort msgId;
+        [FieldOffset(0)] public ushort cmdId;
 
-        public static readonly int Size = Marshal.SizeOf<PacketHead>(); // 2
+        public static readonly int Size = 2;
 
         public static PacketHead FromBytes(byte[] data)
         {
             PacketHead head = new PacketHead();
-            head.msgId = BitConverter.ToUInt16(data);
+            // 大端序
+            if (BitConverter.IsLittleEndian)
+            {
+                (data[0], data[1]) = (data[1], data[0]);
+            }
+            head.cmdId = BitConverter.ToUInt16(data);
             return head;
         }
 
@@ -26,38 +31,42 @@ namespace Jam.Runtime.Net_
             // Unsafe.As<byte, ushort>(ref data[0]) = msgId;
             // return data;
 
-            unsafe
-            {
-                // 获取指向data数组的指针
-                fixed (byte* pData = data)
-                {
-                    // 将msgId作为ushort写入到data数组的头两个字节
-                    *((ushort*)pData) = msgId;
-                }
-            }
+            // 直接写入大端序
+            data[0] = (byte)((cmdId >> 8) & 0xFF); // 高位字节
+            data[1] = (byte)(cmdId & 0xFF);        // 低位字节
+
+            // unsafe
+            // {
+            //     // 获取指向data数组的指针
+            //     fixed (byte* pData = data)
+            //     {
+            //         // 将msgId作为ushort写入到data数组的头两个字节
+            //         *((ushort*)pData) = msgId;
+            //     }
+            // }
             return data;
         }
     };
 
     public class Packet : Buffer
     {
-        private int _msgId;
+        private int _cmdId;
 
-        public int MsgId => _msgId;
+        public int CmdId => _cmdId;
 
         public Packet() : this(0)
         {
         }
 
-        public static Packet Create(int msgId)
+        public static Packet Create(int cmdId)
         {
-            Packet packet = new Packet(msgId);
+            Packet packet = new Packet(cmdId);
             return packet;
         }
 
-        private Packet(int msgId)
+        private Packet(int cmdId)
         {
-            _msgId = msgId;
+            _cmdId = cmdId;
             CleanBuffer();
             _beginIndex = 0;
             _endIndex = 0;
@@ -67,7 +76,7 @@ namespace Jam.Runtime.Net_
 
         public override void Dispose()
         {
-            _msgId = 0;
+            _cmdId = 0;
             base.Dispose();
         }
 
