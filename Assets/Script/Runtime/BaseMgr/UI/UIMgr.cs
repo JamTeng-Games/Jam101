@@ -12,7 +12,7 @@ using Object = UnityEngine.Object;
 namespace Jam.Runtime.UI_
 {
 
-    public class UIMgr : IMgr, ITickable
+    public partial class UIMgr : IMgr, ITickable
     {
         // Id -> Type map
         private Dictionary<UIPanelId, Type> _idToType;
@@ -26,7 +26,7 @@ namespace Jam.Runtime.UI_
 
         // 
         private HashSet<UIPanelId> _waitingReleaseWhenLoading;
-        private Dictionary<UIPanelId, UIOpenPanelInfo> _loadingPanels;
+        private Dictionary<UIPanelId, UIPanelOpenInfo> _loadingPanels;
         private List<UIPanel> _panels;       // 根据层级排序
         private List<UIPanel> _panelOpStack; // 操作序列
 
@@ -42,17 +42,24 @@ namespace Jam.Runtime.UI_
             _typeToId = new Dictionary<Type, UIPanelId>(64);
             _recycleQueue = new Queue<UIPanel>(16);
             _waitingReleaseWhenLoading = new HashSet<UIPanelId>(16);
-            _loadingPanels = new Dictionary<UIPanelId, UIOpenPanelInfo>(16);
+            _loadingPanels = new Dictionary<UIPanelId, UIPanelOpenInfo>(16);
             _panels = new List<UIPanel>(32);
             _panelOpStack = new List<UIPanel>(32);
+
+            // widgets
+            _widgets = new Dictionary<int, UIWidget>(64);
+            _idToWidgetType = new Dictionary<UIWidgetId, Type>(64);
+            _widgetTypeToId = new Dictionary<Type, UIWidgetId>(64);
+            _widgetRecycleQueue = new Queue<UIWidget>(32);
+
             LoadTypeIdMap();
         }
 
         public void Init()
         {
             _root = G.Instance.UICanvas;
-            _pool = G.ObjectPool.CreateSingleSpawnObjectPool<UIPanelObject>(
-                "UIPanelPool", _poolCapacity, _poolExpireTime);
+            _pool = G.ObjectPool.CreateSingleSpawnObjectPool<UIPanelObject>("UIPanelPool", _poolCapacity, _poolExpireTime);
+            InitWidget();
         }
 
         public void Shutdown(bool isAppQuit)
@@ -75,6 +82,19 @@ namespace Jam.Runtime.UI_
             {
                 p.Tick(dt);
             }
+
+            TickWidget(dt);
+        }
+
+        public void LateTick()
+        {
+            // Panels
+            foreach (var p in _panels)
+            {
+                p.LateTick();
+            }
+            // Widgets
+            LateTickWidget();
         }
 
         public void Open(UIPanelId id, UIShowMode showMode, UILevel level)
@@ -92,7 +112,7 @@ namespace Jam.Runtime.UI_
             if (TryGet(id, out UIPanel panel))
                 return;
 
-            // 正在加载中的也不处理
+            // 正在加载中的更新信息
             if (TryGetLoadingInfo(id, out var openInfo))
             {
                 openInfo.UpdateInfo(showMode, level, callback, userData);
@@ -104,7 +124,7 @@ namespace Jam.Runtime.UI_
             UIPanelObject poolObj = _pool.Spawn(GetUIRealAssetPath(id)); // 从配置表获得string减少gc
             if (poolObj == null)
             {
-                UIOpenPanelInfo info = UIOpenPanelInfo.Create(id, showMode, level, callback, userData);
+                UIPanelOpenInfo info = UIPanelOpenInfo.Create(id, showMode, level, callback, userData);
                 _loadingPanels.Add(id, info);
                 G.Asset.Load(GetUIRealAssetPath(id), typeof(GameObject), LoadAssetCallback, info);
             }
@@ -270,7 +290,7 @@ namespace Jam.Runtime.UI_
             return _loadingPanels.ContainsKey(id);
         }
 
-        public bool TryGetLoadingInfo(UIPanelId id, out UIOpenPanelInfo info)
+        public bool TryGetLoadingInfo(UIPanelId id, out UIPanelOpenInfo info)
         {
             return _loadingPanels.TryGetValue(id, out info);
         }
@@ -456,39 +476,45 @@ namespace Jam.Runtime.UI_
             return AssetPath.UIPanel(cfg.AssetName);
         }
 
+        private string GetUIWidgetRealAssetPath(UIWidgetId id)
+        {
+            UIWidgetConfig cfg = G.Cfg.TbUIWidgetConfig.Get(id);
+            return AssetPath.UIWidget(cfg.AssetName);
+        }
+
         // Load res callback
         private void LoadAssetCallback(AssetHandleWrap wrap)
         {
-            UIOpenPanelInfo openInfo = (UIOpenPanelInfo)wrap.UserData;
-            if (openInfo == null)
+            UIPanelOpenInfo panelOpenInfo = (UIPanelOpenInfo)wrap.UserData;
+            if (panelOpenInfo == null)
                 throw new Exception("Open UI panel info is invalid.");
             if (wrap.IsSuccess)
             {
-                if (_waitingReleaseWhenLoading.Contains(openInfo.PanelId))
+                if (_waitingReleaseWhenLoading.Contains(panelOpenInfo.PanelId))
                 {
-                    _waitingReleaseWhenLoading.Remove(openInfo.PanelId);
-                    openInfo.Dispose();
+                    _waitingReleaseWhenLoading.Remove(panelOpenInfo.PanelId);
+                    panelOpenInfo.Dispose();
                     ReleaseUI(wrap.Id, null);
                     return;
                 }
 
-                _loadingPanels.Remove(openInfo.PanelId);
+                _loadingPanels.Remove(panelOpenInfo.PanelId);
                 UIPanel panel = GameObject.Instantiate((GameObject)wrap.Asset, _root.transform)
                                           .GetComponent<UIPanel>();
                 UIPanelObject poolObj = UIPanelObject.Create(wrap.AssetPath, wrap.Id, panel);
                 _pool.Register(poolObj, true);
-                OpenImpl(panel, openInfo.ShowMode, openInfo.Level, true, openInfo.Callback, openInfo.UserData);
-                openInfo.Dispose();
+                OpenImpl(panel, panelOpenInfo.ShowMode, panelOpenInfo.Level, true, panelOpenInfo.Callback, panelOpenInfo.UserData);
+                panelOpenInfo.Dispose();
             }
             else
             {
-                if (_waitingReleaseWhenLoading.Contains(openInfo.PanelId))
+                if (_waitingReleaseWhenLoading.Contains(panelOpenInfo.PanelId))
                 {
-                    _waitingReleaseWhenLoading.Remove(openInfo.PanelId);
+                    _waitingReleaseWhenLoading.Remove(panelOpenInfo.PanelId);
                     return;
                 }
-                _loadingPanels.Remove(openInfo.PanelId);
-                openInfo.Dispose();
+                _loadingPanels.Remove(panelOpenInfo.PanelId);
+                panelOpenInfo.Dispose();
                 string appendErrorMessage = Utils.Text.Format("Load UI panel failure, asset name '{0}'", wrap.AssetPath);
                 throw new Exception(appendErrorMessage);
             }
@@ -505,11 +531,19 @@ namespace Jam.Runtime.UI_
         {
             foreach (var type in Utils.Assembly.GetTypes())
             {
+                // Panel
                 if (type.IsDefined(typeof(UIPanelAttribute), false))
                 {
                     UIPanelAttribute attr = (UIPanelAttribute)type.GetCustomAttribute(typeof(UIPanelAttribute), false);
                     _idToType.Add(attr.Id, type);
                     _typeToId.Add(type, attr.Id);
+                }
+                // Widget
+                if (type.IsDefined(typeof(UIWidgetAttribute), false))
+                {
+                    UIWidgetAttribute attr = (UIWidgetAttribute)type.GetCustomAttribute(typeof(UIWidgetAttribute), false);
+                    _idToWidgetType.Add(attr.Id, type);
+                    _widgetTypeToId.Add(type, attr.Id);
                 }
             }
         }

@@ -6,10 +6,10 @@ using TMPro;
 namespace Jam.Runtime.UI_
 {
 
-    [UIPanel(UIPanelId.__WIDGET_NAME__)]
+    [UIWidget(UIWidgetId.__WIDGET_NAME__)]
     public partial class __WIDGET_NAME__Widget : UIWidget
     {
-        public override UIPanelId Id => UIPanelId.__WIDGET_NAME__;
+        public override UIWidgetId TypeId => UIWidgetId.__WIDGET_NAME__;
 
 __FIELD__
 
