@@ -6,7 +6,7 @@ namespace Jam.Editor_
 {
 
     [MapDataBakerCallback(invokeOrder: 5)]
-    [assembly: Quantum.QuantumMapBakeAssemblyAttribute]
+    // [assembly: Quantum.QuantumMapBakeAssemblyAttribute]
     public class QuantumMapBaker : MapDataBakerCallback
     {
         public override void OnBeforeBake(QuantumMapData data)

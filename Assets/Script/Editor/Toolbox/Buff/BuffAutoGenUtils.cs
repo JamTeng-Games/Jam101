@@ -57,6 +57,7 @@ namespace Jam.Editor_
                 BuffArgType.Vec2   => "FPVector2",
                 BuffArgType.Vec3   => "FPVector3",
                 BuffArgType.Str    => "QString<64>",
+                _                  => ""
             };
             return typeStr;
         }

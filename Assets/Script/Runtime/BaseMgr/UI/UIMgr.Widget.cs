@@ -18,7 +18,7 @@ namespace Jam.Runtime.UI_
         // Res load
         private Queue<UIWidget> _widgetRecycleQueue;
 
-        [SerializeField] private float _widgetPoolAutoReleaseInterval = 60f;
+        // [SerializeField] private float _widgetPoolAutoReleaseInterval = 60f;
         [SerializeField] private int _widgetPoolCapacity = 16;
         [SerializeField] private float _widgetPoolExpireTime = 60f;
 

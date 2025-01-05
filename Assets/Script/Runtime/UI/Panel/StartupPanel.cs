@@ -1,4 +1,5 @@
 ﻿using System;
+using cfg;
 using Jam.Core;
 using Jam.Runtime.Event;
 using Jam.Runtime.GameFsm;
@@ -22,11 +23,24 @@ namespace Jam.Runtime.UI_
             G.Event.Subscribe<DownloadProgress>(GlobalEventId.DownloadPackageFileProgress, UpdateDownloadProgress);
             G.Event.Subscribe(GlobalEventId.UpdateResDone, OnUpdateResDone);
 
+            G.Event.Subscribe<UIPanelId>(GlobalEventId.PanelOpen, OnPanelOpen);
             _btn_confirm_ok.onClick.AddListener(OnClickConfirm);
         }
 
         private void OnDisable()
         {
+            if (G.IsAppQuit)
+                return;
+            G.Event.Unsubscribe<float>(GlobalEventId.ResPipelineProgressUpdate, OnProgressUpdate);
+            G.Event.Unsubscribe(GlobalEventId.StartInitializePackage, OnStartInitPackage);
+            G.Event.Unsubscribe(GlobalEventId.StartUpdatePackageVersion, OnStartUpdatePackageVersion);
+            G.Event.Unsubscribe(GlobalEventId.StartUpdatePackageManifest, OnStartUpdatePackageManifest);
+            G.Event.Unsubscribe<string>(GlobalEventId.PrepareDownloadPackageFiles, OnPrepareDownloadPackageFiles);
+            G.Event.Unsubscribe<DownloadProgress>(GlobalEventId.DownloadPackageFileProgress, UpdateDownloadProgress);
+            G.Event.Unsubscribe(GlobalEventId.UpdateResDone, OnUpdateResDone);
+
+            G.Event.Unsubscribe<UIPanelId>(GlobalEventId.PanelOpen, OnPanelOpen);
+            _btn_confirm_ok.onClick.RemoveListener(OnClickConfirm);
         }
 
         private void OnProgressUpdate(float progress)
@@ -68,6 +82,11 @@ namespace Jam.Runtime.UI_
             _targetProgress = 1;
             _progressSpeed = 10f;
             _txt_progress_info.text = "Resource update done!";
+        }
+
+        private void OnPanelOpen(UIPanelId obj)
+        {
+            transform.SetSiblingIndex(0);
         }
 
         private void OnClickConfirm()

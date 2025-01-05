@@ -14,7 +14,7 @@ namespace Jam.Runtime.UI_
         public MMF_Player showFeedback;
         public MMF_Player hideFeedback;
         public abstract UIPanelId Id { get; }
-        
+
         // Widgets
         protected Dictionary<int, UIWidget> _widgets = new Dictionary<int, UIWidget>(8);
         public Dictionary<int, UIWidget> Widgets => _widgets;
@@ -103,6 +103,21 @@ namespace Jam.Runtime.UI_
 
         protected virtual void OnHidingAnimationEnd()
         {
+        }
+
+        protected void ShowSelf()
+        {
+            G.UI.Show(Id);
+        }
+        
+        protected void HideSelf()
+        {
+            G.UI.Hide(Id);
+        }
+
+        protected void CloseSelf()
+        {
+            G.UI.Close(Id);
         }
     }
 

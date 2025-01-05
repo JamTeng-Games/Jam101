@@ -3,5 +3,10 @@
     "id": 1,
     "name": "摇杆",
     "asset_name": "JoystickWidget"
+  },
+  {
+    "id": 2,
+    "name": "英雄卡片",
+    "asset_name": "HeroCardWidget"
   }
 ]

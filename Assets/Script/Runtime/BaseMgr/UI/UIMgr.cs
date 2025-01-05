@@ -5,6 +5,7 @@ using System.Reflection;
 using cfg;
 using Jam.Runtime.Asset;
 using Jam.Runtime.Constant;
+using Jam.Runtime.Event;
 using Jam.Runtime.ObjectPool;
 using UnityEngine;
 using Object = UnityEngine.Object;
@@ -32,7 +33,7 @@ namespace Jam.Runtime.UI_
 
         // Settings
         [SerializeField] private Canvas _root;
-        [SerializeField] private float _poolAutoReleaseInterval = 60f;
+        // [SerializeField] private float _poolAutoReleaseInterval = 60f;
         [SerializeField] private int _poolCapacity = 16;
         [SerializeField] private float _poolExpireTime = 60f;
 
@@ -285,6 +286,15 @@ namespace Jam.Runtime.UI_
             return Get<T>() != null;
         }
 
+        public bool IsPanelVisible(UIPanelId id)
+        {
+            if (TryGet(id, out UIPanel panel))
+            {
+                return panel.IsVisible;
+            }
+            return false;
+        }
+
         public bool IsLoading(UIPanelId id)
         {
             return _loadingPanels.ContainsKey(id);
@@ -336,10 +346,12 @@ namespace Jam.Runtime.UI_
             if (isNew)
                 panel.OnInit();
             panel.OnOpen(userData);
+            JLog.Debug($"Panel open {panel.Id}");
             panel.gameObject.SetActive(true);
             panel.OnShow();
             panel.PlayShowingAnim();
             callback?.Invoke(panel);
+            G.Event.Send(GlobalEventId.PanelOpen, panel.Id);
         }
 
         private void CloseImpl(UIPanel panel)
@@ -371,6 +383,7 @@ namespace Jam.Runtime.UI_
             _panels.Remove(panel);
             _panelOpStack.Remove(panel);
             _recycleQueue.Enqueue(panel);
+            G.Event.Send(GlobalEventId.PanelClosed, panel.Id);
         }
 
         // Level & OpStack

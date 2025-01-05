@@ -21,6 +21,10 @@ namespace cfg
         /// 摇杆控件
         /// </summary>
         Joystick = 1,
+        /// <summary>
+        /// 英雄卡片
+        /// </summary>
+        HeroCard = 2,
     }
 
 } 

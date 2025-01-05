@@ -16,43 +16,71 @@
   {
     "id": 3,
     "name": "登录",
-    "level": 2,
+    "level": 1,
     "show_mode": 1,
     "asset_name": "LoginPanel"
   },
   {
     "id": 4,
+    "name": "注册",
+    "level": 1,
+    "show_mode": 1,
+    "asset_name": "RegisterPanel"
+  },
+  {
+    "id": 5,
     "name": "商店",
     "level": 1,
     "show_mode": 1,
     "asset_name": "ShopPanel"
   },
   {
-    "id": 5,
+    "id": 6,
     "name": "摇杆",
-    "level": 3,
+    "level": 2,
     "show_mode": 1,
     "asset_name": "JoystickPanel"
   },
   {
-    "id": 6,
+    "id": 7,
     "name": "策略回合商店界面",
-    "level": 0,
+    "level": 1,
     "show_mode": 1,
     "asset_name": "StorePanel"
   },
   {
-    "id": 7,
+    "id": 8,
     "name": "匹配界面",
-    "level": 2,
+    "level": 1,
     "show_mode": 1,
     "asset_name": "MatchingPanel"
   },
   {
-    "id": 8,
+    "id": 9,
     "name": "战斗主界面",
-    "level": 2,
+    "level": 1,
     "show_mode": 1,
     "asset_name": "ArenaMainPanel"
+  },
+  {
+    "id": 10,
+    "name": "英雄选择界面",
+    "level": 1,
+    "show_mode": 1,
+    "asset_name": "ChooseHeroPanel"
+  },
+  {
+    "id": 11,
+    "name": "返回按钮的界面",
+    "level": 3,
+    "show_mode": 1,
+    "asset_name": "BackPanel"
+  },
+  {
+    "id": 12,
+    "name": "货币状态界面",
+    "level": 3,
+    "show_mode": 1,
+    "asset_name": "MoneyPanel"
   }
 ]

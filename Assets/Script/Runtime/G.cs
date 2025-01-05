@@ -5,6 +5,7 @@ using Jam.Runtime.Event;
 using Jam.Runtime.Fsm_;
 using Jam.Runtime.Input_;
 using Jam.Runtime.IOC;
+using Jam.Runtime.Login_;
 using Jam.Runtime.Net_;
 using Jam.Runtime.ObjectPool;
 using Jam.Runtime.Quantum_;
@@ -16,6 +17,7 @@ namespace Jam.Runtime
 
     public partial class G : MonoBehaviour
     {
+        public static bool IsAppQuit = false;
         // Singleton
         private static G _instance;
         public static G Instance => _instance;
@@ -33,6 +35,7 @@ namespace Jam.Runtime
         private InputMgr _inputMgr;
         private IOCMgr _iocMgr;
         private IObjectPoolMgr _objectPoolMgr;
+        private LoginMgr _loginMgr;
         private NetMgr _netMgr;
         private UIMgr _uiMgr; // need asset
 
@@ -44,6 +47,7 @@ namespace Jam.Runtime
         public static InputMgr Input => _instance._inputMgr;
         public static IOCMgr IOC => _instance._iocMgr;
         public static IObjectPoolMgr ObjectPool => _instance._objectPoolMgr;
+        public static LoginMgr Login => _instance._loginMgr;
         public static NetMgr Net => _instance._netMgr;
         public static UIMgr UI => _instance._uiMgr;
 
@@ -65,6 +69,7 @@ namespace Jam.Runtime
             _iocMgr = new IOCMgr();
             _objectPoolMgr = new ObjectPoolMgr();
             _netMgr = new NetMgr();
+            _loginMgr = new LoginMgr();
             _uiMgr = new UIMgr();
         }
 
@@ -76,14 +81,17 @@ namespace Jam.Runtime
             _assetMgr.Init();
             _uiMgr.Init();
             _netMgr.Init();
+            _loginMgr.Init();
 
             StartFsm();
         }
 
         private void OnApplicationQuit()
         {
+            IsAppQuit = true;
             _uiMgr.Shutdown(true);
             _netMgr.Shutdown(true);
+            _loginMgr.Shutdown(true);
             _objectPoolMgr.Shutdown(true);
             _inputMgr.Shutdown(true);
             _cfgMgr.Shutdown(true);

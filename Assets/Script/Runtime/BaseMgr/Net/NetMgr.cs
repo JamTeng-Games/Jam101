@@ -6,18 +6,21 @@ using Jam.Core;
 namespace Jam.Runtime.Net_
 {
 
-    public class NetMgr : IMgr
+    public partial class NetMgr : IMgr
     {
         private NetChannel _channel;
 
         public void Init()
         {
             _channel = new NetChannel(1);
+            InitMsgHandlers();
+            RegisterAllMsgHandlers();
         }
 
         public void Shutdown(bool isAppQuit)
         {
             _channel.Dispose();
+            UnregisterAllMsgHandlers();
         }
 
         public void Tick(float dt)
@@ -39,6 +42,13 @@ namespace Jam.Runtime.Net_
         public void Send(Packet packet)
         {
             _channel.Send(packet);
+        }
+
+        public void Send<T>(NetCmd cmd, T msg)
+        {
+            var packet = Packet.Create((int)cmd);
+            packet.Encode(msg);
+            Send(packet);
         }
 
         public bool IsClosed()
@@ -80,7 +90,7 @@ namespace Jam.Runtime.Net_
         {
             _channel.RemoveEventHook(func);
         }
-        
+
         public void TestSend(byte[] data)
         {
             _channel.TestSend(data);

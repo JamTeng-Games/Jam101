@@ -43,7 +43,7 @@ namespace Jam.Editor_
 #endif
 
         [Title("英文名 (建议找程序商议)")]
-        public string name;
+        public new string name;
 
         [Title("参数类型以及参数名 (建议找程序商议)")]
         public List<BuffArg> args;

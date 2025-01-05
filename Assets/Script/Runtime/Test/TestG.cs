@@ -46,9 +46,7 @@ namespace Jam
         {
             LoginMsg msg = new LoginMsg();
             msg.player_id = Utils.GetDeviceID();
-            var packet = Packet.Create((int)NetCmd.CS_Login);
-            packet.Encode(msg);
-            G.Net.Send(packet);
+            G.Net.Send(NetCmd.CS_Login, msg);
         }
 
         [Button]

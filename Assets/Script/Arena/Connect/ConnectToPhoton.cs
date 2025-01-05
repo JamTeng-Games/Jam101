@@ -19,7 +19,7 @@ namespace Jam.Arena
 
         private long _mapGuid = 0;
 
-        private bool _isQuickPlayMode = true;
+        // private bool _isQuickPlayMode = true;
 
         enum PhotonEventCode : byte
         {

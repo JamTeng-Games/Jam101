@@ -30,25 +30,41 @@ namespace cfg
         /// </summary>
         Login = 3,
         /// <summary>
+        /// 注册界面
+        /// </summary>
+        Register = 4,
+        /// <summary>
         /// 商店界面
         /// </summary>
-        Shop = 4,
+        Shop = 5,
         /// <summary>
         /// 摇杆界面
         /// </summary>
-        Joystick = 5,
+        Joystick = 6,
         /// <summary>
         /// 策略回合商店界面
         /// </summary>
-        Store = 6,
+        Store = 7,
         /// <summary>
         /// 匹配界面
         /// </summary>
-        Matching = 7,
+        Matching = 8,
         /// <summary>
         /// 战斗主界面
         /// </summary>
-        ArenaMain = 8,
+        ArenaMain = 9,
+        /// <summary>
+        /// 英雄选择界面
+        /// </summary>
+        ChooseHero = 10,
+        /// <summary>
+        /// 返回按钮的界面
+        /// </summary>
+        Back = 11,
+        /// <summary>
+        /// 货币状态界面
+        /// </summary>
+        Money = 12,
     }
 
 } 
