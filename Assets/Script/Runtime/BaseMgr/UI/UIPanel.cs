@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using cfg;
 using MoreMountains.Feedbacks;
 using UnityEngine;
@@ -6,13 +7,17 @@ using UnityEngine;
 namespace Jam.Runtime.UI_
 {
 
-    public abstract class UIPanel : MonoBehaviour
+    public abstract class UIPanel : MonoBehaviour, IWidgetOwner
     {
         [HideInInspector] public UILevel level;
         [HideInInspector] public UIShowMode showMode;
         public MMF_Player showFeedback;
         public MMF_Player hideFeedback;
         public abstract UIPanelId Id { get; }
+        
+        // Widgets
+        protected Dictionary<int, UIWidget> _widgets = new Dictionary<int, UIWidget>(8);
+        public Dictionary<int, UIWidget> Widgets => _widgets;
 
         public bool IsVisible => gameObject.activeSelf;
 

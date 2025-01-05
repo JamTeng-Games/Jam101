@@ -5,7 +5,7 @@ using Jam.Core;
 namespace Jam.Runtime.UI_
 {
 
-    public sealed class UIOpenPanelInfo : IReference
+    public sealed class UIPanelOpenInfo : IReference
     {
         private UIPanelId _panelId;
         private UIShowMode _showMode;
@@ -19,13 +19,13 @@ namespace Jam.Runtime.UI_
         public Action<UIPanel> Callback => _callback;
         public object UserData => _userData;
 
-        public static UIOpenPanelInfo Create(UIPanelId panelId,
+        public static UIPanelOpenInfo Create(UIPanelId panelId,
                                              UIShowMode showMode,
                                              UILevel level,
                                              Action<UIPanel> callback,
                                              object userData)
         {
-            UIOpenPanelInfo info = ReferencePool.Get<UIOpenPanelInfo>();
+            UIPanelOpenInfo info = ReferencePool.Get<UIPanelOpenInfo>();
             info._panelId = panelId;
             info._showMode = showMode;
             info._level = level;

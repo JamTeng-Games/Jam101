@@ -69,14 +69,14 @@ namespace Jam.Editor_.UITool
 
         public static void AddUIComponentToPrefab()
         {
-            Type panelType = Utils.Assembly.GetType($"Jam.Runtime.UI_.{Selection.activeGameObject.name}");
-            if (panelType == null)
+            Type uiType = Utils.Assembly.GetType($"Jam.Runtime.UI_.{Selection.activeGameObject.name}");
+            if (uiType == null)
             {
                 Debug.LogError($"No panel component found for {Selection.activeGameObject.name}");
                 return;
             }
             GameObject selectedObject = Selection.activeGameObject;
-            selectedObject.AddComponent(panelType);
+            selectedObject.AddComponent(uiType);
         }
     }
 

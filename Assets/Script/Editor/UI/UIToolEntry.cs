@@ -11,8 +11,6 @@ namespace Jam.Editor_.UITool
 
     public class UIToolEntry
     {
-        #region Panel
-
         [MenuItem("GameObject/UITool/生成UI")]
         private static void GeneratePanelForGameObject()
         {
@@ -67,8 +65,6 @@ namespace Jam.Editor_.UITool
             }
             return Selection.activeGameObject?.GetComponent<RectTransform>() != null;
         }
-
-        #endregion
     }
 
 }

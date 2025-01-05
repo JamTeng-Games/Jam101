@@ -14,6 +14,11 @@ namespace Jam.Runtime.Constant
         {
             return Utils.Text.Format("Assets/Res/UI/Panel/{0}.prefab", assetName);
         }
+        
+        public static string UIWidget(string assetName)
+        {
+            return Utils.Text.Format("Assets/Res/UI/Widget/{0}.prefab", assetName);
+        }
 
         public static string Font(string assetName)
         {
