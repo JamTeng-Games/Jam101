@@ -9,7 +9,7 @@
 
 
 
-namespace cfg
+namespace Jam.Cfg
 { 
     public enum UIWidgetId
     {
@@ -18,13 +18,33 @@ namespace cfg
         /// </summary>
         None = 0,
         /// <summary>
-        /// 摇杆控件
+        /// 摇杆
         /// </summary>
         Joystick = 1,
         /// <summary>
         /// 英雄卡片
         /// </summary>
         HeroCard = 2,
+        /// <summary>
+        /// 物品信息
+        /// </summary>
+        ItemInfo = 3,
+        /// <summary>
+        /// 属性
+        /// </summary>
+        Attrib = 4,
+        /// <summary>
+        /// 货币信息
+        /// </summary>
+        Money = 5,
+        /// <summary>
+        /// 道具小格子
+        /// </summary>
+        ItemCell = 6,
+        /// <summary>
+        /// 商店道具信息
+        /// </summary>
+        ShopGoods = 7,
     }
 
 } 

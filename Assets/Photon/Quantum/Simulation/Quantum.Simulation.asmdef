@@ -1,7 +1,10 @@
 {
     "name": "Quantum.Simulation",
     "rootNamespace": "Quantum",
-    "references": ["GUID:f5337683be0c9ed49824f4d1e7862f29"],
+    "references": [
+        "GUID:f5337683be0c9ed49824f4d1e7862f29",
+        "GUID:2a81c6962524d424a8ef5072bd3b0fa0"
+    ],
     "includePlatforms": [],
     "excludePlatforms": [],
     "allowUnsafeCode": true,

@@ -251,7 +251,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   followCamera: {fileID: 1270855760}
-  animationBank: {fileID: 11400000, guid: 532a312645251ef43811d9f7217968fc, type: 2}
 --- !u!1 &191422763
 GameObject:
   m_ObjectHideFlags: 3

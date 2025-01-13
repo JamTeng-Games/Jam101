@@ -1,5 +1,5 @@
 ﻿using System;
-using cfg;
+using Jam.Cfg;
 using Jam.Core;
 using UnityEngine;
 

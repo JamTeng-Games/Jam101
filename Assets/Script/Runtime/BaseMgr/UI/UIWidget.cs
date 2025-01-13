@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using cfg;
+using Jam.Cfg;
 using UnityEngine;
 
 namespace Jam.Runtime.UI_

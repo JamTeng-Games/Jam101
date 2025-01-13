@@ -1,0 +1,26 @@
+[
+  {
+    "id": 10001,
+    "asset": "peter_attack"
+  },
+  {
+    "id": 10002,
+    "asset": "robin_attack"
+  },
+  {
+    "id": 20001,
+    "asset": "peter_skill"
+  },
+  {
+    "id": 20002,
+    "asset": "robin_skill"
+  },
+  {
+    "id": 30001,
+    "asset": "peter_attrib"
+  },
+  {
+    "id": 30002,
+    "asset": "robin_attrib"
+  }
+]

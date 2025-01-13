@@ -1,4 +1,4 @@
-﻿using cfg;
+﻿using Jam.Cfg;
 using UnityEngine;
 using System;
 using System.Collections.Generic;
@@ -39,18 +39,21 @@ namespace Jam.Runtime.UI_
                                 Action<UIWidget> callback,
                                 object userData = null)
         {
+            int widgetId = ++_widgetGenId;
             // 加载资源
-            UIWidgetObject poolObj = _widgetPool.Spawn(GetUIWidgetRealAssetPath(widgetType));
+            UIWidgetObject poolObj = _widgetPool.Spawn(GetUIWidgetRealAssetPath(widgetType) + widgetId.ToString());
             if (poolObj == null)
             {
-                UIWidgetOpenInfo info = UIWidgetOpenInfo.Create(++_widgetGenId, widgetType, owner, parentTrans, callback, userData);
+                UIWidgetOpenInfo info = UIWidgetOpenInfo.Create(widgetId, widgetType, owner, parentTrans, callback, userData);
                 G.Asset.Load(GetUIWidgetRealAssetPath(widgetType), typeof(GameObject), LoadWidgetAssetCallback, info);
-                return info.Id;
+                JLog.Debug($"CreateWidget {widgetType} return null id {info.Id}");
+                return widgetId;
             }
             else
             {
                 UIWidget widget = (UIWidget)poolObj.Target;
-                OpenWidgetImpl(++_widgetGenId, widget, owner, false, callback, userData);
+                OpenWidgetImpl(widgetId, widget, owner, false, callback, userData);
+                JLog.Debug($"CreateWidget {widgetType} return id {widget.Id}");
                 return widget.Id;
             }
         }

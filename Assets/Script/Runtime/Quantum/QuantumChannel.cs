@@ -51,11 +51,12 @@ namespace Jam.Runtime.Quantum_
         //     await Controller.HandleConnectionResult(result, this.Controller);
         // }
 
-        public async Task<QuantumConnectResult> ConnectAsync(QuantumConnectArgs connectArgs = null)
+        public async Task<QuantumConnectResult> ConnectAsync(QuantumConnectArgs connectArgs = null, RuntimePlayer runtimePlayerData = null)
         {
             if (connectArgs == null)
                 connectArgs = _connectArgs;
             PatchConnectArgs(connectArgs);
+            PatchRuntimePlayerData(connectArgs, runtimePlayerData);
             if (_cancellation != null)
                 throw new Exception("Connection instance still in use");
 
@@ -260,7 +261,7 @@ namespace Jam.Runtime.Quantum_
             _disconnectSubscription.Dispose();
             _disconnectSubscription = null;
 
-            Runner.Game.AddPlayer(connectArgs.RuntimePlayers[0]);
+            Runner.Game.AddPlayer(connectArgs.RuntimePlayer);
 
             return new QuantumConnectResult { Success = true };
         }
@@ -439,13 +440,13 @@ namespace Jam.Runtime.Quantum_
             }
 
             // runtime player alterations
-            {
-                if (!string.IsNullOrEmpty(connectArgs.Username) && connectArgs.RuntimePlayers?.Length > 0)
-                {
-                    // Always overwrite nickname, set ConnectionArgs.Username to null to avoid
-                    connectArgs.RuntimePlayers[0].PlayerNickname = connectArgs.Username;
-                }
-            }
+            // {
+            //     if (!string.IsNullOrEmpty(connectArgs.Username) && connectArgs.RuntimePlayer != null)
+            //     {
+            //         // Always overwrite nickname, set ConnectionArgs.Username to null to avoid
+            //         connectArgs.RuntimePlayer.PlayerNickname = connectArgs.Username;
+            //     }
+            // }
 
             // auth values
             if (connectArgs.AuthValues == null ||
@@ -455,6 +456,19 @@ namespace Jam.Runtime.Quantum_
                 // Set the UserId to the username if no authtype is set
                 connectArgs.AuthValues ??= new AuthenticationValues();
                 connectArgs.AuthValues.UserId = $"{connectArgs.Username}({new Random().Next(99999999):00000000}";
+            }
+        }
+
+        private void PatchRuntimePlayerData(QuantumConnectArgs connectArgs, RuntimePlayer runtimePlayerData)
+        {
+            if (runtimePlayerData == null)
+                return;
+
+            // hero data
+            if (runtimePlayerData.heroData != null)
+            {
+                connectArgs.RuntimePlayer.heroData = runtimePlayerData.heroData;
+                connectArgs.RuntimePlayer.PlayerNickname = runtimePlayerData.heroData.name;
             }
         }
 

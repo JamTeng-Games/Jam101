@@ -1,4 +1,4 @@
-﻿using cfg;
+﻿using Jam.Cfg;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
@@ -11,6 +11,8 @@ namespace Jam.Runtime.UI_
     {
         public override UIPanelId Id => UIPanelId.Home;
 
+        [SerializeField] private Transform _node_money;
+        [SerializeField] private TextMeshProUGUI _txt_round;
         [SerializeField] private Button _btn_inventory;
         [SerializeField] private Button _btn_battle;
         [SerializeField] private Button _btn_shop;
@@ -21,6 +23,8 @@ namespace Jam.Runtime.UI_
 
         private void OnValidate()
         {
+            _node_money = transform.Find("node_money").GetComponent<Transform>();
+            _txt_round = transform.Find("txt_round").GetComponent<TextMeshProUGUI>();
             _btn_inventory = transform.Find("Bottom/ManMenu/btn_inventory").GetComponent<Button>();
             _btn_battle = transform.Find("Bottom/btn_battle").GetComponent<Button>();
             _btn_shop = transform.Find("Bottom/btn_shop").GetComponent<Button>();

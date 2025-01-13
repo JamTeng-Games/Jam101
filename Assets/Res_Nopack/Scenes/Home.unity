@@ -412,6 +412,10 @@ PrefabInstance:
       propertyPath: m_BlockingMask.m_Bits
       value: 1015
       objectReference: {fileID: 0}
+    - target: {fileID: 7796226951394270760, guid: d9444edff76d4ef4180750bab508cfc6, type: 3}
+      propertyPath: _connectArgs.RuntimePlayer.PlayerAvatar.Id.Value
+      value: 1526882926222888806
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

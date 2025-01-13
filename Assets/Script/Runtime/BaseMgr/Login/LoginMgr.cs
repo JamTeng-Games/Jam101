@@ -1,5 +1,6 @@
-﻿using cfg;
+﻿using Jam.Cfg;
 using Jam.Core;
+using Jam.Runtime.Data_;
 using Jam.Runtime.Event;
 using Jam.Runtime.Net_;
 using UnityEngine;
@@ -9,8 +10,8 @@ namespace Jam.Runtime.Login_
 
     public class LoginMgr : IMgr
     {
-        private string _ip = "192.168.31.128";
-        private int _port = 8001;
+        private string _ip = "106.14.59.20";
+        private int _port = 9901;
 
         private string _account;
         private string _pwd;
@@ -69,10 +70,10 @@ namespace Jam.Runtime.Login_
             }
         }
 
-        public void Register(string username, string pwd)
+        public void Register(string account, string pwd)
         {
             _pwd = pwd;
-            RegisterReq req = new RegisterReq() { name = username, pwd = pwd };
+            RegisterReq req = new RegisterReq() { account = account, pwd = pwd };
             G.Net.Send(NetCmd.CS_Register, req);
         }
 
@@ -109,6 +110,7 @@ namespace Jam.Runtime.Login_
         public void ProcessLoginFail(LoginFail msg)
         {
             JLog.Error(msg.code);
+            G.UI.Open(UIPanelId.Login);
         }
 
         public void ProcessRegisterSuccess(RegisterSuccess msg)

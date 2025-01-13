@@ -1,4 +1,4 @@
-using cfg;
+using Jam.Cfg;
 using Jam.Core;
 using Jam.Arena;
 using Jam.Runtime.Event;

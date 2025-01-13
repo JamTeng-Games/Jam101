@@ -18,11 +18,12 @@ MonoBehaviour:
       _FadeDuration: 0.25
       _Speed: 1
       _Events:
-        _NormalizedTimes: []
+        _NormalizedTimes:
+        - 1
         _Callbacks: []
         _Names: []
       _Clip: {fileID: 7400000, guid: 28fbbde5223677e45bda6af59751e2ed, type: 2}
-      _NormalizedStartTime: NaN
+      _NormalizedStartTime: 0
     priority: 0
     canReplay: 0
   - key: 2

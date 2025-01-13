@@ -9,7 +9,7 @@
 
 
 
-namespace cfg
+namespace Jam.Cfg
 { 
     public enum UIShowMode
     {

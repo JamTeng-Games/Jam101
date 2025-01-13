@@ -1,0 +1,32 @@
+[
+  {
+    "id": 1,
+    "name": "Peter",
+    "quality": 1,
+    "skill_list": [
+      10001,
+      20001,
+      30001
+    ],
+    "head_icon": "peter_head",
+    "model_arena": "arena_peter_model",
+    "model_home": "home_peter_model",
+    "anim_arena": "arena_peter_anim_bank",
+    "anim_home": "home_peter_anim_bank"
+  },
+  {
+    "id": 2,
+    "name": "Robin",
+    "quality": 2,
+    "skill_list": [
+      10002,
+      20002,
+      30002
+    ],
+    "head_icon": "robin_head",
+    "model_arena": "arena_robin_model",
+    "model_home": "home_robin_model",
+    "anim_arena": "arena_robin_anim_bank",
+    "anim_home": "home_robin_anim_bank"
+  }
+]

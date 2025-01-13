@@ -1,6 +1,8 @@
 using Cysharp.Threading.Tasks;
 using Jam.Core;
+using Jam.Cfg;
 using Jam.Runtime.Asset;
+using Jam.Runtime.Data_;
 using Jam.Runtime.Event;
 using Jam.Runtime.Fsm_;
 using Jam.Runtime.Input_;
@@ -29,7 +31,8 @@ namespace Jam.Runtime
 
         // 字母序排列
         private IAssetMgr _assetMgr;
-        private cfg.Tables _cfgMgr; // need asset
+        private DataMgr _dataMgr;
+        private Tables _cfgMgr; // need asset
         private EventMgr _eventMgr;
         private FsmMgr _fsmMgr;
         private InputMgr _inputMgr;
@@ -41,7 +44,8 @@ namespace Jam.Runtime
 
         // 字母序排列
         public static IAssetMgr Asset => _instance._assetMgr;
-        public static cfg.Tables Cfg => _instance._cfgMgr;
+        public static DataMgr Data => _instance._dataMgr;
+        public static Tables Cfg => _instance._cfgMgr;
         public static EventMgr Event => _instance._eventMgr;
         public static FsmMgr Fsm => _instance._fsmMgr;
         public static InputMgr Input => _instance._inputMgr;
@@ -62,7 +66,8 @@ namespace Jam.Runtime
             _instance = this;
 
             _assetMgr = new YooAssetMgr();
-            _cfgMgr = new cfg.Tables();
+            _dataMgr = new DataMgr();
+            _cfgMgr = new Tables();
             _eventMgr = new EventMgr();
             _fsmMgr = new FsmMgr();
             _inputMgr = new InputMgr();
@@ -77,8 +82,9 @@ namespace Jam.Runtime
         {
             // 字母序排列，除非遇到依赖的情况
             // 此时的资源初始化还未完成，不可以加载资源
-            _inputMgr.Init();
+            _dataMgr.Init();
             _assetMgr.Init();
+            _inputMgr.Init();
             _uiMgr.Init();
             _netMgr.Init();
             _loginMgr.Init();
@@ -91,6 +97,7 @@ namespace Jam.Runtime
             IsAppQuit = true;
             _uiMgr.Shutdown(true);
             _netMgr.Shutdown(true);
+            _dataMgr.Shutdown(true);
             _loginMgr.Shutdown(true);
             _objectPoolMgr.Shutdown(true);
             _inputMgr.Shutdown(true);

@@ -31,6 +31,23 @@
         InitResourceFailed,
         PackageVersionUpdateFailed,
         PatchManifestUpdateFailed,
+
+        //
+        RoleDataUpdate,
+        ItemAdd,
+        ItemRemove,
+        ItemUpdateAll,
+        ItemAnyUpdate,
+        MoneyAdd,
+        MoneyCost,
+        MoneyUpdateAll,
+        ShopRefresh,
+        ShopGoodsUpdate,
+        ShopGoodsRemove,
+        RoundUpdate,
+        HeroChange,
+
+        END,
     }
 
 }

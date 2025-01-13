@@ -9,7 +9,7 @@
 
 
 
-namespace cfg.test
+namespace Jam.Cfg.test
 { 
     [System.Flags]
     public enum AccessFlag

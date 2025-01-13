@@ -1,5 +1,4 @@
-﻿using cfg;
-using Jam.Core;
+﻿using Jam.Core;
 using Jam.Runtime.ObjectPool;
 using UnityEngine;
 
@@ -27,8 +26,8 @@ namespace Jam.Runtime.UI_
 
         public override void Release(bool isShutdown)
         {
-            G.Asset.Unload(_assetHandleId);
             GameObject.Destroy(((UIPanel)Target).gameObject);
+            G.Asset.Unload(_assetHandleId);
         }
     }
 

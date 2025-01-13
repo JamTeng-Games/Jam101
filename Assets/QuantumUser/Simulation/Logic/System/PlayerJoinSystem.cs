@@ -1,3 +1,5 @@
+using Quantum.Cfg_;
+
 namespace Quantum
 {
 
@@ -7,6 +9,11 @@ namespace Quantum
     [Preserve]
     public unsafe class PlayerJoinSystem : SystemSignalsOnly, ISignalOnPlayerAdded, ISignalOnPlayerRemoved
     {
+        public override void OnInit(Frame f)
+        {
+            Cfg.Init();
+        }
+
         public void OnPlayerAdded(Frame f, PlayerRef playerRef, bool firstTime)
         {
             if (firstTime)

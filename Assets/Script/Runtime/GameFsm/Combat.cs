@@ -1,8 +1,9 @@
-using cfg;
 using Jam.Core;
 using Jam.Runtime.Event;
 using Jam.Runtime.Scene_;
 using Cysharp.Threading.Tasks;
+using Jam.Cfg;
+using RuntimePlayer = Quantum.RuntimePlayer;
 
 namespace Jam.Runtime.GameFsm
 {
@@ -28,7 +29,10 @@ namespace Jam.Runtime.GameFsm
         private async void StartQuantum()
         {
             G.UI.Open(UIPanelId.Matching);
-            await G.Instance.QuantumChannel.ConnectAsync();
+            await G.Instance.QuantumChannel.ConnectAsync(runtimePlayerData: new RuntimePlayer()
+            {
+                heroData = new RuntimePlayer.HeroData()
+            });
             G.UI.CloseAll();
             G.UI.Open(UIPanelId.ArenaMain);
         }

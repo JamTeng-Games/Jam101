@@ -1,4 +1,4 @@
-﻿using cfg;
+﻿using Jam.Cfg;
 using Jam.Runtime.Event;
 
 namespace Jam.Runtime.UI_

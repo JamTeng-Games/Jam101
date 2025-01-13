@@ -2,7 +2,7 @@
 using Jam.Runtime;
 using Jam.Runtime.Event;
 
-namespace cfg
+namespace Jam.Cfg
 {
 
     public partial class Tables : IMgr

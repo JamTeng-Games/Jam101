@@ -11,7 +11,7 @@ using Luban;
 using SimpleJSON;
 
 
-namespace cfg.test
+namespace Jam.Cfg.test
 {
 public abstract partial class Shape : Luban.BeanBase
 {

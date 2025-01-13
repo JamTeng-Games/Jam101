@@ -11,7 +11,7 @@ using Luban;
 using SimpleJSON;
 
 
-namespace cfg.test
+namespace Jam.Cfg.test
 {
 /// <summary>
 /// 这是个测试excel结构

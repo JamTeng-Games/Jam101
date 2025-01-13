@@ -67,7 +67,7 @@
     "name": "英雄选择界面",
     "level": 1,
     "show_mode": 1,
-    "asset_name": "ChooseHeroPanel"
+    "asset_name": "HeroListPanel"
   },
   {
     "id": 11,
@@ -82,5 +82,26 @@
     "level": 3,
     "show_mode": 1,
     "asset_name": "MoneyPanel"
+  },
+  {
+    "id": 13,
+    "name": "修改名字",
+    "level": 2,
+    "show_mode": 1,
+    "asset_name": "ChangeNamePanel"
+  },
+  {
+    "id": 14,
+    "name": "背包",
+    "level": 1,
+    "show_mode": 1,
+    "asset_name": "InventoryPanel"
+  },
+  {
+    "id": 15,
+    "name": "道具信息",
+    "level": 2,
+    "show_mode": 1,
+    "asset_name": "ItemInfoPanel"
   }
 ]

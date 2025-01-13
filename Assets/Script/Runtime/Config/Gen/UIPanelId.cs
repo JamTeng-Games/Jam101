@@ -9,7 +9,7 @@
 
 
 
-namespace cfg
+namespace Jam.Cfg
 { 
     public enum UIPanelId
     {
@@ -56,7 +56,7 @@ namespace cfg
         /// <summary>
         /// 英雄选择界面
         /// </summary>
-        ChooseHero = 10,
+        HeroList = 10,
         /// <summary>
         /// 返回按钮的界面
         /// </summary>
@@ -65,6 +65,18 @@ namespace cfg
         /// 货币状态界面
         /// </summary>
         Money = 12,
+        /// <summary>
+        /// 修改名字界面
+        /// </summary>
+        ChangeName = 13,
+        /// <summary>
+        /// 背包界面
+        /// </summary>
+        Inventory = 14,
+        /// <summary>
+        /// 道具信息界面
+        /// </summary>
+        ItemInfo = 15,
     }
 
 } 

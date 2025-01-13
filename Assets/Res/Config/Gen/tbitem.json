@@ -1,0 +1,156 @@
+[
+  {
+    "id": 1,
+    "name": "gold",
+    "desc": "Gold",
+    "quality": 1,
+    "type": 2,
+    "icon": "test_gold",
+    "money_id": 1,
+    "price": 1,
+    "add_skill": 0
+  },
+  {
+    "id": 2,
+    "name": "gem",
+    "desc": "Gem",
+    "quality": 2,
+    "type": 2,
+    "icon": "test_gem",
+    "money_id": 1,
+    "price": 1,
+    "add_skill": 0
+  },
+  {
+    "id": 10001,
+    "name": "test1",
+    "desc": "test1 desc",
+    "quality": 1,
+    "type": 1,
+    "icon": "test_item1",
+    "money_id": 1,
+    "price": 1,
+    "add_skill": 10001
+  },
+  {
+    "id": 10002,
+    "name": "test2",
+    "desc": "test2 desc",
+    "quality": 1,
+    "type": 1,
+    "icon": "test_item2",
+    "money_id": 1,
+    "price": 2,
+    "add_skill": 10001
+  },
+  {
+    "id": 10003,
+    "name": "test3",
+    "desc": "test3 desc",
+    "quality": 1,
+    "type": 1,
+    "icon": "test_item3",
+    "money_id": 1,
+    "price": 3,
+    "add_skill": 20001
+  },
+  {
+    "id": 10004,
+    "name": "test4",
+    "desc": "test4 desc",
+    "quality": 1,
+    "type": 1,
+    "icon": "test_item4",
+    "money_id": 1,
+    "price": 4,
+    "add_skill": 20001
+  },
+  {
+    "id": 10005,
+    "name": "test5",
+    "desc": "test5 desc",
+    "quality": 1,
+    "type": 1,
+    "icon": "test_item5",
+    "money_id": 1,
+    "price": 5,
+    "add_skill": 30001
+  },
+  {
+    "id": 10006,
+    "name": "test6",
+    "desc": "test6 desc",
+    "quality": 1,
+    "type": 1,
+    "icon": "test_item6",
+    "money_id": 1,
+    "price": 6,
+    "add_skill": 30001
+  },
+  {
+    "id": 10007,
+    "name": "test7",
+    "desc": "test7 desc",
+    "quality": 2,
+    "type": 1,
+    "icon": "test_item7",
+    "money_id": 1,
+    "price": 7,
+    "add_skill": 10002
+  },
+  {
+    "id": 10008,
+    "name": "test8",
+    "desc": "test8 desc",
+    "quality": 2,
+    "type": 1,
+    "icon": "test_item8",
+    "money_id": 1,
+    "price": 8,
+    "add_skill": 10002
+  },
+  {
+    "id": 10009,
+    "name": "test9",
+    "desc": "test9 desc",
+    "quality": 2,
+    "type": 1,
+    "icon": "test_item9",
+    "money_id": 1,
+    "price": 9,
+    "add_skill": 20002
+  },
+  {
+    "id": 10010,
+    "name": "test10",
+    "desc": "test10 desc",
+    "quality": 3,
+    "type": 1,
+    "icon": "test_item10",
+    "money_id": 1,
+    "price": 10,
+    "add_skill": 20002
+  },
+  {
+    "id": 10011,
+    "name": "test11",
+    "desc": "test11 desc",
+    "quality": 3,
+    "type": 1,
+    "icon": "test_item11",
+    "money_id": 1,
+    "price": 11,
+    "add_skill": 30002
+  },
+  {
+    "id": 10012,
+    "name": "test12",
+    "desc": "test12 desc",
+    "quality": 4,
+    "type": 1,
+    "icon": "test_item12",
+    "money_id": 1,
+    "price": 12,
+    "add_skill": 30002
+  }
+]

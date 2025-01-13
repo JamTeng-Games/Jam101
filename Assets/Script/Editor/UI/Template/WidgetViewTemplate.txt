@@ -1,4 +1,4 @@
-using cfg;
+using Jam.Cfg;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;

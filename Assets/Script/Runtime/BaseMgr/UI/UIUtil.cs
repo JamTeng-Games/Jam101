@@ -1,4 +1,5 @@
 ﻿using Jam.Core;
+using UnityEngine;
 using UnityEngine.EventSystems;
 
 namespace Jam.Runtime.UI_
@@ -23,6 +24,24 @@ namespace Jam.Runtime.UI_
             if (trigger != null)
             {
                 trigger.triggers.Clear();
+            }
+        }
+
+        public static void DisableEventListeners(this UIBehaviour control)
+        {
+            EventTrigger trigger = control.GetComponent<EventTrigger>();
+            if (trigger != null)
+            {
+                trigger.enabled = false;
+            }
+        }
+
+        public static void RemoveEventListenerComp(this UIBehaviour control)
+        {
+            EventTrigger trigger = control.GetComponent<EventTrigger>();
+            if (trigger != null)
+            {
+                Object.Destroy(trigger);
             }
         }
     }

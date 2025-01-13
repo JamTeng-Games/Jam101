@@ -1,0 +1,77 @@
+using System;
+using Jam.Runtime;
+using Jam.Runtime.Asset;
+using Jam.Runtime.Constant;
+using SimpleJSON;
+using UnityEngine;
+
+{{namespace_with_grace_begin __namespace}}
+public partial class {{__name}}
+{
+    private System.Action<bool> _onLoadedDone;
+    private int _totalCount = 0;
+    private int _loadCount = 0;
+    private bool _anyCfgLoadFailed = false;
+
+    {{~for table in __tables ~}}
+{{~if table.comment != '' ~}}
+    /// <summary>
+    /// {{escape_comment table.comment}}
+    /// </summary>
+{{~end~}}
+    public {{table.full_name}} {{format_property_name __code_style table.name}} { get; private set; }
+    {{~end~}}
+
+    private void LoadCfgImpl(System.Action<bool> onLoadedDone)
+    {
+        _onLoadedDone = onLoadedDone;
+        {{~for table in __tables ~}}
+        _totalCount++;
+        G.Asset.Load(GetAssetPath("{{table.output_data_file}}"), typeof(TextAsset), LoadAssetCallback, "{{table.output_data_file}}");
+        {{~end~}}
+    }
+
+    private void ResolveRef()
+    {
+        {{~for table in __tables ~}}
+        {{format_property_name __code_style table.name}}.ResolveRef(this);
+        {{~end~}}
+    }
+
+    private void LoadAssetCallback(AssetHandleWrap wrap)
+    {
+        if (_anyCfgLoadFailed)
+            return;
+
+        if (!wrap.IsSuccess)
+        {
+            _anyCfgLoadFailed = true;
+            _onLoadedDone?.Invoke(false);
+            return;
+        }
+
+        _loadCount++;
+        string jsonText = ((TextAsset)wrap.Asset).text;
+        JSONNode json = JSONNode.Parse(jsonText);
+
+        {{~for table in __tables ~}}
+        if ((string)wrap.UserData == "{{table.output_data_file}}")
+        {
+            {{format_property_name __code_style table.name}} = new {{table.full_name}}(json);
+        }
+        {{~end~}}
+
+        if (_loadCount == _totalCount)
+        {
+            ResolveRef();
+            _onLoadedDone?.Invoke(true);
+        }
+    }
+
+    private string GetAssetPath(string assetName)
+    {
+        return AssetPath.Cfg(assetName, false);
+    }
+}
+
+{{namespace_with_grace_end __namespace}}

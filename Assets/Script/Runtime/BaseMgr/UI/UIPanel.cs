@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using cfg;
+using Jam.Cfg;
 using MoreMountains.Feedbacks;
 using UnityEngine;
 

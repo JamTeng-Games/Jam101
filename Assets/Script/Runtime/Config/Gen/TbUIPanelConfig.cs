@@ -11,7 +11,7 @@ using Luban;
 using SimpleJSON;
 
 
-namespace cfg
+namespace Jam.Cfg
 {
 public partial class TbUIPanelConfig
 {

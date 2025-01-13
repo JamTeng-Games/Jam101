@@ -1,4 +1,4 @@
-using cfg;
+using Jam.Cfg;
 using Jam.Core;
 using Jam.Runtime.Event;
 
@@ -11,11 +11,7 @@ namespace Jam.Runtime.GameFsm
         {
             JLog.Info("Home.OnEnter");
             G.UI.Open(UIPanelId.Home);
-            G.UI.Open(UIPanelId.Money);
-            G.UI.Open(UIPanelId.Back, callback: p =>
-            {
-                G.UI.Hide(UIPanelId.Back);
-            });
+            // G.UI.Open(UIPanelId.Money);
             G.Event.Subscribe(GlobalEventId.EnterCombat, OnEnterCombat);
         }
 

@@ -1,4 +1,4 @@
-﻿using cfg;
+﻿using Jam.Cfg;
 
 namespace Jam.Runtime.UI_
 {

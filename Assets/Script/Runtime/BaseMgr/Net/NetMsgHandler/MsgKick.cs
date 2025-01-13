@@ -1,4 +1,6 @@
-﻿namespace Jam.Runtime.Net_
+﻿using Jam.Core;
+
+namespace Jam.Runtime.Net_
 {
 
     public class MsgKick : IMsgHandler
@@ -7,6 +9,7 @@
 
         public void HandleMsg(NetCmd cmd, Packet packet)
         {
+            JLog.Debug($"Recv {cmd}");
         }
     }
 

@@ -1,4 +1,5 @@
-﻿using Sirenix.OdinInspector;
+﻿using Jam.Cfg;
+using Sirenix.OdinInspector;
 using UnityEditor;
 using UnityEngine;
 

@@ -1,11 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using Quantum.Graph.Skill;
 using Sirenix.OdinInspector;
 using UnityEngine;
-using UnityEngine.Serialization;
 
-namespace Jam.Editor_
+namespace Jam.Cfg
 {
 
     public enum BuffArgType

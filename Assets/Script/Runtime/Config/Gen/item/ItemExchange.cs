@@ -11,7 +11,7 @@ using Luban;
 using SimpleJSON;
 
 
-namespace cfg.item
+namespace Jam.Cfg.item
 {
 public sealed partial class ItemExchange : Luban.BeanBase
 {

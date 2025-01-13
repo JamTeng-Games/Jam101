@@ -8,5 +8,30 @@
     "id": 2,
     "name": "英雄卡片",
     "asset_name": "HeroCardWidget"
+  },
+  {
+    "id": 3,
+    "name": "物品信息",
+    "asset_name": "ItemInfoWidget"
+  },
+  {
+    "id": 4,
+    "name": "属性",
+    "asset_name": "AttribWidget"
+  },
+  {
+    "id": 5,
+    "name": "货币信息",
+    "asset_name": "MoneyWidget"
+  },
+  {
+    "id": 6,
+    "name": "道具小格子",
+    "asset_name": "ItemCellWidget"
+  },
+  {
+    "id": 7,
+    "name": "商店道具信息",
+    "asset_name": "ShopGoodsWidget"
   }
 ]

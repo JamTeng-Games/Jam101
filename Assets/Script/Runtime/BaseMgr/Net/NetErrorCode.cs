@@ -8,8 +8,8 @@
         Timeout = 2, // 超时
 
         Login_WrongPwd = 21,            // 密码错误
-        Login_NameExist = 22,           // 名称存在
-        Login_NameTooLong = 23,         // 名称过长
+        Login_AccountExist = 22,        // 名称存在
+        Login_AccountTooLong = 23,      // 名称过长
         Login_PwdTooLong = 24,          // 名称过长
         Login_NotRegister = 25,         // 尚未注册
         Login_ReqError = 26,            //  请求失败

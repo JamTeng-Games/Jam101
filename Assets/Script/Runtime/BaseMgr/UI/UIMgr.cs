@@ -2,7 +2,7 @@
 using Jam.Core;
 using System.Collections.Generic;
 using System.Reflection;
-using cfg;
+using Jam.Cfg;
 using Jam.Runtime.Asset;
 using Jam.Runtime.Constant;
 using Jam.Runtime.Event;
@@ -36,6 +36,8 @@ namespace Jam.Runtime.UI_
         // [SerializeField] private float _poolAutoReleaseInterval = 60f;
         [SerializeField] private int _poolCapacity = 16;
         [SerializeField] private float _poolExpireTime = 60f;
+
+        public List<UIPanel> Panels => _panels;
 
         public UIMgr()
         {

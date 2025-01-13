@@ -17,10 +17,10 @@ namespace Jam.Core
                 case LogLevel.Info:
                     UnityEngine.Debug.Log(msg);
                     break;
+                case LogLevel.Debug:
                 case LogLevel.Warning:
                     UnityEngine.Debug.LogWarning(msg);
                     break;
-                case LogLevel.Debug:
                 case LogLevel.Error:
                     UnityEngine.Debug.LogError(msg);
                     break;

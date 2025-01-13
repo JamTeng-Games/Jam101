@@ -40,7 +40,8 @@ namespace Jam.Runtime.Quantum_
         public RuntimeConfig RuntimeConfig;
         /// The RuntimePlayer which are automatically added to the simulation after is started.
         /// When empty a default player is created when connecting.
-        public RuntimePlayer[] RuntimePlayers = new RuntimePlayer[] { new RuntimePlayer() };
+        // public RuntimePlayer[] RuntimePlayers = new RuntimePlayer[] { new RuntimePlayer() };
+        public RuntimePlayer RuntimePlayer = new RuntimePlayer();
         public QuantumDeterministicSessionConfigAsset SessionConfig;
         public PhotonServerSettings ServerSettings;
         /// Fine-tune what internals gets disposed when the connection is terminated.

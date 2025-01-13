@@ -1,4 +1,4 @@
-﻿using cfg;
+﻿using Jam.Cfg;
 using Jam.Runtime.Event;
 
 namespace Jam.Runtime.UI_
@@ -16,15 +16,15 @@ namespace Jam.Runtime.UI_
         public override void OnOpen(object userData)
         {
             _btn_back.onClick.AddListener(OnClickBack);
-            G.Event.Subscribe<UIPanelId>(GlobalEventId.PanelOpen, OnPanelOpen);
-            G.Event.Subscribe<UIPanelId>(GlobalEventId.PanelClosed, OnPanelClosed);
+            G.Event.Subscribe<UIPanelId>(GlobalEventId.PanelOpen, RefreshVisibility);
+            G.Event.Subscribe<UIPanelId>(GlobalEventId.PanelClosed, RefreshVisibility);
         }
 
         public override void OnClose()
         {
             _btn_back.onClick.RemoveListener(OnClickBack);
-            G.Event.Unsubscribe<UIPanelId>(GlobalEventId.PanelOpen, OnPanelOpen);
-            G.Event.Unsubscribe<UIPanelId>(GlobalEventId.PanelClosed, OnPanelClosed);
+            G.Event.Unsubscribe<UIPanelId>(GlobalEventId.PanelOpen, RefreshVisibility);
+            G.Event.Unsubscribe<UIPanelId>(GlobalEventId.PanelClosed, RefreshVisibility);
         }
 
         protected override void OnTick(float dt)
@@ -36,27 +36,12 @@ namespace Jam.Runtime.UI_
             G.UI.Back();
         }
 
-        private void OnPanelOpen(UIPanelId panelId)
+        private void RefreshVisibility(UIPanelId panelId)
         {
-            if (IsPanelInHideList(panelId))
+            var panels = G.UI.Panels;
+            foreach (var p in panels)
             {
-                HideSelf();
-            }
-            else
-            {
-                ShowSelf();
-            }
-        }
-
-        private void OnPanelClosed(UIPanelId panelId)
-        {
-            if (IsPanelInHideList(panelId))
-            {
-                ShowSelf();
-            }
-            else
-            {
-                HideSelf();
+                
             }
         }
 
