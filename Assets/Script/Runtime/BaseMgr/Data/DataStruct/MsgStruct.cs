@@ -71,6 +71,19 @@ namespace Jam.Runtime.Data_
     public class ItemBagData
     {
         public List<BagItem> item_bag;
+
+        public List<Quantum.RuntimePlayer.BagItem> ToQuantumBagItems()
+        {
+            if (item_bag == null)
+                return null;
+
+            List<Quantum.RuntimePlayer.BagItem> quantumBagItems = new List<Quantum.RuntimePlayer.BagItem>(item_bag.Count);
+            foreach (var item in item_bag)
+            {
+                quantumBagItems.Add(new Quantum.RuntimePlayer.BagItem() { id = item.id, amount = item.amount, });
+            }
+            return quantumBagItems;
+        }
     }
 
     [Serializable]
@@ -99,6 +112,11 @@ namespace Jam.Runtime.Data_
         public string rid;
         public string name;
         public int hero;
+
+        public override string ToString()
+        {
+            return $"rid: {rid}, name: {name}, hero: {hero}";
+        }
     }
 
     [Serializable]
@@ -157,7 +175,7 @@ namespace Jam.Runtime.Data_
         public int id;
         public int amount;
     }
-    
+
     [Serializable]
     public class ChooseHeroReq
     {

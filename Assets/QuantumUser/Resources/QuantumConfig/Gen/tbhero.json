@@ -5,7 +5,9 @@
       10001,
       20001,
       30001
-    ]
+    ],
+    "model_arena": "arena_peter_model",
+    "anim_arena": "arena_peter_anim_bank"
   },
   {
     "id": 2,
@@ -13,6 +15,8 @@
       10002,
       20002,
       30002
-    ]
+    ],
+    "model_arena": "arena_robin_model",
+    "anim_arena": "arena_robin_anim_bank"
   }
 ]

@@ -2,71 +2,99 @@
   {
     "id": 1,
     "name": "gold",
-    "add_skill": 0
+    "add_skills": [
+      0
+    ]
   },
   {
     "id": 2,
     "name": "gem",
-    "add_skill": 0
+    "add_skills": [
+      0
+    ]
   },
   {
     "id": 10001,
     "name": "test1",
-    "add_skill": 10001
+    "add_skills": [
+      40001
+    ]
   },
   {
     "id": 10002,
     "name": "test2",
-    "add_skill": 10001
+    "add_skills": [
+      40002
+    ]
   },
   {
     "id": 10003,
     "name": "test3",
-    "add_skill": 20001
+    "add_skills": [
+      40003
+    ]
   },
   {
     "id": 10004,
     "name": "test4",
-    "add_skill": 20001
+    "add_skills": [
+      40001
+    ]
   },
   {
     "id": 10005,
     "name": "test5",
-    "add_skill": 30001
+    "add_skills": [
+      40002
+    ]
   },
   {
     "id": 10006,
     "name": "test6",
-    "add_skill": 30001
+    "add_skills": [
+      40003
+    ]
   },
   {
     "id": 10007,
     "name": "test7",
-    "add_skill": 10002
+    "add_skills": [
+      40001
+    ]
   },
   {
     "id": 10008,
     "name": "test8",
-    "add_skill": 10002
+    "add_skills": [
+      40002
+    ]
   },
   {
     "id": 10009,
     "name": "test9",
-    "add_skill": 20002
+    "add_skills": [
+      40003
+    ]
   },
   {
     "id": 10010,
     "name": "test10",
-    "add_skill": 20002
+    "add_skills": [
+      40001
+    ]
   },
   {
     "id": 10011,
     "name": "test11",
-    "add_skill": 30002
+    "add_skills": [
+      40002
+    ]
   },
   {
     "id": 10012,
     "name": "test12",
-    "add_skill": 30002
+    "add_skills": [
+      40003
+    ]
   }
 ]

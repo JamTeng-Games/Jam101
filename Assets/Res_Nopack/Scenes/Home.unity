@@ -122,7 +122,7 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
---- !u!1 &751075547
+--- !u!1 &1032734556
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -130,31 +130,31 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 751075550}
-  - component: {fileID: 751075549}
-  - component: {fileID: 751075548}
+  - component: {fileID: 1032734559}
+  - component: {fileID: 1032734558}
+  - component: {fileID: 1032734557}
   m_Layer: 0
-  m_Name: Main Camera
-  m_TagString: MainCamera
+  m_Name: Camera
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!81 &751075548
+--- !u!81 &1032734557
 AudioListener:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 751075547}
+  m_GameObject: {fileID: 1032734556}
   m_Enabled: 1
---- !u!20 &751075549
+--- !u!20 &1032734558
 Camera:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 751075547}
+  m_GameObject: {fileID: 1032734556}
   m_Enabled: 1
   serializedVersion: 2
   m_ClearFlags: 1
@@ -184,7 +184,7 @@ Camera:
   field of view: 60
   orthographic: 0
   orthographic size: 5
-  m_Depth: -1
+  m_Depth: 0
   m_CullingMask:
     serializedVersion: 2
     m_Bits: 4294967295
@@ -199,16 +199,16 @@ Camera:
   m_OcclusionCulling: 1
   m_StereoConvergence: 10
   m_StereoSeparation: 0.022
---- !u!4 &751075550
+--- !u!4 &1032734559
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 751075547}
+  m_GameObject: {fileID: 1032734556}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1, z: -10}
+  m_LocalPosition: {x: 0, y: 0, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -360,10 +360,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 73370598296567218, guid: d9444edff76d4ef4180750bab508cfc6, type: 3}
-      propertyPath: PlayMode
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 5949407207429432935, guid: d9444edff76d4ef4180750bab508cfc6, type: 3}
       propertyPath: m_Name
       value: Game
@@ -408,13 +404,13 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 7067810564837868719, guid: d9444edff76d4ef4180750bab508cfc6, type: 3}
-      propertyPath: m_BlockingMask.m_Bits
-      value: 1015
-      objectReference: {fileID: 0}
     - target: {fileID: 7796226951394270760, guid: d9444edff76d4ef4180750bab508cfc6, type: 3}
       propertyPath: _connectArgs.RuntimePlayer.PlayerAvatar.Id.Value
-      value: 1526882926222888806
+      value: 1482721101906855630
+      objectReference: {fileID: 0}
+    - target: {fileID: 7796226951394270760, guid: d9444edff76d4ef4180750bab508cfc6, type: 3}
+      propertyPath: _connectArgs.RuntimeConfig.EntityPrototype.Id.Value
+      value: 1482721101906855630
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -425,7 +421,7 @@ PrefabInstance:
 SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
-  - {fileID: 751075550}
+  - {fileID: 1032734559}
   - {fileID: 1088674856}
   - {fileID: 9010545007862162326}
   - {fileID: 1131384616}

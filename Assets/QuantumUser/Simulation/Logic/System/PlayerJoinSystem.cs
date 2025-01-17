@@ -1,4 +1,5 @@
 using Quantum.Cfg_;
+using UnityEngine;
 
 namespace Quantum
 {
@@ -22,7 +23,7 @@ namespace Quantum
                 var playerEntity = f.Create(runtimePlayer.PlayerAvatar);
                 f.AddOrGet<PlayerComp>(playerEntity, out var playerComp);
                 playerComp->PlayerRef = playerRef;
-                f.Signals.OnPlayerSpawned(playerEntity);
+                f.Signals.OnPlayerSpawned(playerEntity, playerRef);
             }
         }
 

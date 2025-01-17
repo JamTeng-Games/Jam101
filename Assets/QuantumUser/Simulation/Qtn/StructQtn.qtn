@@ -29,3 +29,23 @@ struct MovePreorder
     int totalFrame;      // 多少帧数移动多少距离
     int remainFrame;     // 剩余帧数
 }
+
+// 各种类型的伤害数值
+struct Damage
+{
+    int bullet;
+    int aoe;
+}
+
+struct DamageInfo
+{
+    EntityRef source;
+    EntityRef target;
+    EDamageInfoType damageType;
+    Damage damage;
+    FP hitRate;         // 命中率
+    FP criticalRate;    // 暴击率
+    FP varianceRate;    // 分散度
+    FP angle;           // 伤害角度
+    list<AddBuffInfo> addBuffs; // 伤害过后，给角色添加的buff
+}

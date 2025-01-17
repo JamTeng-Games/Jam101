@@ -13,6 +13,7 @@ namespace Jam.Runtime.Net_
         {
             RoleData m = packet.Decode<RoleData>();
             JLog.Debug($"Recv {cmd}, {m}");
+            G.Data.UserData.rid = m.rid;
             G.Data.UserData.name = m.name;
             G.Data.UserData.hero = m.hero;
             G.Event.Send(GlobalEventId.RoleDataUpdate);

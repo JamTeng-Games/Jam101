@@ -15,7 +15,7 @@ namespace Quantum.Graph.Skill
         Speed,                    // 移动速度  int 10s移动多远
         HpRecover,                // 生命恢复  int
         Shield,                   // 护盾     int
-        AttackDistance,           // 普通攻击距离  int / 10
+        AttackDistance,           // 普通攻击距离  (int / 100) 米
         AttackClipMaxNum,         // 普通攻击弹夹数量
         AttackClipRecover,        // 普通弹夹恢复时间 int
         SkillClipMaxNum,          // 技能弹夹数量 int
@@ -25,6 +25,7 @@ namespace Quantum.Graph.Skill
         SuperSkillNeedPower,      // 大招所需能量条 int
         AttackHitAddSuperPower,   // 普通攻击命中增加大招能量 int
         SkillHitAddSuperPower,    // 技能命中增加大招能量 int
+        DodgeRate,                // 闪避率 int / 100
 
         __End__, // 终止占位符
     }

@@ -15,3 +15,12 @@ enum EStateType
     Die,
     Skill,
 }
+
+flags EDamageInfoType
+{
+    DirectDamage,     // 直接伤害
+    ReflectDamage,    // 反弹伤害
+    PeriodDamage,     // 周期伤害
+    DirectHeal,       // 直接治疗
+    PeriodHeal,       // 周期治疗
+}

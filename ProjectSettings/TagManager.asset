@@ -9,14 +9,14 @@ TagManager:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - Static
   - Water
   - UI
   - Ground
   - Block
   - Shrub
   - Entity
-  - 
+  - Bullet
   - 
   - 
   - 

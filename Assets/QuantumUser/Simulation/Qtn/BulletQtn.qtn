@@ -1,0 +1,36 @@
+
+struct BulletModel
+{
+    int type;                   // 子弹类型
+    FP radius;                  // 碰撞半径
+    int sameTargetDelayFrame;   // 碰触同一个目标的延迟, 帧数
+    int moveType;               // 移动方式 fly or ground
+    bool removeOnObstacle;      // 是否碰到障碍物就移除
+    bool hitFoe;                // 是否可以击中敌人
+    bool hitAlly;               // 是否可以击中友军
+    int tweenType;          // 子弹移动函数的Id
+    bool useFireAngle;      // 计算偏移角度的时候，是用当前角度还是fireDegree
+
+    list<int> tags;     // 标签
+    BLTM_Instance instance;     // 额外参数
+}
+
+struct BulletHitRecord
+{
+    entity_ref target;
+    int timeToHitAgain;       // 多少帧后可以再次击中
+}
+
+// 子弹发射器
+struct FireBulletInfo
+{
+    BulletModel model;      // Bullet 数据模板
+    int speed;              // 发射速度  10s飞多少米
+    int duration;           // 持续时间
+    int timeCanHit;         // 多少帧后可以击中
+    int hitTimes;           // 可以击中几次
+
+    FPVector2 firePos;      // 发射位置
+    FP fireAngle;           // 发射角度 radian
+    entity_ref caster;      // 释放者
+}

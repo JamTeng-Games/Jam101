@@ -15,9 +15,13 @@ namespace Quantum
             if (f.TryGet<PlayerComp>(filter.Entity, out PlayerComp p))
             {
                 Log.Debug($"PlayerRef: {(int)p.PlayerRef}");
+
+                // TODO: Only for debug
+                if (p.PlayerRef != 0)
+                    return;
+
                 var playerInput = *f.GetPlayerInput(p.PlayerRef);
                 filter.InputComp->Input = playerInput;
-                Helper_Move.ReqMove(f, filter.Entity, playerInput.MoveDirection);
             }
             // AI
             else

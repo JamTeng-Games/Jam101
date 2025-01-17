@@ -52,7 +52,7 @@ namespace Jam.Runtime.Login_
         {
             _pwd = pwd;
             LoginReq req = new LoginReq() { account = account, pwd = pwd };
-            JLog.Error("LoginReq: " + req.account + " " + req.pwd);
+            // JLog.Error("LoginReq: " + req.account + " " + req.pwd);
             G.Net.Send(NetCmd.CS_Login, req);
         }
 

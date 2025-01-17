@@ -51,12 +51,13 @@ namespace Jam.Runtime.Quantum_
         //     await Controller.HandleConnectionResult(result, this.Controller);
         // }
 
-        public async Task<QuantumConnectResult> ConnectAsync(QuantumConnectArgs connectArgs = null, RuntimePlayer runtimePlayerData = null)
+        public async Task<QuantumConnectResult> ConnectAsync(QuantumConnectArgs connectArgs = null, RuntimePlayer runtimePlayerData = null, RuntimeConfig runtimeConfig = null)
         {
             if (connectArgs == null)
                 connectArgs = _connectArgs;
             PatchConnectArgs(connectArgs);
             PatchRuntimePlayerData(connectArgs, runtimePlayerData);
+            PatchRuntimeConfigData(connectArgs, runtimeConfig);
             if (_cancellation != null)
                 throw new Exception("Connection instance still in use");
 
@@ -469,6 +470,20 @@ namespace Jam.Runtime.Quantum_
             {
                 connectArgs.RuntimePlayer.heroData = runtimePlayerData.heroData;
                 connectArgs.RuntimePlayer.PlayerNickname = runtimePlayerData.heroData.name;
+            }
+        }
+
+        private void PatchRuntimeConfigData(QuantumConnectArgs connectArgs, RuntimeConfig runtimeConfigData)
+        {
+            if (runtimeConfigData == null)
+                return;
+
+            // hero data
+            if (runtimeConfigData.SkillGraphs != null)
+            {
+                connectArgs.RuntimeConfig.SkillGraphs = runtimeConfigData.SkillGraphs;
+                // connectArgs.RuntimePlayer.heroData = runtimeConfigData.heroData;
+                // connectArgs.RuntimePlayer.PlayerNickname = runtimeConfigData.heroData.name;
             }
         }
 

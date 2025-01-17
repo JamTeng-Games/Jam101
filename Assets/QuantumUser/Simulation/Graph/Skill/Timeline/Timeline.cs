@@ -10,9 +10,6 @@ namespace Quantum.Graph.Skill
     public class Timeline : NodeBase
     {
         [GraphDisplay(DisplayType.BothViews)]
-        public TimelineId id;
-
-        [GraphDisplay(DisplayType.BothViews)]
         public int totalFrame;
 
         [PortList, SerializeReference]

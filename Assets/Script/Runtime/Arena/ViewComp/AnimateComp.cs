@@ -10,13 +10,14 @@ namespace Jam.Arena
     [Quantum.Core.RequireComponent(typeof(AnimancerComponent))]
     public class AnimateComp : JamEntityViewComp
     {
-        private AnimationBank _animationBank;
+        [SerializeField] private AnimationBank _animationBank;
         private AnimancerComponent _animancer;
         private AnimationInfo _currentAnim;
         private AnimancerState _animancerState;
         private int _startPlayingFrame;
         private float _currentAnimRunningTime;
         private bool _isAnimationBankLoaded;
+        private bool _isDead;
 
         // 由于加载animationBank的异步的，在这个期间如果有播动画的请求，会被放到这个队列中
         private Queue<AnimationKey> _waitingQueue = new Queue<AnimationKey>();
@@ -31,6 +32,9 @@ namespace Jam.Arena
             QuantumEvent.Subscribe<EventOnMove>(listener: this, handler: OnMoveEvent);
             QuantumEvent.Subscribe<EventOnStopMove>(listener: this, handler: OnStopMoveEvent);
             QuantumEvent.Subscribe<EventPlayAnim>(listener: this, handler: OnPlayAnimEvent);
+            QuantumEvent.Subscribe<EventOnChangeHp>(listener: this, handler: OnChangeHp);
+            QuantumEvent.Subscribe<EventOnHit>(listener: this, handler: OnHit);
+            QuantumEvent.Subscribe<EventOnDie>(listener: this, handler: OnDie);
         }
 
         private void OnPlayAnimEvent(EventPlayAnim callback)
@@ -45,7 +49,16 @@ namespace Jam.Arena
             if (callback.entity != EntityRef)
                 return;
             Log.Debug("OnMove");
-            Play(AnimationKey.Run);
+
+            if (callback.velocity == default)
+            {
+                if (_currentAnim.key == AnimationKey.Run)
+                    Play(AnimationKey.Idle, true);
+            }
+            else
+            {
+                Play(AnimationKey.Run);
+            }
         }
 
         private void OnStopMoveEvent(EventOnStopMove callback)
@@ -54,6 +67,28 @@ namespace Jam.Arena
                 return;
             if (_currentAnim.key == AnimationKey.Run)
                 Play(AnimationKey.Idle, true);
+        }
+
+        private void OnDie(EventOnDie callback)
+        {
+            if (callback.entity != EntityRef)
+                return;
+            _isDead = true;
+            Play(AnimationKey.Die);
+        }
+
+        private void OnHit(EventOnHit callback)
+        {
+            if (callback.entity != EntityRef)
+                return;
+            Play(AnimationKey.Hit);
+        }
+
+        private void OnChangeHp(EventOnChangeHp callback)
+        {
+            if (callback.entity != EntityRef)
+                return;
+            Log.Debug($"Change Hp {callback.modHp}");
         }
 
         public override void OnDeactivate()
@@ -80,6 +115,9 @@ namespace Jam.Arena
 
         public void Play(AnimationKey animKey, bool forceInterrupt = false)
         {
+            if (_isDead && animKey != AnimationKey.Die)
+                return;
+
             if (_animationBank == null)
             {
                 if (forceInterrupt)

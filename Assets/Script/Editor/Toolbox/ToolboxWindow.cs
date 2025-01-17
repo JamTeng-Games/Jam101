@@ -20,22 +20,28 @@ namespace Jam.Editor_
             window.Show();
         }
 
-        [Button("地图烘焙", ButtonSizes.Gigantic), HorizontalGroup("row1")]
-        public void OpenMapBaker()
+        [Button("技能编辑器", ButtonSizes.Gigantic), HorizontalGroup("row1")]
+        public void OpenSkill()
         {
-            MapBakerWindow.OpenWindow();
+            SkillWindow.OpenWindow();
         }
 
-        [Button("Buff管理", ButtonSizes.Gigantic), HorizontalGroup("row1")]
+        [Button("Buff管理", ButtonSizes.Gigantic), HorizontalGroup("row2")]
         public void OpenBuff()
         {
             BuffWindow.OpenWindow();
         }
 
-        [Button("技能编辑器", ButtonSizes.Gigantic), HorizontalGroup("row2")]
-        public void OpenSkill()
+        [Button("子弹管理", ButtonSizes.Gigantic), HorizontalGroup("row2")]
+        public void OpenBullet()
         {
-            SkillWindow.OpenWindow();
+            BulletWindow.OpenWindow();
+        }
+
+        [Button("地图烘焙", ButtonSizes.Gigantic), HorizontalGroup("row3")]
+        public void OpenMapBaker()
+        {
+            MapBakerWindow.OpenWindow();
         }
     }
 

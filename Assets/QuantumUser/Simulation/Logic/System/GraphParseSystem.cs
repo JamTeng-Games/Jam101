@@ -27,7 +27,7 @@ namespace Quantum
                     Log.Debug("Skill Graph Parsed Successfully");
                     foreach (var (skId, skm) in skillDict)
                     {
-                        Log.Debug($"Skill: {(SkillId)skId} - {skm.cd} {skm.isAttack}");
+                        Log.Debug($"Skill: {skId} - {skm.cd} {skm.type}");
                     }
                     foreach (var (tlId, tlm) in timelineDict)
                     {

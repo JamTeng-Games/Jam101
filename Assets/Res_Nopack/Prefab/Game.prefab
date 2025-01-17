@@ -146,14 +146,27 @@ MonoBehaviour:
           Value: 504795861161054055
       SkillGraphs:
       - Id:
-          Value: 496026114857364531
+          Value: 398560441898701275
       - Id:
-          Value: 527353218117790001
-    RuntimePlayers:
-    - PlayerAvatar:
+          Value: 336394220029377451
+      - Id:
+          Value: 348514981637870543
+      - Id:
+          Value: 371124807048751446
+      - Id:
+          Value: 364916134359184450
+      - Id:
+          Value: 431443952250478124
+    RuntimePlayer:
+      PlayerAvatar:
         Id:
           Value: 1526882926222888806
       PlayerNickname: 
+      heroData:
+        rid: 
+        name: 
+        hero: 1
+        items: []
     SessionConfig: {fileID: 11400000, guid: 15db8dbd211ce53428aff96a6158c43c, type: 2}
     ServerSettings: {fileID: 11400000, guid: 47b5304659f049a4f8271c9dbf4b166b, type: 2}
     ShutdownFlags: 3
@@ -266,7 +279,7 @@ MonoBehaviour:
   m_BlockingObjects: 0
   m_BlockingMask:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 1015
 --- !u!1 &8699131020386005561
 GameObject:
   m_ObjectHideFlags: 0

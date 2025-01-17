@@ -1,0 +1,73 @@
+union BM_Instance
+{
+    BM_AutoReload AutoReload;
+    BM_Dash Dash;
+    BM_DisableMove DisableMove;
+    BM_DisableMove_NoEffect DisableMove_NoEffect;
+    BM_DisableSkill DisableSkill;
+    BM_Hot Hot;
+    BM_PeterAttrib PeterAttrib;
+    BM_Poison Poison;
+    BM_PureAttrib PureAttrib;
+    BM_test_item_1 test_item_1;
+    BM_test_item_2 test_item_2;
+    BM_test_item_3 test_item_3;
+    BM_Test1 Test1;
+}
+
+struct BM_AutoReload
+{
+    int reloadFrame;  // 
+}
+
+struct BM_Dash
+{
+    FP distance;  // 
+}
+
+struct BM_DisableMove
+{
+}
+
+struct BM_DisableMove_NoEffect
+{
+}
+
+struct BM_DisableSkill
+{
+}
+
+struct BM_Hot
+{
+    short tick;  // 多少tick热一次
+    ushort area;  // 范围
+    short damage;  // 造成伤害数值
+}
+
+struct BM_PeterAttrib
+{
+}
+
+struct BM_Poison
+{
+}
+
+struct BM_PureAttrib
+{
+}
+
+struct BM_test_item_1
+{
+}
+
+struct BM_test_item_2
+{
+}
+
+struct BM_test_item_3
+{
+}
+
+struct BM_Test1
+{
+}

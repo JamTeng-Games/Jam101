@@ -1,0 +1,99 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a42ac8532f00466a847265767d96ae7f, type: 3}
+  m_Name: test_item_1
+  m_EditorClassIdentifier: 
+  Identifier:
+    Path: Res/Graph/Skill/test_item_1
+    Guid:
+      Value: 371124807048751446
+  baseModel:
+    nodes:
+    - rid: 2522078788334911494
+    - rid: 2522078789511151620
+    - rid: 2522078789511151638
+    utilityNodes: []
+    tmpName: test_item_1
+    viewportInitiallySet: 1
+    viewPosition: {x: -229.52238, y: 180.63687, z: 0}
+    viewScale: {x: 1, y: 1, z: 1}
+  references:
+    version: 2
+    RefIds:
+    - rid: -2
+      type: {class: , ns: , asm: }
+    - rid: 2522078788334911494
+      type: {class: NodeModel, ns: NewGraph, asm: NewGraph}
+      data:
+        nodeData:
+          rid: 2522078788334911495
+        nodeX: 304
+        nodeY: 69
+        name: test_item_1
+        isUtilityNode: 0
+        foldouts: []
+    - rid: 2522078788334911495
+      type: {class: SkillNode, ns: Quantum.Graph.Skill, asm: Quantum.Simulation}
+      data:
+        id: 40001
+        cd: 0
+        skillType: 0
+        canLearnMultiTimes: 1
+        canInterrupt: 0
+        timeline:
+          rid: -2
+        buffs:
+        - rid: 2522078789511151621
+        costAttributes: []
+        stateConditions: 
+        indicatorType: 0
+    - rid: 2522078789511151620
+      type: {class: NodeModel, ns: NewGraph, asm: NewGraph}
+      data:
+        nodeData:
+          rid: 2522078789511151621
+        nodeX: 560.5224
+        nodeY: 88.36313
+        name: "\u6DFB\u52A0Buff\u7ED9\u91CA\u653E\u8005"
+        isUtilityNode: 0
+        foldouts: []
+    - rid: 2522078789511151621
+      type: {class: AddBuffToCasterNode, ns: Quantum.Graph.Skill, asm: Quantum.Simulation}
+      data:
+        frame: 0
+        buffNode:
+          rid: 2522078789511151639
+        isPermanent: 1
+        addStack: 1
+        duration: 1
+        isDurationSetTo: 0
+    - rid: 2522078789511151638
+      type: {class: NodeModel, ns: NewGraph, asm: NewGraph}
+      data:
+        nodeData:
+          rid: 2522078789511151639
+        nodeX: 824.5224
+        nodeY: 58.36313
+        name: test_item_1
+        isUtilityNode: 0
+        foldouts: []
+    - rid: 2522078789511151639
+      type: {class: Bufftest_item_1Node, ns: Quantum.Graph.Skill, asm: Quantum.Simulation}
+      data:
+        priority: 0
+        maxStack: 1
+        interval: -1
+        valueAttribs:
+        - type: 1
+          value: 100
+        percentAttribs: []
+        tags: 

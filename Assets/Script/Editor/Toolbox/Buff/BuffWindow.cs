@@ -38,7 +38,7 @@ namespace Jam.Editor_
             if (_isDirty)
                 AutoGenBuffCode();
 
-            _newBuffData.Dispose();
+            _newBuffData?.Dispose();
             _newBuffData = null;
         }
 

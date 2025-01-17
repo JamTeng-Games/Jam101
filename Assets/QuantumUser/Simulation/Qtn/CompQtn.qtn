@@ -8,14 +8,17 @@ component PlayerComp
 // 角色当前状态值
 component StatsComp
 {
+    [HideInInspector] bool IsInit;    // 是否初始化
     [HideInInspector] int Hp;         // 血量
     [HideInInspector] int Mp;         // 蓝量
     [HideInInspector] int Defence;    // 护甲
     [HideInInspector] int AttackClip; // 普通攻击弹夹数
     [HideInInspector] int SuperPower; // 大招能量条
     // 控制状态
-    [HideInInspector] int CanUseSkill;
-    [HideInInspector] int CanMove;
+    [HideInInspector] int CanUseSkill; // 是否可以使用技能 (ref count)
+    [HideInInspector] int CanMove;     // 是否可以移动 (ref count)
+    [HideInInspector] int CanRotate;   // 是否可以旋转 (ref count)
+    [HideInInspector] int IsImmune;    // 无敌 (ref count)
 }
 
 // 属性组件
@@ -33,8 +36,23 @@ component AttribComp
 // 位移组件
 component MoveComp
 {
-    [HideInInspector] FPVector2 Vector;
-    [HideInInspector] FP RotationDegree;
+    [HideInInspector] FPVector2 Offset;
+    [HideInInspector] FPVector2 Velocity;
+}
+
+// 旋转组件
+component RotateComp
+{
+    [HideInInspector] FP Rotation;
+}
+
+// KCC
+component KccComp
+{
+    [HideInInspector] FPVector2 Velocity;
+    asset_ref<KccSettings> Settings;
+    [HideInInspector] FP MaxSpeed;
+    [HideInInspector] FP Acceleration;
 }
 
 // 强制位移组件
@@ -54,9 +72,31 @@ component SkillComp
 // Buff
 component BuffComp
 {
+    bool isDirty;
     [AllocateOnComponentAdded, FreeOnComponentRemoved, HideInInspector]
     list<BuffObj> Buffs;
     [AllocateOnComponentAdded, FreeOnComponentRemoved, HideInInspector]
     list<AddBuffInfo> AddBuffs;
+}
 
+// Bullet
+component BulletComp
+{
+    [HideInInspector] BulletModel Model;
+    [HideInInspector] int Hp;             // 还能命中几次
+    [HideInInspector] int ElapsedFrame;   // 已经过去的帧数
+    [HideInInspector] int RemainFrame;    // 剩余帧数
+    [HideInInspector] int TimeCanHit;     // 多少帧后可以击中
+    [HideInInspector] FP Speed;           // 速度
+
+    [HideInInspector] entity_ref Caster;  // 释放者
+
+    [AllocateOnComponentAdded, FreeOnComponentRemoved, HideInInspector]
+    list<BulletHitRecord> HitRecords;   // 击中记录
+}
+
+// Camp
+component CampComp
+{
+    [HideInInspector] int Camp;
 }

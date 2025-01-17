@@ -22,5 +22,17 @@
   {
     "id": 30002,
     "asset": "robin_attrib"
+  },
+  {
+    "id": 40001,
+    "asset": "test_item_1"
+  },
+  {
+    "id": 40002,
+    "asset": "test_item_2"
+  },
+  {
+    "id": 40003,
+    "asset": "test_item_3"
   }
 ]

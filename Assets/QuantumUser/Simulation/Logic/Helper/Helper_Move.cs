@@ -7,37 +7,55 @@ namespace Quantum.Helper
 
     public unsafe class Helper_Move
     {
-        public static void Move(Frame f, EntityRef entity, FPVector2 moveVector)
+        public static void Move(Frame f, EntityRef entity, FPVector2 velocity, FPVector2 correction)
         {
             if (f.Unsafe.TryGetPointer<Transform2D>(entity, out var transComp))
             {
-                moveVector /= 300;
-                if (Helper_Attrib.TryGetAttribValue(f, entity, AttributeType.Speed, out var speed))
-                {
-                    Log.Debug($"Speed {speed}");
-                    moveVector *= (FP)speed;
-                }
-                transComp->Position += moveVector;
+                transComp->Position += correction;
+                transComp->Position += velocity;
 
-                // TODO: 旋转单独一个组件
-                if (moveVector != FPVector2.Zero)
-                {
-                    transComp->Rotation = FPMath.Atan2(moveVector.Y, moveVector.X) - FP.Pi / 2;
-                }
-                f.Events.OnMove(entity, moveVector);
+                // velocity /= 300;
+                // if (Helper_Attrib.TryGetAttribValue(f, entity, AttributeType.Speed, out var speed))
+                // {
+                //     Log.Debug($"Speed {speed}");
+                //     velocity *= (FP)speed;
+                // }
+                // transComp->Position += velocity;
+
+                f.Events.OnMove(entity, velocity);
             }
         }
 
-        public static void ReqRotateTo(Frame f, EntityRef entity, FP degree)
+        public static void Rotate(Frame f, EntityRef entity, FP rotation)
         {
+            if (f.Unsafe.TryGetPointer<Transform2D>(entity, out var transComp))
+            {
+                // // TODO: 旋转单独一个组件
+                // if (velocity != FPVector2.Zero)
+                // {
+                //     transComp->Rotation = FPMath.Atan2(velocity.Y, velocity.X) - FP.Pi / 2;
+                // }
+
+                transComp->Rotation = rotation;
+                f.Events.OnRotate(entity, rotation);
+            }
         }
 
-        // move表示距离和方向
-        public static void ReqMove(Frame f, EntityRef entity, FPVector2 moveVector)
+        // velocity表示距离和方向
+        public static void ReqMove(Frame f, EntityRef entity, FPVector2 velocity, FPVector2 correction = default)
         {
             if (f.Unsafe.TryGetPointer<MoveComp>(entity, out var moveComp))
             {
-                moveComp->Vector = moveVector;
+                moveComp->Velocity = velocity;
+                moveComp->Offset = correction;
+            }
+        }
+
+        public static void ReqRotateTo(Frame f, EntityRef entity, FP angle)
+        {
+            if (f.Unsafe.TryGetPointer<RotateComp>(entity, out var rotateComp))
+            {
+                rotateComp->Rotation = angle;
             }
         }
 

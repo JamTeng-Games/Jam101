@@ -5,15 +5,8 @@ using Quantum.Graph.Skill;
 namespace Quantum.Helper
 {
 
-    public struct DamageInfo
-    {
-    }
-
     public static unsafe partial class Helper_Buff
     {
-        // Buff id -> BuffCmd
-        private static Dictionary<int, BuffCmd> _buffCmds;
-
         public static void AddBuff(Frame f, EntityRef target, in AddBuffInfo addBuffInfo)
         {
             if (f.Unsafe.TryGetPointer<BuffComp>(target, out var buffComp))
@@ -23,18 +16,31 @@ namespace Quantum.Helper
             }
         }
 
-        public static bool TryGetFirstBuff(in QList<BuffObj> buffs,
-                                           int buffType,
-                                           EntityRef caster,
-                                           out int firstBuffIndex)
+        public static void ReduceBuffStack(Frame f, EntityRef target, int buffType, EntityRef caster, int reduceCount)
         {
-            firstBuffIndex = -1;
+            if (f.Unsafe.TryGetPointer<BuffComp>(target, out var buffComp))
+            {
+                var buffs = f.ResolveList(buffComp->Buffs);
+                if (TryGetBuff(buffs, buffType, caster, out int buffIndex))
+                {
+                    var buff = buffs[buffIndex];
+                    buff.stack -= reduceCount;
+                    buffs[buffIndex] = buff;
+                    // 标记重新计算属性
+                    buffComp->isDirty = true;
+                }
+            }
+        }
+
+        public static bool TryGetBuff(in QList<BuffObj> buffs, int buffType, EntityRef caster, out int buffIndex)
+        {
+            buffIndex = -1;
             for (int i = 0; i < buffs.Count; i++)
             {
                 var buff = buffs[i];
                 if (buff.model.type == buffType && (caster == EntityRef.None || buff.caster == caster))
                 {
-                    firstBuffIndex = i;
+                    buffIndex = i;
                     return true;
                 }
             }
@@ -42,6 +48,9 @@ namespace Quantum.Helper
         }
 
         #region Buff Cmds
+
+        // Buff id -> BuffCmd
+        private static Dictionary<int, BuffCmd> _buffCmds;
 
         public static void OnAdd(Frame f, EntityRef entity, ref BuffObj buffObj, int modifyStack)
         {
@@ -67,7 +76,7 @@ namespace Quantum.Helper
             }
         }
 
-        public static void OnCaskSkill(Frame f,
+        public static void OnCastSkill(Frame f,
                                        EntityRef entity,
                                        ref BuffObj buffObj,
                                        SkillObj skillObj,

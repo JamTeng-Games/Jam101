@@ -14,6 +14,7 @@ namespace Quantum
         {
             public EntityRef Entity;
             public BuffComp* BuffComp;
+            public StatsComp* StatsComp;
         }
 
         public override void Update(Frame f, ref Filter filter)
@@ -28,11 +29,11 @@ namespace Quantum
                 bool isRemove = false;
                 int modStack = Math.Min(addBuff.addStack, addBuff.buffModel.maxStack);
                 // 已经存在
-                if (Helper_Buff.TryGetFirstBuff(buffs, addBuff.buffModel.type, addBuff.caster, out int oldBuffIndex))
+                if (Helper_Buff.TryGetBuff(buffs, addBuff.buffModel.type, addBuff.caster, out int oldBuffIndex))
                 {
                     var oldBuff = buffs[oldBuffIndex];
                     // model (args)
-                    oldBuff.model = addBuff.buffModel;  // Model
+                    oldBuff.model = addBuff.buffModel; // Model
                     // remain frame
                     if (addBuff.isDurationSetTo)
                     {
@@ -86,6 +87,9 @@ namespace Quantum
                 Helper_Attrib.Recalculate(f, filter.Entity);
             }
             addBuffs.Clear();
+
+            if (!filter.StatsComp->IsInit)
+                Helper_Stats.InitStats(f, filter.Entity);
         }
     }
 

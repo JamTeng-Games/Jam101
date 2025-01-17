@@ -1,53 +1,41 @@
-﻿union BM_Instance
+﻿struct BuffObj
 {
-    BM_AutoReload AutoReload;
-    BM_Dash Dash;
-    BM_DisableMove DisableMove;
-    BM_DisableMove_NoEffect DisableMove_NoEffect;
-    BM_DisableSkill DisableSkill;
-    BM_Hot Hot;
-    BM_Poison Poison;
-    BM_PureAttrib PureAttrib;
-    BM_Test1 Test1;
+    BuffModel model;    // buff 数据模板
+    entity_ref caster;  // 释放者，可以空
+    entity_ref owner;   // 携带者
+
+    int remainFrame;    // 剩余帧数
+    int stack;          // 层数
+    int elapsedFrame;   // 已经过去的帧数
+    int tickTimes;      // 一共执行了多少次 OnTick
+    bool isPermanent;   // 是否永久
 }
 
-struct BM_AutoReload
+
+// Buff
+struct AddBuffInfo
 {
-    int reloadFrame;  // 
+    BuffModel buffModel;    // buff 数据模板
+    entity_ref caster;      // 释放者
+    entity_ref target;      // 目标
+    int addStack;           // 添加的层数
+    int duration;           // 持续时间
+    bool isPermanent;       // 是否永久
+    bool isDurationSetTo;   // 关于时间，是改变还是设置为, true代表设置为，false代表改变
 }
 
-struct BM_Dash
+// BM -> BuffModel
+struct BuffModel
 {
-    FP distance;  // 
-}
+    int type;       // Buff类型
+    int priority;   // 优先级，越小的越先执行
+    int maxStack;   // 最大层数
+    int interval;   // 间隔时间
 
-struct BM_DisableMove
-{
-}
+    // 属性修改
+    dictionary<int, int> valueAttribs;   // 基础属性, 数值
+    dictionary<int, FP> percentAttribs;  // 百分比属性
 
-struct BM_DisableMove_NoEffect
-{
-}
-
-struct BM_DisableSkill
-{
-}
-
-struct BM_Hot
-{
-    short tick;  // 多少tick热一次
-    ushort area;  // 范围
-    short damage;  // 造成伤害数值
-}
-
-struct BM_Poison
-{
-}
-
-struct BM_PureAttrib
-{
-}
-
-struct BM_Test1
-{
+    list<int> tags;     // 标签
+    BM_Instance instance;   // 具体的Buff数据
 }

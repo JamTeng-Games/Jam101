@@ -21,7 +21,7 @@ namespace Quantum
             var buffs = f.ResolveList(filter.BuffComp->Buffs);
             Span<int> toRemove = stackalloc int[buffs.Count];
             int toRemoveCount = 0;
-            bool isAttribDirty = false;
+            bool isAttribDirty = filter.BuffComp->isDirty;
             for (int i = 0; i < buffs.Count; i++)
             {
                 BuffObj buff = buffs[i];
@@ -57,7 +57,10 @@ namespace Quantum
 
             // 重新计算属性
             if (isAttribDirty)
+            {
                 Helper_Attrib.Recalculate(f, filter.Entity);
+            }
+            filter.BuffComp->isDirty = false;
         }
     }
 

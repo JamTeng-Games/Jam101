@@ -1,8 +1,11 @@
+using System.Collections.Generic;
 using Jam.Core;
 using Jam.Runtime.Event;
 using Jam.Runtime.Scene_;
 using Cysharp.Threading.Tasks;
 using Jam.Cfg;
+using AssetObjectGraphModel = Quantum.AssetObjectGraphModel;
+using RuntimeConfig = Quantum.RuntimeConfig;
 using RuntimePlayer = Quantum.RuntimePlayer;
 
 namespace Jam.Runtime.GameFsm
@@ -29,10 +32,19 @@ namespace Jam.Runtime.GameFsm
         private async void StartQuantum()
         {
             G.UI.Open(UIPanelId.Matching);
-            await G.Instance.QuantumChannel.ConnectAsync(runtimePlayerData: new RuntimePlayer()
+            var heroData = new RuntimePlayer.HeroData()
             {
-                heroData = new RuntimePlayer.HeroData()
-            });
+                rid = G.Data.UserData.rid,
+                name = G.Data.UserData.name,
+                hero = G.Data.UserData.hero,
+                items = G.Data.UserData.itemBag.ToQuantumBagItems(),
+            };
+
+            // var skillGraphs = new List<Quantum.AssetRef<AssetObjectGraphModel>>();
+            List<Quantum.AssetRef<AssetObjectGraphModel>> skillGraphs = null; //new List<Quantum.AssetRef<AssetObjectGraphModel>>();
+
+            await G.Instance.QuantumChannel.ConnectAsync(runtimePlayerData: new RuntimePlayer() { heroData = heroData },
+                                                         runtimeConfig: new RuntimeConfig() { SkillGraphs = skillGraphs });
             G.UI.CloseAll();
             G.UI.Open(UIPanelId.ArenaMain);
         }

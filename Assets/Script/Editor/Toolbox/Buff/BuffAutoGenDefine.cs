@@ -10,7 +10,7 @@ namespace Jam.Editor_
         public static readonly string BuffSOPath_Abs = Application.dataPath + "/Res_Nopack/SO/Buff/";
 
         public static readonly string BuffTypePath = Application.dataPath + "/QuantumUser/Simulation/Graph/Skill/Enum/BuffType.cs";
-        public static readonly string BuffQtnPath = Application.dataPath + "/QuantumUser/Simulation/Qtn/BuffQtn.qtn";
+        public static readonly string BuffQtnPath = Application.dataPath + "/QuantumUser/Simulation/Qtn/BuffQtn_AutoGen.qtn";
         public static readonly string BuffNodeFolder = Application.dataPath + "/QuantumUser/Simulation/Graph/Skill/Buff/Gen/";
         public static readonly string BuffCmdFolder = Application.dataPath + "/QuantumUser/Simulation/Logic/Helper/BuffCmd/";
         public static readonly string BuffHelperPath = Application.dataPath + "/QuantumUser/Simulation/Logic/Helper/Gen/Buff/Helper_Buff_Gen.cs";

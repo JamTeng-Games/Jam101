@@ -1,0 +1,177 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a42ac8532f00466a847265767d96ae7f, type: 3}
+  m_Name: peter_attack
+  m_EditorClassIdentifier: 
+  Identifier:
+    Path: Res/Graph/Skill/peter_attack
+    Guid:
+      Value: 398560441898701275
+  baseModel:
+    nodes:
+    - rid: 2522078788334911488
+    - rid: 2522078788334911507
+    - rid: 2522078788334911509
+    - rid: 2522078834876481554
+    - rid: 2522078834876481572
+    - rid: 2522078834876481574
+    - rid: 2522078834876481578
+    utilityNodes: []
+    tmpName: peter_attack
+    viewportInitiallySet: 1
+    viewPosition: {x: -4.8738403, y: 60.501495, z: 0}
+    viewScale: {x: 1, y: 1, z: 1}
+  references:
+    version: 2
+    RefIds:
+    - rid: 2522078788334911488
+      type: {class: NodeModel, ns: NewGraph, asm: NewGraph}
+      data:
+        nodeData:
+          rid: 2522078788334911489
+        nodeX: 143.85645
+        nodeY: 120.93768
+        name: Peter Attack
+        isUtilityNode: 0
+        foldouts: []
+    - rid: 2522078788334911489
+      type: {class: SkillNode, ns: Quantum.Graph.Skill, asm: Quantum.Simulation}
+      data:
+        id: 10001
+        cd: 30
+        skillType: 1
+        canLearnMultiTimes: 0
+        canInterrupt: 0
+        timeline:
+          rid: 2522078788334911508
+        buffs: []
+        costAttributes: []
+        stateConditions: 
+        indicatorType: 0
+    - rid: 2522078788334911507
+      type: {class: NodeModel, ns: NewGraph, asm: NewGraph}
+      data:
+        nodeData:
+          rid: 2522078788334911508
+        nodeX: 409
+        nodeY: 107
+        name: "\u65F6\u95F4\u8F74"
+        isUtilityNode: 0
+        foldouts: []
+    - rid: 2522078788334911508
+      type: {class: Timeline, ns: Quantum.Graph.Skill, asm: Quantum.Simulation}
+      data:
+        totalFrame: 30
+        nodes:
+        - rid: 2522078788334911510
+        - rid: 2522078834876481555
+        - rid: 2522078834876481575
+    - rid: 2522078788334911509
+      type: {class: NodeModel, ns: NewGraph, asm: NewGraph}
+      data:
+        nodeData:
+          rid: 2522078788334911510
+        nodeX: 712
+        nodeY: 92
+        name: "\u64AD\u653E\u52A8\u753B"
+        isUtilityNode: 0
+        foldouts: []
+    - rid: 2522078788334911510
+      type: {class: PlayAnimationNode, ns: Quantum.Graph.Skill, asm: Quantum.Simulation}
+      data:
+        frame: 5
+        animationKey: 3
+        force: 1
+    - rid: 2522078834876481554
+      type: {class: NodeModel, ns: NewGraph, asm: NewGraph}
+      data:
+        nodeData:
+          rid: 2522078834876481555
+        nodeX: 682.995
+        nodeY: 266
+        name: "\u53D1\u5C04\u5B50\u5F39"
+        isUtilityNode: 0
+        foldouts: []
+    - rid: 2522078834876481555
+      type: {class: FireBulletNode, ns: Quantum.Graph.Skill, asm: Quantum.Simulation}
+      data:
+        frame: 6
+        bulletNode:
+          rid: 2522078834876481573
+        speed: 120
+        duration: 90
+        timeCanHit: 1
+        hitTimes: 1
+    - rid: 2522078834876481572
+      type: {class: NodeModel, ns: NewGraph, asm: NewGraph}
+      data:
+        nodeData:
+          rid: 2522078834876481573
+        nodeX: 944.995
+        nodeY: 199
+        name: "\u5F13\u7BAD"
+        isUtilityNode: 0
+        foldouts: []
+    - rid: 2522078834876481573
+      type: {class: BulletArrowNode, ns: Quantum.Graph.Skill, asm: Quantum.Simulation}
+      data:
+        radius: 125
+        sameTargetDelayFrame: 0
+        moveType: 1
+        removeOnObstacle: 1
+        hitFoe: 1
+        hitAlly: 0
+        tweenType: 0
+        useFireAngle: 0
+        tags: 
+    - rid: 2522078834876481574
+      type: {class: NodeModel, ns: NewGraph, asm: NewGraph}
+      data:
+        nodeData:
+          rid: 2522078834876481575
+        nodeX: 683.995
+        nodeY: 551
+        name: "\u53D1\u5C04\u5B50\u5F39"
+        isUtilityNode: 0
+        foldouts: []
+    - rid: 2522078834876481575
+      type: {class: FireBulletNode, ns: Quantum.Graph.Skill, asm: Quantum.Simulation}
+      data:
+        frame: 29
+        bulletNode:
+          rid: 2522078834876481579
+        speed: 60
+        duration: 300
+        timeCanHit: 0
+        hitTimes: 1
+    - rid: 2522078834876481578
+      type: {class: NodeModel, ns: NewGraph, asm: NewGraph}
+      data:
+        nodeData:
+          rid: 2522078834876481579
+        nodeX: 986.88794
+        nodeY: 481.5606
+        name: "\u5F13\u7BAD"
+        isUtilityNode: 0
+        foldouts: []
+    - rid: 2522078834876481579
+      type: {class: BulletArrowNode, ns: Quantum.Graph.Skill, asm: Quantum.Simulation}
+      data:
+        radius: 125
+        sameTargetDelayFrame: 0
+        moveType: 1
+        removeOnObstacle: 1
+        hitFoe: 1
+        hitAlly: 0
+        tweenType: 0
+        useFireAngle: 0
+        tags: 

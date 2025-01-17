@@ -34,6 +34,7 @@ namespace Jam.Cfg
 #endif
     }
 
+    [CreateAssetMenu(fileName = "BuffTemplate", menuName = "Jam/BuffTemplate")]
     public class BuffTemplateSO : ScriptableObject
     {
 #if UNITY_EDITOR

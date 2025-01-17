@@ -1,0 +1,6 @@
+﻿union BLTM_Instance
+{
+    __BLTM_UNION__
+}
+
+__BLTM_INSTANCE__

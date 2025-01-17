@@ -19,6 +19,8 @@ public sealed partial class Hero : Luban.BeanBase
     {
         { if(!_buf["id"].IsNumber) { throw new SerializationException(); }  Id = _buf["id"]; }
         { var __json0 = _buf["skill_list"]; if(!__json0.IsArray) { throw new SerializationException(); } SkillList = new System.Collections.Generic.List<int>(__json0.Count); foreach(JSONNode __e0 in __json0.Children) { int __v0;  { if(!__e0.IsNumber) { throw new SerializationException(); }  __v0 = __e0; }  SkillList.Add(__v0); }   }
+        { if(!_buf["model_arena"].IsString) { throw new SerializationException(); }  ModelArena = _buf["model_arena"]; }
+        { if(!_buf["anim_arena"].IsString) { throw new SerializationException(); }  AnimArena = _buf["anim_arena"]; }
     }
 
     public static Hero DeserializeHero(JSONNode _buf)
@@ -35,6 +37,14 @@ public sealed partial class Hero : Luban.BeanBase
     /// </summary>
     public readonly System.Collections.Generic.List<int> SkillList;
     public System.Collections.Generic.List<Skill> SkillList_Ref;
+    /// <summary>
+    /// 战斗模型
+    /// </summary>
+    public readonly string ModelArena;
+    /// <summary>
+    /// 战斗动画资源
+    /// </summary>
+    public readonly string AnimArena;
    
     public const int __ID__ = 2245658;
     public override int GetTypeId() => __ID__;
@@ -51,6 +61,8 @@ public sealed partial class Hero : Luban.BeanBase
         return "{ "
         + "id:" + Id + ","
         + "skillList:" + Luban.StringUtil.CollectionToString(SkillList) + ","
+        + "modelArena:" + ModelArena + ","
+        + "animArena:" + AnimArena + ","
         + "}";
     }
 }

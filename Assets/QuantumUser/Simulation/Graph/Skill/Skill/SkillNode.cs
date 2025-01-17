@@ -11,13 +11,19 @@ namespace Quantum.Graph.Skill
     public class SkillNode : NodeBase
     {
         [GraphDisplay(DisplayType.BothViews)]
-        public SkillId id;
+        public int id;
 
         [GraphDisplay(DisplayType.BothViews)]
         public int cd;
 
         [GraphDisplay(DisplayType.BothViews)]
-        public bool isAttack;
+        public SkillType skillType;
+
+        /// <summary>
+        /// 是否可以学多次
+        /// </summary>
+        [GraphDisplay(DisplayType.BothViews)]
+        public bool canLearnMultiTimes;
 
         [GraphDisplay(DisplayType.BothViews)]
         public bool canInterrupt;

@@ -21,7 +21,7 @@ MonoBehaviour:
       Value: 0
   Scene: TestArena
   ScenePath: Assets/Res_Nopack/Scenes/TestArena.unity
-  SceneGuid: 9fc0d4010bbf28b4594072e72b8655ab
+  SceneGuid: 11cbde7c40c3a3b47a50926b8d809606
   WorldSize: 256
   BucketsCount: 16
   BucketsSubdivisions: 8
@@ -54,7 +54,7 @@ MonoBehaviour:
     PhysicsMaterial:
       Id:
         Value: 0
-    Layer: 0
+    Layer: 3
     ShapeType: 4
     CircleRadius:
       RawValue: 0
@@ -76,7 +76,7 @@ MonoBehaviour:
     StaticData:
       Name: QuantumCollider
       Tag: Untagged
-      Layer: 0
+      Layer: 3
       Asset:
         Id:
           Value: 0
@@ -97,7 +97,7 @@ MonoBehaviour:
     PhysicsMaterial:
       Id:
         Value: 0
-    Layer: 0
+    Layer: 3
     ShapeType: 4
     CircleRadius:
       RawValue: 0
@@ -119,7 +119,7 @@ MonoBehaviour:
     StaticData:
       Name: QuantumCollider
       Tag: Untagged
-      Layer: 0
+      Layer: 3
       Asset:
         Id:
           Value: 0
@@ -140,7 +140,7 @@ MonoBehaviour:
     PhysicsMaterial:
       Id:
         Value: 0
-    Layer: 0
+    Layer: 3
     ShapeType: 4
     CircleRadius:
       RawValue: 0
@@ -162,7 +162,7 @@ MonoBehaviour:
     StaticData:
       Name: QuantumCollider
       Tag: Untagged
-      Layer: 0
+      Layer: 3
       Asset:
         Id:
           Value: 0
@@ -183,7 +183,7 @@ MonoBehaviour:
     PhysicsMaterial:
       Id:
         Value: 0
-    Layer: 0
+    Layer: 3
     ShapeType: 4
     CircleRadius:
       RawValue: 0
@@ -205,7 +205,7 @@ MonoBehaviour:
     StaticData:
       Name: QuantumCollider
       Tag: Untagged
-      Layer: 0
+      Layer: 3
       Asset:
         Id:
           Value: 0

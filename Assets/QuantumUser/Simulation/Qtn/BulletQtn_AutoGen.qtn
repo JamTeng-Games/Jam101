@@ -1,0 +1,13 @@
+﻿union BLTM_Instance
+{
+    BM_Arrow Arrow;
+    BM_PistolBullet PistolBullet;
+}
+
+struct BM_Arrow
+{
+}
+
+struct BM_PistolBullet
+{
+}

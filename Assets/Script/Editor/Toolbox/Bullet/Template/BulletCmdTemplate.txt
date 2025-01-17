@@ -1,0 +1,10 @@
+﻿using Quantum.Graph.Skill;
+
+namespace Quantum.Helper
+{
+
+    public unsafe class BulletCmd___BULLET_NAME__ : BulletCmd
+    {
+    }
+
+}

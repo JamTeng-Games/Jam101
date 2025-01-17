@@ -8,7 +8,9 @@
     "icon": "test_gold",
     "money_id": 1,
     "price": 1,
-    "add_skill": 0
+    "add_skills": [
+      0
+    ]
   },
   {
     "id": 2,
@@ -19,7 +21,9 @@
     "icon": "test_gem",
     "money_id": 1,
     "price": 1,
-    "add_skill": 0
+    "add_skills": [
+      0
+    ]
   },
   {
     "id": 10001,
@@ -30,7 +34,9 @@
     "icon": "test_item1",
     "money_id": 1,
     "price": 1,
-    "add_skill": 10001
+    "add_skills": [
+      40001
+    ]
   },
   {
     "id": 10002,
@@ -41,7 +47,9 @@
     "icon": "test_item2",
     "money_id": 1,
     "price": 2,
-    "add_skill": 10001
+    "add_skills": [
+      40002
+    ]
   },
   {
     "id": 10003,
@@ -52,7 +60,9 @@
     "icon": "test_item3",
     "money_id": 1,
     "price": 3,
-    "add_skill": 20001
+    "add_skills": [
+      40003
+    ]
   },
   {
     "id": 10004,
@@ -63,7 +73,9 @@
     "icon": "test_item4",
     "money_id": 1,
     "price": 4,
-    "add_skill": 20001
+    "add_skills": [
+      40001
+    ]
   },
   {
     "id": 10005,
@@ -74,7 +86,9 @@
     "icon": "test_item5",
     "money_id": 1,
     "price": 5,
-    "add_skill": 30001
+    "add_skills": [
+      40002
+    ]
   },
   {
     "id": 10006,
@@ -85,7 +99,9 @@
     "icon": "test_item6",
     "money_id": 1,
     "price": 6,
-    "add_skill": 30001
+    "add_skills": [
+      40003
+    ]
   },
   {
     "id": 10007,
@@ -96,7 +112,9 @@
     "icon": "test_item7",
     "money_id": 1,
     "price": 7,
-    "add_skill": 10002
+    "add_skills": [
+      40001
+    ]
   },
   {
     "id": 10008,
@@ -107,7 +125,9 @@
     "icon": "test_item8",
     "money_id": 1,
     "price": 8,
-    "add_skill": 10002
+    "add_skills": [
+      40002
+    ]
   },
   {
     "id": 10009,
@@ -118,7 +138,9 @@
     "icon": "test_item9",
     "money_id": 1,
     "price": 9,
-    "add_skill": 20002
+    "add_skills": [
+      40003
+    ]
   },
   {
     "id": 10010,
@@ -129,7 +151,9 @@
     "icon": "test_item10",
     "money_id": 1,
     "price": 10,
-    "add_skill": 20002
+    "add_skills": [
+      40001
+    ]
   },
   {
     "id": 10011,
@@ -140,7 +164,9 @@
     "icon": "test_item11",
     "money_id": 1,
     "price": 11,
-    "add_skill": 30002
+    "add_skills": [
+      40002
+    ]
   },
   {
     "id": 10012,
@@ -151,6 +177,8 @@
     "icon": "test_item12",
     "money_id": 1,
     "price": 12,
-    "add_skill": 30002
+    "add_skills": [
+      40003
+    ]
   }
 ]

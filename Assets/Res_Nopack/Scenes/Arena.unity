@@ -2590,17 +2590,18 @@ MonoBehaviour:
     SystemsConfig:
       Id:
         Value: 504795861161054055
-    SkillGraphs:
-    - Id:
-        Value: 527353218117790001
-    - Id:
-        Value: 496026114857364531
+    SkillGraphs: []
   SessionConfig: {fileID: 11400000, guid: 15db8dbd211ce53428aff96a6158c43c, type: 2}
   LocalPlayers:
   - PlayerAvatar:
       Id:
         Value: 1526882926222888806
     PlayerNickname: 
+    heroData:
+      rid: 
+      name: 
+      hero: 0
+      items: []
   MaxPlayerCount: 0
   SimulationSpeedMultiplier: 1
   DisplaySaveAndReloadButton: 0

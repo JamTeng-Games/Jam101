@@ -55,6 +55,7 @@ namespace Jam.Runtime.UI_
                     ItemQuality.Blue   => "RARE",
                     ItemQuality.Purple => "EPIC",
                     ItemQuality.Red    => "LEGEND",
+                    _                  => "Unknow"
                 };
             }
             // name

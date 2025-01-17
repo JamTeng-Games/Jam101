@@ -33,12 +33,6 @@ namespace Quantum.Graph.Skill
         [GraphDisplay(DisplayType.BothViews)]
         public int interval = -1;
 
-        // // 状态修改
-        // [GraphDisplay(DisplayType.BothViews)]
-        // public bool canUseSkill = true;
-        // [GraphDisplay(DisplayType.BothViews)]
-        // public bool canMove = true;
-
         // 属性加成
         [GraphDisplay(DisplayType.Inspector)]
         public List<BaseAttribute> valueAttribs;
@@ -56,8 +50,6 @@ namespace Quantum.Graph.Skill
                 priority = priority,
                 maxStack = maxStack,
                 interval = interval,
-                // canUseSkill = canUseSkill,
-                // canMove = canMove,
             };
 
             // tags

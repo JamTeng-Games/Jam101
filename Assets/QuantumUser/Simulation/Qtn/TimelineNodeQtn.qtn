@@ -4,6 +4,7 @@ union TLNode
     TLNode_Log Log;
     TLNode_AddBuffToCaster AddBuffToCaster;
     TLNode_PlayAnim PlayAnim;
+    TLNode_FireBullet FireBullet;
 }
 
 enum ETLNodeType
@@ -12,6 +13,7 @@ enum ETLNodeType
     Log,
     AddBuffToCaster,
     PlayAnim,
+    FireBullet,
 }
 
 struct TLNode_Log
@@ -30,14 +32,7 @@ struct TLNode_PlayAnim
     bool force;
 }
 
-// Buff
-struct AddBuffInfo
+struct TLNode_FireBullet
 {
-    bool isPermanent;       // 是否永久
-    bool isDurationSetTo;   // 关于时间，是改变还是设置为, true代表设置为，false代表改变
-    int addStack;           // 添加的层数
-    int duration;           // 持续时间
-    entity_ref caster;      // 释放者
-    entity_ref target;      // 目标
-    BuffModel buffModel;    // buff 数据模板
+    FireBulletInfo fireBulletInfo;
 }

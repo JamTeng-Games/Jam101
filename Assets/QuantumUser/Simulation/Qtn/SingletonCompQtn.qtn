@@ -28,11 +28,27 @@ singleton component STimelineComp
     list<TimelineObj> Timelines;
 }
 
-// Buff
-singleton component SBuffModelContainerComp
+//// Buff
+//singleton component SBuffModelContainerComp
+//{
+//    // Buff id -> Buff
+////   [AllocateOnComponentAdded, FreeOnComponentRemoved, ExcludeFromPrototype]
+//    [ExcludeFromPrototype]
+//    dictionary<int, BuffModel> Models;
+//}
+
+// Damage
+singleton component SDamageInfoComp
 {
-    // Buff id -> Buff
-//   [AllocateOnComponentAdded, FreeOnComponentRemoved, ExcludeFromPrototype]
-    [ExcludeFromPrototype]
-    dictionary<int, BuffModel> Models;
+    // Damage id -> Damage
+    [AllocateOnComponentAdded, FreeOnComponentRemoved, ExcludeFromPrototype]
+    list<DamageInfo> DamageInfos;
+}
+
+// 保存发射子弹的信息
+singleton component SBulletFireInfoComp
+{
+// Damage id -> Damage
+    [AllocateOnComponentAdded, FreeOnComponentRemoved, ExcludeFromPrototype]
+    list<FireBulletInfo> FireBulletInfos;
 }

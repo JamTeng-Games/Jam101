@@ -1,0 +1,91 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1fb7c65ff4319d24bae3c1f4475c97d3, type: 3}
+  m_Name: arena_peter_anim
+  m_EditorClassIdentifier: 
+  animations:
+  - key: 1
+    animation:
+      _FadeDuration: 0.25
+      _Speed: 1
+      _Events:
+        _NormalizedTimes: []
+        _Callbacks: []
+        _Names: []
+      _Clip: {fileID: 7400000, guid: c947f7fbcc1b30c44a5acc0c9940710d, type: 2}
+      _NormalizedStartTime: NaN
+    priority: 0
+    canReplay: 0
+  - key: 2
+    animation:
+      _FadeDuration: 0.25
+      _Speed: 1
+      _Events:
+        _NormalizedTimes: []
+        _Callbacks: []
+        _Names: []
+      _Clip: {fileID: 7400000, guid: ccd4e563f27063a4a9abc0d1bfa79513, type: 2}
+      _NormalizedStartTime: NaN
+    priority: 1
+    canReplay: 0
+  - key: 3
+    animation:
+      _FadeDuration: 0.25
+      _Speed: 1
+      _Events:
+        _NormalizedTimes: []
+        _Callbacks: []
+        _Names: []
+      _Clip: {fileID: 7400000, guid: cb2af90471839234db5838fe3ea79238, type: 2}
+      _NormalizedStartTime: NaN
+    priority: 2
+    canReplay: 1
+  - key: 4
+    animation:
+      _FadeDuration: 0.25
+      _Speed: 1
+      _Events:
+        _NormalizedTimes: []
+        _Callbacks: []
+        _Names: []
+      _Clip: {fileID: 7400000, guid: 75beb3924f1c4254fadcfe8d26179551, type: 2}
+      _NormalizedStartTime: 0
+    priority: 3
+    canReplay: 0
+  - key: 6
+    animation:
+      _FadeDuration: 0.25
+      _Speed: 1
+      _Events:
+        _NormalizedTimes: []
+        _Callbacks: []
+        _Names: []
+      _Clip: {fileID: 7400000, guid: a50568866b06a5d4eb9942161ca8131d, type: 2}
+      _NormalizedStartTime: NaN
+    priority: 4
+    canReplay: 0
+  - key: 7
+    animation:
+      _FadeDuration: 0.25
+      _Speed: 1
+      _Events:
+        _NormalizedTimes: []
+        _Callbacks: []
+        _Names: []
+      _Clip: {fileID: 7400000, guid: bc5ff1dfd0e06404889a4dc5a2c30226, type: 2}
+      _NormalizedStartTime: NaN
+    priority: 5
+    canReplay: 0
+  pMoveSpeed: {fileID: 0}
+  references:
+    version: 2
+    RefIds: []

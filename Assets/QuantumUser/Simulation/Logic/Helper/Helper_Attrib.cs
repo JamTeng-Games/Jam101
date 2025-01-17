@@ -31,27 +31,29 @@ namespace Quantum.Helper
                     // Value
                     foreach (var (attrType, value) in buffValueAttrib)
                     {
-                        Log.Debug($"Attrib {(AttributeType)attrType} {value}");
+                        int valueWithStack = value * buff.stack;
+                        Log.Debug($"Attrib {(AttributeType)attrType} {value} stack {buff.stack}");
                         if (valueAttrib.TryGetValue(attrType, out var v))
                         {
-                            valueAttrib[attrType] = v + value;
+                            valueAttrib[attrType] = v + valueWithStack;
                         }
                         else
                         {
-                            valueAttrib[attrType] = value;
+                            valueAttrib[attrType] = valueWithStack;
                         }
                     }
 
                     // Percent
                     foreach (var (attrType, perValue) in buffPercentAttrib)
                     {
+                        FP valueWithStack = perValue * buff.stack;
                         if (percentAttrib.TryGetValue(attrType, out var v))
                         {
-                            percentAttrib[attrType] = v + perValue;
+                            percentAttrib[attrType] = v + valueWithStack;
                         }
                         else
                         {
-                            percentAttrib[attrType] = perValue;
+                            percentAttrib[attrType] = valueWithStack;
                         }
                     }
                 }
@@ -60,10 +62,21 @@ namespace Quantum.Helper
             if (f.Unsafe.TryGetPointer<AttribComp>(entity, out var attribComp2))
             {
                 var valueAttrib = f.ResolveDictionary(attribComp2->ValueAttribs);
+                var percentAttrib = f.ResolveDictionary(attribComp2->ValueAttribs);
                 foreach (var (attrType, value) in valueAttrib)
                 {
-                    Log.Debug($"Attrib2 {(AttributeType)attrType} {value}");
+                    Log.Debug($"Attrib2 value {(AttributeType)attrType} {value}");
                 }
+                // Percent
+                foreach (var (attrType, perValue) in percentAttrib)
+                {
+                    Log.Debug($"Attrib2 percent {(AttributeType)attrType} {perValue}"); 
+                }
+            }
+
+            if (TryGetAttribValue(f, entity, AttributeType.MaxHp, out var speed))
+            {
+                Log.Debug($"Recalculate MaxHp {speed}");
             }
         }
 
@@ -73,10 +86,6 @@ namespace Quantum.Helper
             if (f.TryGet<AttribComp>(entity, out var attribComp))
             {
                 var valueAttrib = f.ResolveDictionary(attribComp.ValueAttribs);
-                foreach (var (k, v) in valueAttrib)
-                {
-                    Log.Debug($"TryGetAttribValue {(AttributeType)k}, {v}");
-                }
                 var percentAttrib = f.ResolveDictionary(attribComp.PercentAttribs);
                 if (valueAttrib.TryGetValue((int)attribType, out var baseValue))
                 {

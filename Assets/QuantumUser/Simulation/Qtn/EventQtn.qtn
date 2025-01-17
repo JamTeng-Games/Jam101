@@ -1,7 +1,13 @@
 event OnMove
 {
     EntityRef entity;
-    FPVector2 moveVector;
+    FPVector2 velocity;
+}
+
+event OnRotate
+{
+    EntityRef entity;
+    FP Rotation;    // 弧度
 }
 
 event OnStopMove
@@ -14,4 +20,20 @@ event PlayAnim
     EntityRef entity;
     int animKey;
     bool force;
+}
+
+event OnChangeHp
+{
+    EntityRef entity;
+    int modHp;
+}
+
+event OnHit
+{
+    EntityRef entity;
+}
+
+event OnDie
+{
+    EntityRef entity;
 }

@@ -51,29 +51,30 @@ namespace Quantum.Prototypes.Unity {
   
   [System.SerializableAttribute()]
   public unsafe partial class AddBuffInfoPrototype : Quantum.QuantumUnityPrototypeAdapter<Quantum.Prototypes.AddBuffInfoPrototype> {
-    public QBoolean isPermanent;
-    public QBoolean isDurationSetTo;
-    public Int32 addStack;
-    public Int32 duration;
+    public Quantum.Prototypes.BuffModelPrototype buffModel;
     public Quantum.QuantumEntityPrototype caster;
     public Quantum.QuantumEntityPrototype target;
-    public Quantum.Prototypes.BuffModelPrototype buffModel;
+    public Int32 addStack;
+    public Int32 duration;
+    public QBoolean isPermanent;
+    public QBoolean isDurationSetTo;
     partial void ConvertUser(Quantum.QuantumEntityPrototypeConverter converter, ref Quantum.Prototypes.AddBuffInfoPrototype prototype);
     public override Quantum.Prototypes.AddBuffInfoPrototype Convert(Quantum.QuantumEntityPrototypeConverter converter) {
       var result = new Quantum.Prototypes.AddBuffInfoPrototype();
-      converter.Convert(this.isPermanent, out result.isPermanent);
-      converter.Convert(this.isDurationSetTo, out result.isDurationSetTo);
-      converter.Convert(this.addStack, out result.addStack);
-      converter.Convert(this.duration, out result.duration);
+      converter.Convert(this.buffModel, out result.buffModel);
       converter.Convert(this.caster, out result.caster);
       converter.Convert(this.target, out result.target);
-      converter.Convert(this.buffModel, out result.buffModel);
+      converter.Convert(this.addStack, out result.addStack);
+      converter.Convert(this.duration, out result.duration);
+      converter.Convert(this.isPermanent, out result.isPermanent);
+      converter.Convert(this.isDurationSetTo, out result.isDurationSetTo);
       ConvertUser(converter, ref result);
       return result;
     }
   }
   [System.SerializableAttribute()]
   public unsafe partial class BuffCompPrototype : Quantum.QuantumUnityPrototypeAdapter<Quantum.Prototypes.BuffCompPrototype> {
+    public QBoolean isDirty;
     [AllocateOnComponentAdded()]
     [FreeOnComponentRemoved()]
     [HideInInspector()]
@@ -87,6 +88,7 @@ namespace Quantum.Prototypes.Unity {
     partial void ConvertUser(Quantum.QuantumEntityPrototypeConverter converter, ref Quantum.Prototypes.BuffCompPrototype prototype);
     public override Quantum.Prototypes.BuffCompPrototype Convert(Quantum.QuantumEntityPrototypeConverter converter) {
       var result = new Quantum.Prototypes.BuffCompPrototype();
+      converter.Convert(this.isDirty, out result.isDirty);
       converter.Convert(this.Buffs, out result.Buffs);
       converter.Convert(this.AddBuffs, out result.AddBuffs);
       ConvertUser(converter, ref result);
@@ -95,25 +97,149 @@ namespace Quantum.Prototypes.Unity {
   }
   [System.SerializableAttribute()]
   public unsafe partial class BuffObjPrototype : Quantum.QuantumUnityPrototypeAdapter<Quantum.Prototypes.BuffObjPrototype> {
-    public QBoolean isPermanent;
+    public Quantum.Prototypes.BuffModelPrototype model;
+    public Quantum.QuantumEntityPrototype caster;
+    public Quantum.QuantumEntityPrototype owner;
     public Int32 remainFrame;
     public Int32 stack;
     public Int32 elapsedFrame;
     public Int32 tickTimes;
-    public Quantum.QuantumEntityPrototype caster;
-    public Quantum.QuantumEntityPrototype owner;
-    public Quantum.Prototypes.BuffModelPrototype model;
+    public QBoolean isPermanent;
     partial void ConvertUser(Quantum.QuantumEntityPrototypeConverter converter, ref Quantum.Prototypes.BuffObjPrototype prototype);
     public override Quantum.Prototypes.BuffObjPrototype Convert(Quantum.QuantumEntityPrototypeConverter converter) {
       var result = new Quantum.Prototypes.BuffObjPrototype();
-      converter.Convert(this.isPermanent, out result.isPermanent);
+      converter.Convert(this.model, out result.model);
+      converter.Convert(this.caster, out result.caster);
+      converter.Convert(this.owner, out result.owner);
       converter.Convert(this.remainFrame, out result.remainFrame);
       converter.Convert(this.stack, out result.stack);
       converter.Convert(this.elapsedFrame, out result.elapsedFrame);
       converter.Convert(this.tickTimes, out result.tickTimes);
-      converter.Convert(this.caster, out result.caster);
-      converter.Convert(this.owner, out result.owner);
+      converter.Convert(this.isPermanent, out result.isPermanent);
+      ConvertUser(converter, ref result);
+      return result;
+    }
+  }
+  [System.SerializableAttribute()]
+  public unsafe partial class BulletCompPrototype : Quantum.QuantumUnityPrototypeAdapter<Quantum.Prototypes.BulletCompPrototype> {
+    [HideInInspector()]
+    public Quantum.Prototypes.BulletModelPrototype Model;
+    [HideInInspector()]
+    public Int32 Hp;
+    [HideInInspector()]
+    public Int32 ElapsedFrame;
+    [HideInInspector()]
+    public Int32 RemainFrame;
+    [HideInInspector()]
+    public Int32 TimeCanHit;
+    [HideInInspector()]
+    public FP Speed;
+    [HideInInspector()]
+    public Quantum.QuantumEntityPrototype Caster;
+    [AllocateOnComponentAdded()]
+    [FreeOnComponentRemoved()]
+    [HideInInspector()]
+    [DynamicCollectionAttribute()]
+    public Quantum.Prototypes.Unity.BulletHitRecordPrototype[] HitRecords = {};
+    partial void ConvertUser(Quantum.QuantumEntityPrototypeConverter converter, ref Quantum.Prototypes.BulletCompPrototype prototype);
+    public override Quantum.Prototypes.BulletCompPrototype Convert(Quantum.QuantumEntityPrototypeConverter converter) {
+      var result = new Quantum.Prototypes.BulletCompPrototype();
+      converter.Convert(this.Model, out result.Model);
+      converter.Convert(this.Hp, out result.Hp);
+      converter.Convert(this.ElapsedFrame, out result.ElapsedFrame);
+      converter.Convert(this.RemainFrame, out result.RemainFrame);
+      converter.Convert(this.TimeCanHit, out result.TimeCanHit);
+      converter.Convert(this.Speed, out result.Speed);
+      converter.Convert(this.Caster, out result.Caster);
+      converter.Convert(this.HitRecords, out result.HitRecords);
+      ConvertUser(converter, ref result);
+      return result;
+    }
+  }
+  [System.SerializableAttribute()]
+  public unsafe partial class BulletHitRecordPrototype : Quantum.QuantumUnityPrototypeAdapter<Quantum.Prototypes.BulletHitRecordPrototype> {
+    public Quantum.QuantumEntityPrototype target;
+    public Int32 timeToHitAgain;
+    partial void ConvertUser(Quantum.QuantumEntityPrototypeConverter converter, ref Quantum.Prototypes.BulletHitRecordPrototype prototype);
+    public override Quantum.Prototypes.BulletHitRecordPrototype Convert(Quantum.QuantumEntityPrototypeConverter converter) {
+      var result = new Quantum.Prototypes.BulletHitRecordPrototype();
+      converter.Convert(this.target, out result.target);
+      converter.Convert(this.timeToHitAgain, out result.timeToHitAgain);
+      ConvertUser(converter, ref result);
+      return result;
+    }
+  }
+  [System.SerializableAttribute()]
+  public unsafe partial class DamageInfoPrototype : Quantum.QuantumUnityPrototypeAdapter<Quantum.Prototypes.DamageInfoPrototype> {
+    public Quantum.QuantumEntityPrototype source;
+    public Quantum.QuantumEntityPrototype target;
+    public Quantum.QEnum32<EDamageInfoType> damageType;
+    public Quantum.Prototypes.DamagePrototype damage;
+    public FP hitRate;
+    public FP criticalRate;
+    public FP varianceRate;
+    public FP angle;
+    [DynamicCollectionAttribute()]
+    public Quantum.Prototypes.Unity.AddBuffInfoPrototype[] addBuffs = {};
+    partial void ConvertUser(Quantum.QuantumEntityPrototypeConverter converter, ref Quantum.Prototypes.DamageInfoPrototype prototype);
+    public override Quantum.Prototypes.DamageInfoPrototype Convert(Quantum.QuantumEntityPrototypeConverter converter) {
+      var result = new Quantum.Prototypes.DamageInfoPrototype();
+      converter.Convert(this.source, out result.source);
+      converter.Convert(this.target, out result.target);
+      converter.Convert(this.damageType, out result.damageType);
+      converter.Convert(this.damage, out result.damage);
+      converter.Convert(this.hitRate, out result.hitRate);
+      converter.Convert(this.criticalRate, out result.criticalRate);
+      converter.Convert(this.varianceRate, out result.varianceRate);
+      converter.Convert(this.angle, out result.angle);
+      converter.Convert(this.addBuffs, out result.addBuffs);
+      ConvertUser(converter, ref result);
+      return result;
+    }
+  }
+  [System.SerializableAttribute()]
+  public unsafe partial class FireBulletInfoPrototype : Quantum.QuantumUnityPrototypeAdapter<Quantum.Prototypes.FireBulletInfoPrototype> {
+    public Quantum.Prototypes.BulletModelPrototype model;
+    public Int32 speed;
+    public Int32 duration;
+    public Int32 timeCanHit;
+    public Int32 hitTimes;
+    public FPVector2 firePos;
+    public FP fireAngle;
+    public Quantum.QuantumEntityPrototype caster;
+    partial void ConvertUser(Quantum.QuantumEntityPrototypeConverter converter, ref Quantum.Prototypes.FireBulletInfoPrototype prototype);
+    public override Quantum.Prototypes.FireBulletInfoPrototype Convert(Quantum.QuantumEntityPrototypeConverter converter) {
+      var result = new Quantum.Prototypes.FireBulletInfoPrototype();
       converter.Convert(this.model, out result.model);
+      converter.Convert(this.speed, out result.speed);
+      converter.Convert(this.duration, out result.duration);
+      converter.Convert(this.timeCanHit, out result.timeCanHit);
+      converter.Convert(this.hitTimes, out result.hitTimes);
+      converter.Convert(this.firePos, out result.firePos);
+      converter.Convert(this.fireAngle, out result.fireAngle);
+      converter.Convert(this.caster, out result.caster);
+      ConvertUser(converter, ref result);
+      return result;
+    }
+  }
+  [System.SerializableAttribute()]
+  public unsafe partial class SBulletFireInfoCompPrototype : Quantum.QuantumUnityPrototypeAdapter<Quantum.Prototypes.SBulletFireInfoCompPrototype> {
+    [HideInInspector()]
+    public Int32 _empty_prototype_dummy_field_;
+    partial void ConvertUser(Quantum.QuantumEntityPrototypeConverter converter, ref Quantum.Prototypes.SBulletFireInfoCompPrototype prototype);
+    public override Quantum.Prototypes.SBulletFireInfoCompPrototype Convert(Quantum.QuantumEntityPrototypeConverter converter) {
+      var result = new Quantum.Prototypes.SBulletFireInfoCompPrototype();
+      ConvertUser(converter, ref result);
+      return result;
+    }
+  }
+  [System.SerializableAttribute()]
+  public unsafe partial class SDamageInfoCompPrototype : Quantum.QuantumUnityPrototypeAdapter<Quantum.Prototypes.SDamageInfoCompPrototype> {
+    [HideInInspector()]
+    public Int32 _empty_prototype_dummy_field_;
+    partial void ConvertUser(Quantum.QuantumEntityPrototypeConverter converter, ref Quantum.Prototypes.SDamageInfoCompPrototype prototype);
+    public override Quantum.Prototypes.SDamageInfoCompPrototype Convert(Quantum.QuantumEntityPrototypeConverter converter) {
+      var result = new Quantum.Prototypes.SDamageInfoCompPrototype();
       ConvertUser(converter, ref result);
       return result;
     }
@@ -168,44 +294,48 @@ namespace Quantum.Prototypes.Unity {
   }
   [System.SerializableAttribute()]
   public unsafe partial class SkillModelPrototype : Quantum.QuantumUnityPrototypeAdapter<Quantum.Prototypes.SkillModelPrototype> {
-    public Int32 id;
-    public Int32 cd;
-    public QBoolean isAttack;
-    public QBoolean canInterrupt;
-    public Int32 condition;
-    public Int32 indicatorType;
-    public Int32 timelineModelId;
     [DynamicCollectionAttribute()]
     public Quantum.Prototypes.AttributeCostPrototype[] attrCosts = {};
     [DynamicCollectionAttribute()]
     public Quantum.Prototypes.Unity.AddBuffInfoPrototype[] addBuffs = {};
+    public Int32 id;
+    public Int32 cd;
+    public Int32 type;
+    public Int32 condition;
+    public Int32 indicatorType;
+    public Int32 timelineModelId;
+    public QBoolean canInterrupt;
+    public QBoolean canLearnMulti;
     partial void ConvertUser(Quantum.QuantumEntityPrototypeConverter converter, ref Quantum.Prototypes.SkillModelPrototype prototype);
     public override Quantum.Prototypes.SkillModelPrototype Convert(Quantum.QuantumEntityPrototypeConverter converter) {
       var result = new Quantum.Prototypes.SkillModelPrototype();
+      converter.Convert(this.attrCosts, out result.attrCosts);
+      converter.Convert(this.addBuffs, out result.addBuffs);
       converter.Convert(this.id, out result.id);
       converter.Convert(this.cd, out result.cd);
-      converter.Convert(this.isAttack, out result.isAttack);
-      converter.Convert(this.canInterrupt, out result.canInterrupt);
+      converter.Convert(this.type, out result.type);
       converter.Convert(this.condition, out result.condition);
       converter.Convert(this.indicatorType, out result.indicatorType);
       converter.Convert(this.timelineModelId, out result.timelineModelId);
-      converter.Convert(this.attrCosts, out result.attrCosts);
-      converter.Convert(this.addBuffs, out result.addBuffs);
+      converter.Convert(this.canInterrupt, out result.canInterrupt);
+      converter.Convert(this.canLearnMulti, out result.canLearnMulti);
       ConvertUser(converter, ref result);
       return result;
     }
   }
   [System.SerializableAttribute()]
   public unsafe partial class SkillObjPrototype : Quantum.QuantumUnityPrototypeAdapter<Quantum.Prototypes.SkillObjPrototype> {
+    public Quantum.Prototypes.Unity.SkillModelPrototype model;
     public Int32 level;
     public Int32 cd;
-    public Quantum.Prototypes.Unity.SkillModelPrototype model;
+    public Int32 refCount;
     partial void ConvertUser(Quantum.QuantumEntityPrototypeConverter converter, ref Quantum.Prototypes.SkillObjPrototype prototype);
     public override Quantum.Prototypes.SkillObjPrototype Convert(Quantum.QuantumEntityPrototypeConverter converter) {
       var result = new Quantum.Prototypes.SkillObjPrototype();
+      converter.Convert(this.model, out result.model);
       converter.Convert(this.level, out result.level);
       converter.Convert(this.cd, out result.cd);
-      converter.Convert(this.model, out result.model);
+      converter.Convert(this.refCount, out result.refCount);
       ConvertUser(converter, ref result);
       return result;
     }
@@ -216,6 +346,7 @@ namespace Quantum.Prototypes.Unity {
     public Quantum.Prototypes.TLNode_LogPrototype Log;
     public Quantum.Prototypes.Unity.TLNode_AddBuffToCasterPrototype AddBuffToCaster;
     public Quantum.Prototypes.TLNode_PlayAnimPrototype PlayAnim;
+    public Quantum.Prototypes.Unity.TLNode_FireBulletPrototype FireBullet;
     partial void ConvertUser(Quantum.QuantumEntityPrototypeConverter converter, ref Quantum.Prototypes.TLNodePrototype prototype);
     public override Quantum.Prototypes.TLNodePrototype Convert(Quantum.QuantumEntityPrototypeConverter converter) {
       var result = new Quantum.Prototypes.TLNodePrototype();
@@ -223,6 +354,7 @@ namespace Quantum.Prototypes.Unity {
       converter.Convert(this.Log, out result.Log);
       converter.Convert(this.AddBuffToCaster, out result.AddBuffToCaster);
       converter.Convert(this.PlayAnim, out result.PlayAnim);
+      converter.Convert(this.FireBullet, out result.FireBullet);
       ConvertUser(converter, ref result);
       return result;
     }
@@ -234,6 +366,17 @@ namespace Quantum.Prototypes.Unity {
     public override Quantum.Prototypes.TLNode_AddBuffToCasterPrototype Convert(Quantum.QuantumEntityPrototypeConverter converter) {
       var result = new Quantum.Prototypes.TLNode_AddBuffToCasterPrototype();
       converter.Convert(this.addBuffInfo, out result.addBuffInfo);
+      ConvertUser(converter, ref result);
+      return result;
+    }
+  }
+  [System.SerializableAttribute()]
+  public unsafe partial class TLNode_FireBulletPrototype : Quantum.QuantumUnityPrototypeAdapter<Quantum.Prototypes.TLNode_FireBulletPrototype> {
+    public Quantum.Prototypes.Unity.FireBulletInfoPrototype fireBulletInfo;
+    partial void ConvertUser(Quantum.QuantumEntityPrototypeConverter converter, ref Quantum.Prototypes.TLNode_FireBulletPrototype prototype);
+    public override Quantum.Prototypes.TLNode_FireBulletPrototype Convert(Quantum.QuantumEntityPrototypeConverter converter) {
+      var result = new Quantum.Prototypes.TLNode_FireBulletPrototype();
+      converter.Convert(this.fireBulletInfo, out result.fireBulletInfo);
       ConvertUser(converter, ref result);
       return result;
     }
@@ -257,31 +400,31 @@ namespace Quantum.Prototypes.Unity {
   [System.SerializableAttribute()]
   public unsafe partial class TimelineNodePrototype : Quantum.QuantumUnityPrototypeAdapter<Quantum.Prototypes.TimelineNodePrototype> {
     public Int32 frame;
+    public Quantum.Prototypes.DataContainerPrototype args;
     public Quantum.QEnum32<ETLNodeType> nodeType;
     public Quantum.Prototypes.Unity.TLNodePrototype node;
-    public Quantum.Prototypes.DataContainerPrototype args;
     partial void ConvertUser(Quantum.QuantumEntityPrototypeConverter converter, ref Quantum.Prototypes.TimelineNodePrototype prototype);
     public override Quantum.Prototypes.TimelineNodePrototype Convert(Quantum.QuantumEntityPrototypeConverter converter) {
       var result = new Quantum.Prototypes.TimelineNodePrototype();
       converter.Convert(this.frame, out result.frame);
+      converter.Convert(this.args, out result.args);
       converter.Convert(this.nodeType, out result.nodeType);
       converter.Convert(this.node, out result.node);
-      converter.Convert(this.args, out result.args);
       ConvertUser(converter, ref result);
       return result;
     }
   }
   [System.SerializableAttribute()]
   public unsafe partial class TimelineObjPrototype : Quantum.QuantumUnityPrototypeAdapter<Quantum.Prototypes.TimelineObjPrototype> {
-    public Int32 elapsedFrame;
-    public Quantum.QuantumEntityPrototype caster;
     public Quantum.Prototypes.Unity.TimelineModelPrototype model;
+    public Quantum.QuantumEntityPrototype caster;
+    public Int32 elapsedFrame;
     partial void ConvertUser(Quantum.QuantumEntityPrototypeConverter converter, ref Quantum.Prototypes.TimelineObjPrototype prototype);
     public override Quantum.Prototypes.TimelineObjPrototype Convert(Quantum.QuantumEntityPrototypeConverter converter) {
       var result = new Quantum.Prototypes.TimelineObjPrototype();
-      converter.Convert(this.elapsedFrame, out result.elapsedFrame);
-      converter.Convert(this.caster, out result.caster);
       converter.Convert(this.model, out result.model);
+      converter.Convert(this.caster, out result.caster);
+      converter.Convert(this.elapsedFrame, out result.elapsedFrame);
       ConvertUser(converter, ref result);
       return result;
     }

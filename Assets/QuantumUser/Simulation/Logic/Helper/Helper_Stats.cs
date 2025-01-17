@@ -7,13 +7,54 @@ namespace Quantum.Helper
 
     public static unsafe class Helper_Stats
     {
-        // Setter
-        public static void SetHp(Frame f, EntityRef entity, int hp)
+        public static void InitStats(Frame f, EntityRef entity)
+        {
+            if (f.Unsafe.TryGetPointer<StatsComp>(entity, out var statsComp))
+            {
+                if (statsComp->IsInit)
+                    return;
+
+                Helper_Attrib.TryGetAttribValue(f, entity, AttributeType.MaxHp, out int maxHp);
+                statsComp->Hp = maxHp;
+
+                // Init
+                statsComp->IsInit = true;
+            }
+        }
+
+        public static void AddHp(Frame f, EntityRef entity, int hp, bool showText = false)
         {
             if (f.Unsafe.TryGetPointer<StatsComp>(entity, out var statsComp))
             {
                 Helper_Attrib.TryGetAttribValue(f, entity, AttributeType.MaxHp, out int maxHp);
+                int oldHp = statsComp->Hp;
+                statsComp->Hp = Math.Clamp(statsComp->Hp + hp, 0, maxHp);
+                Log.Debug($"AddHp: {entity} {statsComp->Hp - oldHp}, res: {statsComp->Hp}");
+                if (showText)
+                    f.Events.OnChangeHp(entity, statsComp->Hp - oldHp);
+
+                if (statsComp->Hp == 0)
+                {
+                    f.Events.OnDie(entity);
+                }
+            }
+        }
+
+        public static void ReduceHp(Frame f, EntityRef entity, int hp, bool showText = false)
+        {
+            AddHp(f, entity, -hp, showText);
+        }
+
+        // Setter
+        public static void SetHp(Frame f, EntityRef entity, int hp, bool showText = false)
+        {
+            if (f.Unsafe.TryGetPointer<StatsComp>(entity, out var statsComp))
+            {
+                Helper_Attrib.TryGetAttribValue(f, entity, AttributeType.MaxHp, out int maxHp);
+                int oldHp = statsComp->Hp;
                 statsComp->Hp = Math.Clamp(hp, 0, maxHp);
+                if (showText)
+                    f.Events.OnChangeHp(entity, statsComp->Hp - oldHp);
             }
         }
 
@@ -49,6 +90,15 @@ namespace Quantum.Helper
                 return statsComp.Hp;
             }
             return -1;
+        }
+
+        public static bool IsDead(Frame f, EntityRef entity)
+        {
+            if (f.TryGet<StatsComp>(entity, out var statsComp))
+            {
+                return statsComp.Hp <= 0;
+            }
+            return false;
         }
 
         public static int GetMp(Frame f, EntityRef entity)
@@ -105,6 +155,24 @@ namespace Quantum.Helper
             return true;
         }
 
+        public static bool CanRotate(Frame f, EntityRef entity)
+        {
+            if (f.TryGet<StatsComp>(entity, out var statsComp))
+            {
+                return statsComp.CanRotate <= 0;
+            }
+            return true;
+        }
+
+        public static bool IsImmune(Frame f, EntityRef entity)
+        {
+            if (f.TryGet<StatsComp>(entity, out var statsComp))
+            {
+                return statsComp.IsImmune <= 0;
+            }
+            return false;
+        }
+
         public static void AddRC_DisableMove(Frame f, EntityRef entity)
         {
             if (f.Unsafe.TryGetPointer<StatsComp>(entity, out var statsComp))
@@ -118,6 +186,14 @@ namespace Quantum.Helper
             if (f.Unsafe.TryGetPointer<StatsComp>(entity, out var statsComp))
             {
                 statsComp->CanUseSkill += 1;
+            }
+        }
+
+        public static void AddRC_Immune(Frame f, EntityRef entity)
+        {
+            if (f.Unsafe.TryGetPointer<StatsComp>(entity, out var statsComp))
+            {
+                statsComp->IsImmune += 1;
             }
         }
 
@@ -142,6 +218,19 @@ namespace Quantum.Helper
                 if (statsComp->CanUseSkill < 0)
                 {
                     statsComp->CanUseSkill = 0;
+                    Log.Error("ReduceRC_DisableMove: canMove < 0");
+                }
+            }
+        }
+
+        public static void ReduceRC_Immune(Frame f, EntityRef entity)
+        {
+            if (f.Unsafe.TryGetPointer<StatsComp>(entity, out var statsComp))
+            {
+                statsComp->IsImmune -= 1;
+                if (statsComp->IsImmune < 0)
+                {
+                    statsComp->IsImmune = 0;
                     Log.Error("ReduceRC_DisableMove: canMove < 0");
                 }
             }

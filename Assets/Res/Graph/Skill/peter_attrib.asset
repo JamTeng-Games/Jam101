@@ -1,0 +1,101 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a42ac8532f00466a847265767d96ae7f, type: 3}
+  m_Name: peter_attrib
+  m_EditorClassIdentifier: 
+  Identifier:
+    Path: Res/Graph/Skill/peter_attrib
+    Guid:
+      Value: 336394220029377451
+  baseModel:
+    nodes:
+    - rid: 2522078788334911492
+    - rid: 2522078789511151616
+    - rid: 2522078789511151634
+    utilityNodes: []
+    tmpName: peter_attrib
+    viewportInitiallySet: 1
+    viewPosition: {x: -4.3723755, y: 113.49692, z: 0}
+    viewScale: {x: 1, y: 1, z: 1}
+  references:
+    version: 2
+    RefIds:
+    - rid: -2
+      type: {class: , ns: , asm: }
+    - rid: 2522078788334911492
+      type: {class: NodeModel, ns: NewGraph, asm: NewGraph}
+      data:
+        nodeData:
+          rid: 2522078788334911493
+        nodeX: 121.522385
+        nodeY: 81
+        name: Peter Attrib
+        isUtilityNode: 0
+        foldouts: []
+    - rid: 2522078788334911493
+      type: {class: SkillNode, ns: Quantum.Graph.Skill, asm: Quantum.Simulation}
+      data:
+        id: 30001
+        cd: 0
+        skillType: 0
+        canLearnMultiTimes: 0
+        canInterrupt: 0
+        timeline:
+          rid: -2
+        buffs:
+        - rid: 2522078789511151617
+        costAttributes: []
+        stateConditions: 
+        indicatorType: 0
+    - rid: 2522078789511151616
+      type: {class: NodeModel, ns: NewGraph, asm: NewGraph}
+      data:
+        nodeData:
+          rid: 2522078789511151617
+        nodeX: 384.5224
+        nodeY: 95.36304
+        name: "\u6DFB\u52A0Buff\u7ED9\u91CA\u653E\u8005"
+        isUtilityNode: 0
+        foldouts: []
+    - rid: 2522078789511151617
+      type: {class: AddBuffToCasterNode, ns: Quantum.Graph.Skill, asm: Quantum.Simulation}
+      data:
+        frame: 0
+        buffNode:
+          rid: 2522078789511151635
+        isPermanent: 1
+        addStack: 1
+        duration: 1
+        isDurationSetTo: 0
+    - rid: 2522078789511151634
+      type: {class: NodeModel, ns: NewGraph, asm: NewGraph}
+      data:
+        nodeData:
+          rid: 2522078789511151635
+        nodeX: 660.3724
+        nodeY: 78.50308
+        name: PeterAttrib
+        isUtilityNode: 0
+        foldouts: []
+    - rid: 2522078789511151635
+      type: {class: BuffPeterAttribNode, ns: Quantum.Graph.Skill, asm: Quantum.Simulation}
+      data:
+        priority: 0
+        maxStack: 1
+        interval: -1
+        valueAttribs:
+        - type: 5
+          value: 60
+        - type: 1
+          value: 100
+        percentAttribs: []
+        tags: 

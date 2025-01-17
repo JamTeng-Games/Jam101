@@ -7,7 +7,10 @@
         Idle,
         Run,
         Attack,
-        Attack2,
+        Skill,
+        SuperSkill,
+        Hit,
+        Die,
     }
 
 }

@@ -19,7 +19,7 @@ public sealed partial class Item : Luban.BeanBase
     {
         { if(!_buf["id"].IsNumber) { throw new SerializationException(); }  Id = _buf["id"]; }
         { if(!_buf["name"].IsString) { throw new SerializationException(); }  Name = _buf["name"]; }
-        { if(!_buf["add_skill"].IsNumber) { throw new SerializationException(); }  AddSkill = _buf["add_skill"]; }
+        { var __json0 = _buf["add_skills"]; if(!__json0.IsArray) { throw new SerializationException(); } AddSkills = new System.Collections.Generic.List<int>(__json0.Count); foreach(JSONNode __e0 in __json0.Children) { int __v0;  { if(!__e0.IsNumber) { throw new SerializationException(); }  __v0 = __e0; }  AddSkills.Add(__v0); }   }
     }
 
     public static Item DeserializeItem(JSONNode _buf)
@@ -36,9 +36,9 @@ public sealed partial class Item : Luban.BeanBase
     /// </summary>
     public readonly string Name;
     /// <summary>
-    /// 添加的技能
+    /// 添加的技能 (可以添加多个)
     /// </summary>
-    public readonly int AddSkill;
+    public readonly System.Collections.Generic.List<int> AddSkills;
    
     public const int __ID__ = 2289459;
     public override int GetTypeId() => __ID__;
@@ -52,7 +52,7 @@ public sealed partial class Item : Luban.BeanBase
         return "{ "
         + "id:" + Id + ","
         + "name:" + Name + ","
-        + "addSkill:" + AddSkill + ","
+        + "addSkills:" + Luban.StringUtil.CollectionToString(AddSkills) + ","
         + "}";
     }
 }

@@ -68,6 +68,15 @@ namespace Quantum {
     Log,
     AddBuffToCaster,
     PlayAnim,
+    FireBullet,
+  }
+  [System.FlagsAttribute()]
+  public enum EDamageInfoType : int {
+    DirectDamage = 1 << 0,
+    ReflectDamage = 1 << 1,
+    PeriodDamage = 1 << 2,
+    DirectHeal = 1 << 3,
+    PeriodHeal = 1 << 4,
   }
   [System.FlagsAttribute()]
   public enum InputButtons : int {
@@ -75,6 +84,15 @@ namespace Quantum {
     Skill = 1 << 1,
   }
   public static unsafe partial class FlagsExtensions {
+    public static Boolean IsFlagSet(this EDamageInfoType self, EDamageInfoType flag) {
+      return (self & flag) == flag;
+    }
+    public static EDamageInfoType SetFlag(this EDamageInfoType self, EDamageInfoType flag) {
+      return self | flag;
+    }
+    public static EDamageInfoType ClearFlag(this EDamageInfoType self, EDamageInfoType flag) {
+      return self & ~flag;
+    }
     public static Boolean IsFlagSet(this InputButtons self, InputButtons flag) {
       return (self & flag) == flag;
     }
@@ -491,30 +509,30 @@ namespace Quantum {
   public unsafe partial struct AddBuffInfo {
     public const Int32 SIZE = 80;
     public const Int32 ALIGNMENT = 8;
-    [FieldOffset(12)]
-    public QBoolean isPermanent;
-    [FieldOffset(8)]
-    public QBoolean isDurationSetTo;
-    [FieldOffset(0)]
-    public Int32 addStack;
-    [FieldOffset(4)]
-    public Int32 duration;
+    [FieldOffset(32)]
+    public BuffModel buffModel;
     [FieldOffset(16)]
     public EntityRef caster;
     [FieldOffset(24)]
     public EntityRef target;
-    [FieldOffset(32)]
-    public BuffModel buffModel;
+    [FieldOffset(0)]
+    public Int32 addStack;
+    [FieldOffset(4)]
+    public Int32 duration;
+    [FieldOffset(12)]
+    public QBoolean isPermanent;
+    [FieldOffset(8)]
+    public QBoolean isDurationSetTo;
     public override Int32 GetHashCode() {
       unchecked { 
         var hash = 7043;
-        hash = hash * 31 + isPermanent.GetHashCode();
-        hash = hash * 31 + isDurationSetTo.GetHashCode();
-        hash = hash * 31 + addStack.GetHashCode();
-        hash = hash * 31 + duration.GetHashCode();
+        hash = hash * 31 + buffModel.GetHashCode();
         hash = hash * 31 + caster.GetHashCode();
         hash = hash * 31 + target.GetHashCode();
-        hash = hash * 31 + buffModel.GetHashCode();
+        hash = hash * 31 + addStack.GetHashCode();
+        hash = hash * 31 + duration.GetHashCode();
+        hash = hash * 31 + isPermanent.GetHashCode();
+        hash = hash * 31 + isDurationSetTo.GetHashCode();
         return hash;
       }
     }
@@ -552,6 +570,22 @@ namespace Quantum {
         var p = (AttributeCost*)ptr;
         serializer.Stream.Serialize(&p->attrType);
         serializer.Stream.Serialize(&p->cost);
+    }
+  }
+  [StructLayout(LayoutKind.Explicit)]
+  public unsafe partial struct BM_Arrow {
+    public const Int32 SIZE = 4;
+    public const Int32 ALIGNMENT = 4;
+    [FieldOffset(0)]
+    private fixed Byte _alignment_padding_[4];
+    public override Int32 GetHashCode() {
+      unchecked { 
+        var hash = 6361;
+        return hash;
+      }
+    }
+    public static void Serialize(void* ptr, FrameSerializer serializer) {
+        var p = (BM_Arrow*)ptr;
     }
   }
   [StructLayout(LayoutKind.Explicit)]
@@ -665,6 +699,38 @@ namespace Quantum {
     }
   }
   [StructLayout(LayoutKind.Explicit)]
+  public unsafe partial struct BM_PeterAttrib {
+    public const Int32 SIZE = 4;
+    public const Int32 ALIGNMENT = 4;
+    [FieldOffset(0)]
+    private fixed Byte _alignment_padding_[4];
+    public override Int32 GetHashCode() {
+      unchecked { 
+        var hash = 3083;
+        return hash;
+      }
+    }
+    public static void Serialize(void* ptr, FrameSerializer serializer) {
+        var p = (BM_PeterAttrib*)ptr;
+    }
+  }
+  [StructLayout(LayoutKind.Explicit)]
+  public unsafe partial struct BM_PistolBullet {
+    public const Int32 SIZE = 4;
+    public const Int32 ALIGNMENT = 4;
+    [FieldOffset(0)]
+    private fixed Byte _alignment_padding_[4];
+    public override Int32 GetHashCode() {
+      unchecked { 
+        var hash = 10831;
+        return hash;
+      }
+    }
+    public static void Serialize(void* ptr, FrameSerializer serializer) {
+        var p = (BM_PistolBullet*)ptr;
+    }
+  }
+  [StructLayout(LayoutKind.Explicit)]
   public unsafe partial struct BM_Poison {
     public const Int32 SIZE = 4;
     public const Int32 ALIGNMENT = 4;
@@ -710,6 +776,54 @@ namespace Quantum {
     }
     public static void Serialize(void* ptr, FrameSerializer serializer) {
         var p = (BM_Test1*)ptr;
+    }
+  }
+  [StructLayout(LayoutKind.Explicit)]
+  public unsafe partial struct BM_test_item_1 {
+    public const Int32 SIZE = 4;
+    public const Int32 ALIGNMENT = 4;
+    [FieldOffset(0)]
+    private fixed Byte _alignment_padding_[4];
+    public override Int32 GetHashCode() {
+      unchecked { 
+        var hash = 13477;
+        return hash;
+      }
+    }
+    public static void Serialize(void* ptr, FrameSerializer serializer) {
+        var p = (BM_test_item_1*)ptr;
+    }
+  }
+  [StructLayout(LayoutKind.Explicit)]
+  public unsafe partial struct BM_test_item_2 {
+    public const Int32 SIZE = 4;
+    public const Int32 ALIGNMENT = 4;
+    [FieldOffset(0)]
+    private fixed Byte _alignment_padding_[4];
+    public override Int32 GetHashCode() {
+      unchecked { 
+        var hash = 13487;
+        return hash;
+      }
+    }
+    public static void Serialize(void* ptr, FrameSerializer serializer) {
+        var p = (BM_test_item_2*)ptr;
+    }
+  }
+  [StructLayout(LayoutKind.Explicit)]
+  public unsafe partial struct BM_test_item_3 {
+    public const Int32 SIZE = 4;
+    public const Int32 ALIGNMENT = 4;
+    [FieldOffset(0)]
+    private fixed Byte _alignment_padding_[4];
+    public override Int32 GetHashCode() {
+      unchecked { 
+        var hash = 13499;
+        return hash;
+      }
+    }
+    public static void Serialize(void* ptr, FrameSerializer serializer) {
+        var p = (BM_test_item_3*)ptr;
     }
   }
   [StructLayout(LayoutKind.Explicit)]
@@ -767,8 +881,12 @@ namespace Quantum {
   public unsafe partial struct BuffObj {
     public const Int32 SIZE = 88;
     public const Int32 ALIGNMENT = 8;
-    [FieldOffset(16)]
-    public QBoolean isPermanent;
+    [FieldOffset(40)]
+    public BuffModel model;
+    [FieldOffset(24)]
+    public EntityRef caster;
+    [FieldOffset(32)]
+    public EntityRef owner;
     [FieldOffset(4)]
     public Int32 remainFrame;
     [FieldOffset(8)]
@@ -777,23 +895,19 @@ namespace Quantum {
     public Int32 elapsedFrame;
     [FieldOffset(12)]
     public Int32 tickTimes;
-    [FieldOffset(24)]
-    public EntityRef caster;
-    [FieldOffset(32)]
-    public EntityRef owner;
-    [FieldOffset(40)]
-    public BuffModel model;
+    [FieldOffset(16)]
+    public QBoolean isPermanent;
     public override Int32 GetHashCode() {
       unchecked { 
         var hash = 11197;
-        hash = hash * 31 + isPermanent.GetHashCode();
+        hash = hash * 31 + model.GetHashCode();
+        hash = hash * 31 + caster.GetHashCode();
+        hash = hash * 31 + owner.GetHashCode();
         hash = hash * 31 + remainFrame.GetHashCode();
         hash = hash * 31 + stack.GetHashCode();
         hash = hash * 31 + elapsedFrame.GetHashCode();
         hash = hash * 31 + tickTimes.GetHashCode();
-        hash = hash * 31 + caster.GetHashCode();
-        hash = hash * 31 + owner.GetHashCode();
-        hash = hash * 31 + model.GetHashCode();
+        hash = hash * 31 + isPermanent.GetHashCode();
         return hash;
       }
     }
@@ -810,6 +924,164 @@ namespace Quantum {
         EntityRef.Serialize(&p->caster, serializer);
         EntityRef.Serialize(&p->owner, serializer);
         Quantum.BuffModel.Serialize(&p->model, serializer);
+    }
+  }
+  [StructLayout(LayoutKind.Explicit)]
+  public unsafe partial struct BulletHitRecord {
+    public const Int32 SIZE = 16;
+    public const Int32 ALIGNMENT = 8;
+    [FieldOffset(8)]
+    public EntityRef target;
+    [FieldOffset(0)]
+    public Int32 timeToHitAgain;
+    public override Int32 GetHashCode() {
+      unchecked { 
+        var hash = 1721;
+        hash = hash * 31 + target.GetHashCode();
+        hash = hash * 31 + timeToHitAgain.GetHashCode();
+        return hash;
+      }
+    }
+    public static void Serialize(void* ptr, FrameSerializer serializer) {
+        var p = (BulletHitRecord*)ptr;
+        serializer.Stream.Serialize(&p->timeToHitAgain);
+        EntityRef.Serialize(&p->target, serializer);
+    }
+  }
+  [StructLayout(LayoutKind.Explicit)]
+  public unsafe partial struct BulletModel {
+    public const Int32 SIZE = 56;
+    public const Int32 ALIGNMENT = 8;
+    [FieldOffset(12)]
+    public Int32 type;
+    [FieldOffset(48)]
+    public FP radius;
+    [FieldOffset(4)]
+    public Int32 sameTargetDelayFrame;
+    [FieldOffset(0)]
+    public Int32 moveType;
+    [FieldOffset(24)]
+    public QBoolean removeOnObstacle;
+    [FieldOffset(20)]
+    public QBoolean hitFoe;
+    [FieldOffset(16)]
+    public QBoolean hitAlly;
+    [FieldOffset(8)]
+    public Int32 tweenType;
+    [FieldOffset(28)]
+    public QBoolean useFireAngle;
+    [FieldOffset(32)]
+    public QListPtr<Int32> tags;
+    [FieldOffset(36)]
+    public BLTM_Instance instance;
+    public override Int32 GetHashCode() {
+      unchecked { 
+        var hash = 9127;
+        hash = hash * 31 + type.GetHashCode();
+        hash = hash * 31 + radius.GetHashCode();
+        hash = hash * 31 + sameTargetDelayFrame.GetHashCode();
+        hash = hash * 31 + moveType.GetHashCode();
+        hash = hash * 31 + removeOnObstacle.GetHashCode();
+        hash = hash * 31 + hitFoe.GetHashCode();
+        hash = hash * 31 + hitAlly.GetHashCode();
+        hash = hash * 31 + tweenType.GetHashCode();
+        hash = hash * 31 + useFireAngle.GetHashCode();
+        hash = hash * 31 + tags.GetHashCode();
+        hash = hash * 31 + instance.GetHashCode();
+        return hash;
+      }
+    }
+    public void ClearPointers(FrameBase f, EntityRef entity) {
+      tags = default;
+    }
+    public static void Serialize(void* ptr, FrameSerializer serializer) {
+        var p = (BulletModel*)ptr;
+        serializer.Stream.Serialize(&p->moveType);
+        serializer.Stream.Serialize(&p->sameTargetDelayFrame);
+        serializer.Stream.Serialize(&p->tweenType);
+        serializer.Stream.Serialize(&p->type);
+        QBoolean.Serialize(&p->hitAlly, serializer);
+        QBoolean.Serialize(&p->hitFoe, serializer);
+        QBoolean.Serialize(&p->removeOnObstacle, serializer);
+        QBoolean.Serialize(&p->useFireAngle, serializer);
+        QList.Serialize(&p->tags, serializer, Statics.SerializeInt32);
+        Quantum.BLTM_Instance.Serialize(&p->instance, serializer);
+        FP.Serialize(&p->radius, serializer);
+    }
+  }
+  [StructLayout(LayoutKind.Explicit)]
+  public unsafe partial struct Damage {
+    public const Int32 SIZE = 8;
+    public const Int32 ALIGNMENT = 4;
+    [FieldOffset(4)]
+    public Int32 bullet;
+    [FieldOffset(0)]
+    public Int32 aoe;
+    public override Int32 GetHashCode() {
+      unchecked { 
+        var hash = 4639;
+        hash = hash * 31 + bullet.GetHashCode();
+        hash = hash * 31 + aoe.GetHashCode();
+        return hash;
+      }
+    }
+    public static void Serialize(void* ptr, FrameSerializer serializer) {
+        var p = (Damage*)ptr;
+        serializer.Stream.Serialize(&p->aoe);
+        serializer.Stream.Serialize(&p->bullet);
+    }
+  }
+  [StructLayout(LayoutKind.Explicit)]
+  public unsafe partial struct DamageInfo {
+    public const Int32 SIZE = 64;
+    public const Int32 ALIGNMENT = 8;
+    [FieldOffset(16)]
+    public EntityRef source;
+    [FieldOffset(24)]
+    public EntityRef target;
+    [FieldOffset(0)]
+    public EDamageInfoType damageType;
+    [FieldOffset(8)]
+    public Damage damage;
+    [FieldOffset(48)]
+    public FP hitRate;
+    [FieldOffset(40)]
+    public FP criticalRate;
+    [FieldOffset(56)]
+    public FP varianceRate;
+    [FieldOffset(32)]
+    public FP angle;
+    [FieldOffset(4)]
+    public QListPtr<AddBuffInfo> addBuffs;
+    public override Int32 GetHashCode() {
+      unchecked { 
+        var hash = 14087;
+        hash = hash * 31 + source.GetHashCode();
+        hash = hash * 31 + target.GetHashCode();
+        hash = hash * 31 + (Int32)damageType;
+        hash = hash * 31 + damage.GetHashCode();
+        hash = hash * 31 + hitRate.GetHashCode();
+        hash = hash * 31 + criticalRate.GetHashCode();
+        hash = hash * 31 + varianceRate.GetHashCode();
+        hash = hash * 31 + angle.GetHashCode();
+        hash = hash * 31 + addBuffs.GetHashCode();
+        return hash;
+      }
+    }
+    public void ClearPointers(FrameBase f, EntityRef entity) {
+      addBuffs = default;
+    }
+    public static void Serialize(void* ptr, FrameSerializer serializer) {
+        var p = (DamageInfo*)ptr;
+        serializer.Stream.Serialize((Int32*)&p->damageType);
+        QList.Serialize(&p->addBuffs, serializer, Statics.SerializeAddBuffInfo);
+        Quantum.Damage.Serialize(&p->damage, serializer);
+        EntityRef.Serialize(&p->source, serializer);
+        EntityRef.Serialize(&p->target, serializer);
+        FP.Serialize(&p->angle, serializer);
+        FP.Serialize(&p->criticalRate, serializer);
+        FP.Serialize(&p->hitRate, serializer);
+        FP.Serialize(&p->varianceRate, serializer);
     }
   }
   [StructLayout(LayoutKind.Explicit)]
@@ -831,6 +1103,55 @@ namespace Quantum {
     public static void Serialize(void* ptr, FrameSerializer serializer) {
         var p = (DataContainer*)ptr;
         QDictionary.Serialize(&p->Data, serializer, Statics.SerializeInt32, Statics.SerializeVariable);
+    }
+  }
+  [StructLayout(LayoutKind.Explicit)]
+  public unsafe partial struct FireBulletInfo {
+    public const Int32 SIZE = 104;
+    public const Int32 ALIGNMENT = 8;
+    [FieldOffset(48)]
+    public BulletModel model;
+    [FieldOffset(8)]
+    public Int32 speed;
+    [FieldOffset(0)]
+    public Int32 duration;
+    [FieldOffset(12)]
+    public Int32 timeCanHit;
+    [FieldOffset(4)]
+    public Int32 hitTimes;
+    [FieldOffset(32)]
+    public FPVector2 firePos;
+    [FieldOffset(24)]
+    public FP fireAngle;
+    [FieldOffset(16)]
+    public EntityRef caster;
+    public override Int32 GetHashCode() {
+      unchecked { 
+        var hash = 3329;
+        hash = hash * 31 + model.GetHashCode();
+        hash = hash * 31 + speed.GetHashCode();
+        hash = hash * 31 + duration.GetHashCode();
+        hash = hash * 31 + timeCanHit.GetHashCode();
+        hash = hash * 31 + hitTimes.GetHashCode();
+        hash = hash * 31 + firePos.GetHashCode();
+        hash = hash * 31 + fireAngle.GetHashCode();
+        hash = hash * 31 + caster.GetHashCode();
+        return hash;
+      }
+    }
+    public void ClearPointers(FrameBase f, EntityRef entity) {
+      model.ClearPointers(f, entity);
+    }
+    public static void Serialize(void* ptr, FrameSerializer serializer) {
+        var p = (FireBulletInfo*)ptr;
+        serializer.Stream.Serialize(&p->duration);
+        serializer.Stream.Serialize(&p->hitTimes);
+        serializer.Stream.Serialize(&p->speed);
+        serializer.Stream.Serialize(&p->timeCanHit);
+        EntityRef.Serialize(&p->caster, serializer);
+        FP.Serialize(&p->fireAngle, serializer);
+        FPVector2.Serialize(&p->firePos, serializer);
+        Quantum.BulletModel.Serialize(&p->model, serializer);
     }
   }
   [StructLayout(LayoutKind.Explicit)]
@@ -958,38 +1279,41 @@ namespace Quantum {
   }
   [StructLayout(LayoutKind.Explicit)]
   public unsafe partial struct SkillModel {
-    public const Int32 SIZE = 36;
+    public const Int32 SIZE = 40;
     public const Int32 ALIGNMENT = 4;
+    [FieldOffset(36)]
+    public QListPtr<AttributeCost> attrCosts;
+    [FieldOffset(32)]
+    public QListPtr<AddBuffInfo> addBuffs;
     [FieldOffset(8)]
     public Int32 id;
     [FieldOffset(0)]
     public Int32 cd;
-    [FieldOffset(24)]
-    public QBoolean isAttack;
     [FieldOffset(20)]
-    public QBoolean canInterrupt;
+    public Int32 type;
     [FieldOffset(4)]
     public Int32 condition;
     [FieldOffset(12)]
     public Int32 indicatorType;
     [FieldOffset(16)]
     public Int32 timelineModelId;
-    [FieldOffset(32)]
-    public QListPtr<AttributeCost> attrCosts;
+    [FieldOffset(24)]
+    public QBoolean canInterrupt;
     [FieldOffset(28)]
-    public QListPtr<AddBuffInfo> addBuffs;
+    public QBoolean canLearnMulti;
     public override Int32 GetHashCode() {
       unchecked { 
         var hash = 6329;
+        hash = hash * 31 + attrCosts.GetHashCode();
+        hash = hash * 31 + addBuffs.GetHashCode();
         hash = hash * 31 + id.GetHashCode();
         hash = hash * 31 + cd.GetHashCode();
-        hash = hash * 31 + isAttack.GetHashCode();
-        hash = hash * 31 + canInterrupt.GetHashCode();
+        hash = hash * 31 + type.GetHashCode();
         hash = hash * 31 + condition.GetHashCode();
         hash = hash * 31 + indicatorType.GetHashCode();
         hash = hash * 31 + timelineModelId.GetHashCode();
-        hash = hash * 31 + attrCosts.GetHashCode();
-        hash = hash * 31 + addBuffs.GetHashCode();
+        hash = hash * 31 + canInterrupt.GetHashCode();
+        hash = hash * 31 + canLearnMulti.GetHashCode();
         return hash;
       }
     }
@@ -1004,28 +1328,32 @@ namespace Quantum {
         serializer.Stream.Serialize(&p->id);
         serializer.Stream.Serialize(&p->indicatorType);
         serializer.Stream.Serialize(&p->timelineModelId);
+        serializer.Stream.Serialize(&p->type);
         QBoolean.Serialize(&p->canInterrupt, serializer);
-        QBoolean.Serialize(&p->isAttack, serializer);
+        QBoolean.Serialize(&p->canLearnMulti, serializer);
         QList.Serialize(&p->addBuffs, serializer, Statics.SerializeAddBuffInfo);
         QList.Serialize(&p->attrCosts, serializer, Statics.SerializeAttributeCost);
     }
   }
   [StructLayout(LayoutKind.Explicit)]
   public unsafe partial struct SkillObj {
-    public const Int32 SIZE = 44;
+    public const Int32 SIZE = 52;
     public const Int32 ALIGNMENT = 4;
+    [FieldOffset(12)]
+    public SkillModel model;
     [FieldOffset(4)]
     public Int32 level;
     [FieldOffset(0)]
     public Int32 cd;
     [FieldOffset(8)]
-    public SkillModel model;
+    public Int32 refCount;
     public override Int32 GetHashCode() {
       unchecked { 
         var hash = 17321;
+        hash = hash * 31 + model.GetHashCode();
         hash = hash * 31 + level.GetHashCode();
         hash = hash * 31 + cd.GetHashCode();
-        hash = hash * 31 + model.GetHashCode();
+        hash = hash * 31 + refCount.GetHashCode();
         return hash;
       }
     }
@@ -1036,6 +1364,7 @@ namespace Quantum {
         var p = (SkillObj*)ptr;
         serializer.Stream.Serialize(&p->cd);
         serializer.Stream.Serialize(&p->level);
+        serializer.Stream.Serialize(&p->refCount);
         Quantum.SkillModel.Serialize(&p->model, serializer);
     }
   }
@@ -1058,6 +1387,27 @@ namespace Quantum {
     public static void Serialize(void* ptr, FrameSerializer serializer) {
         var p = (TLNode_AddBuffToCaster*)ptr;
         Quantum.AddBuffInfo.Serialize(&p->addBuffInfo, serializer);
+    }
+  }
+  [StructLayout(LayoutKind.Explicit)]
+  public unsafe partial struct TLNode_FireBullet {
+    public const Int32 SIZE = 104;
+    public const Int32 ALIGNMENT = 8;
+    [FieldOffset(0)]
+    public FireBulletInfo fireBulletInfo;
+    public override Int32 GetHashCode() {
+      unchecked { 
+        var hash = 14629;
+        hash = hash * 31 + fireBulletInfo.GetHashCode();
+        return hash;
+      }
+    }
+    public void ClearPointers(FrameBase f, EntityRef entity) {
+      fireBulletInfo.ClearPointers(f, entity);
+    }
+    public static void Serialize(void* ptr, FrameSerializer serializer) {
+        var p = (TLNode_FireBullet*)ptr;
+        Quantum.FireBulletInfo.Serialize(&p->fireBulletInfo, serializer);
     }
   }
   [StructLayout(LayoutKind.Explicit)]
@@ -1131,29 +1481,29 @@ namespace Quantum {
   }
   [StructLayout(LayoutKind.Explicit)]
   public unsafe partial struct TimelineNode {
-    public const Int32 SIZE = 104;
+    public const Int32 SIZE = 128;
     public const Int32 ALIGNMENT = 8;
     [FieldOffset(8)]
     public Int32 frame;
+    [FieldOffset(0)]
+    public DataContainer args;
     [FieldOffset(4)]
     public ETLNodeType nodeType;
     [FieldOffset(16)]
     public TLNode node;
-    [FieldOffset(0)]
-    public DataContainer args;
     public override Int32 GetHashCode() {
       unchecked { 
         var hash = 2089;
         hash = hash * 31 + frame.GetHashCode();
+        hash = hash * 31 + args.GetHashCode();
         hash = hash * 31 + (Int32)nodeType;
         hash = hash * 31 + node.GetHashCode();
-        hash = hash * 31 + args.GetHashCode();
         return hash;
       }
     }
     public void ClearPointers(FrameBase f, EntityRef entity) {
-      node.ClearPointers(f, entity);
       args.ClearPointers(f, entity);
+      node.ClearPointers(f, entity);
     }
     public static void Serialize(void* ptr, FrameSerializer serializer) {
         var p = (TimelineNode*)ptr;
@@ -1169,18 +1519,18 @@ namespace Quantum {
     public const Int32 ALIGNMENT = 8;
     [FieldOffset(28)]
     private fixed Byte _alignment_padding_[4];
-    [FieldOffset(0)]
-    public Int32 elapsedFrame;
-    [FieldOffset(8)]
-    public EntityRef caster;
     [FieldOffset(16)]
     public TimelineModel model;
+    [FieldOffset(8)]
+    public EntityRef caster;
+    [FieldOffset(0)]
+    public Int32 elapsedFrame;
     public override Int32 GetHashCode() {
       unchecked { 
         var hash = 16963;
-        hash = hash * 31 + elapsedFrame.GetHashCode();
-        hash = hash * 31 + caster.GetHashCode();
         hash = hash * 31 + model.GetHashCode();
+        hash = hash * 31 + caster.GetHashCode();
+        hash = hash * 31 + elapsedFrame.GetHashCode();
         return hash;
       }
     }
@@ -1280,6 +1630,74 @@ namespace Quantum {
   }
   [StructLayout(LayoutKind.Explicit)]
   [Union()]
+  public unsafe partial struct BLTM_Instance {
+    public const Int32 SIZE = 8;
+    public const Int32 ALIGNMENT = 4;
+    [FieldOffset(0)]
+    private Int32 _field_used_;
+    [FieldOffset(4)]
+    [FieldOverlap(4)]
+    [FramePrinter.PrintIf("_field_used_", Quantum.BLTM_Instance.ARROW)]
+    private BM_Arrow _Arrow;
+    [FieldOffset(4)]
+    [FieldOverlap(4)]
+    [FramePrinter.PrintIf("_field_used_", Quantum.BLTM_Instance.PISTOLBULLET)]
+    private BM_PistolBullet _PistolBullet;
+    public const Int32 ARROW = 1;
+    public const Int32 PISTOLBULLET = 2;
+    public Int32 Field {
+      get {
+        return _field_used_;
+      }
+    }
+    public BM_Arrow* Arrow {
+      get {
+        fixed (BM_Arrow* p = &_Arrow) {
+          if (_field_used_ != ARROW) {
+            Native.Utils.Clear(p, 4);
+            _field_used_ = ARROW;
+          }
+          return p;
+        }
+      }
+    }
+    public BM_PistolBullet* PistolBullet {
+      get {
+        fixed (BM_PistolBullet* p = &_PistolBullet) {
+          if (_field_used_ != PISTOLBULLET) {
+            Native.Utils.Clear(p, 4);
+            _field_used_ = PISTOLBULLET;
+          }
+          return p;
+        }
+      }
+    }
+    public override Int32 GetHashCode() {
+      unchecked { 
+        var hash = 5641;
+        hash = hash * 31 + _field_used_.GetHashCode();
+        hash = hash * 31 + _Arrow.GetHashCode();
+        hash = hash * 31 + _PistolBullet.GetHashCode();
+        return hash;
+      }
+    }
+    public static void Serialize(void* ptr, FrameSerializer serializer) {
+        var p = (BLTM_Instance*)ptr;
+        if (serializer.InputMode) {
+          serializer.Stream.SerializeBuffer((byte*)p, Quantum.BLTM_Instance.SIZE);
+          return;
+        }
+        serializer.Stream.Serialize(&p->_field_used_);
+        if (p->_field_used_ == ARROW) {
+          Quantum.BM_Arrow.Serialize(&p->_Arrow, serializer);
+        }
+        if (p->_field_used_ == PISTOLBULLET) {
+          Quantum.BM_PistolBullet.Serialize(&p->_PistolBullet, serializer);
+        }
+    }
+  }
+  [StructLayout(LayoutKind.Explicit)]
+  [Union()]
   public unsafe partial struct BM_Instance {
     public const Int32 SIZE = 16;
     public const Int32 ALIGNMENT = 8;
@@ -1311,12 +1729,28 @@ namespace Quantum {
     private BM_Hot _Hot;
     [FieldOffset(8)]
     [FieldOverlap(8)]
+    [FramePrinter.PrintIf("_field_used_", Quantum.BM_Instance.PETERATTRIB)]
+    private BM_PeterAttrib _PeterAttrib;
+    [FieldOffset(8)]
+    [FieldOverlap(8)]
     [FramePrinter.PrintIf("_field_used_", Quantum.BM_Instance.POISON)]
     private BM_Poison _Poison;
     [FieldOffset(8)]
     [FieldOverlap(8)]
     [FramePrinter.PrintIf("_field_used_", Quantum.BM_Instance.PUREATTRIB)]
     private BM_PureAttrib _PureAttrib;
+    [FieldOffset(8)]
+    [FieldOverlap(8)]
+    [FramePrinter.PrintIf("_field_used_", Quantum.BM_Instance.TEST_ITEM_1)]
+    private BM_test_item_1 _test_item_1;
+    [FieldOffset(8)]
+    [FieldOverlap(8)]
+    [FramePrinter.PrintIf("_field_used_", Quantum.BM_Instance.TEST_ITEM_2)]
+    private BM_test_item_2 _test_item_2;
+    [FieldOffset(8)]
+    [FieldOverlap(8)]
+    [FramePrinter.PrintIf("_field_used_", Quantum.BM_Instance.TEST_ITEM_3)]
+    private BM_test_item_3 _test_item_3;
     [FieldOffset(8)]
     [FieldOverlap(8)]
     [FramePrinter.PrintIf("_field_used_", Quantum.BM_Instance.TEST1)]
@@ -1327,9 +1761,13 @@ namespace Quantum {
     public const Int32 DISABLEMOVE_NOEFFECT = 4;
     public const Int32 DISABLESKILL = 5;
     public const Int32 HOT = 6;
-    public const Int32 POISON = 7;
-    public const Int32 PUREATTRIB = 8;
-    public const Int32 TEST1 = 9;
+    public const Int32 PETERATTRIB = 7;
+    public const Int32 POISON = 8;
+    public const Int32 PUREATTRIB = 9;
+    public const Int32 TEST_ITEM_1 = 10;
+    public const Int32 TEST_ITEM_2 = 11;
+    public const Int32 TEST_ITEM_3 = 12;
+    public const Int32 TEST1 = 13;
     public Int32 Field {
       get {
         return _field_used_;
@@ -1401,6 +1839,17 @@ namespace Quantum {
         }
       }
     }
+    public BM_PeterAttrib* PeterAttrib {
+      get {
+        fixed (BM_PeterAttrib* p = &_PeterAttrib) {
+          if (_field_used_ != PETERATTRIB) {
+            Native.Utils.Clear(p, 4);
+            _field_used_ = PETERATTRIB;
+          }
+          return p;
+        }
+      }
+    }
     public BM_Poison* Poison {
       get {
         fixed (BM_Poison* p = &_Poison) {
@@ -1418,6 +1867,39 @@ namespace Quantum {
           if (_field_used_ != PUREATTRIB) {
             Native.Utils.Clear(p, 4);
             _field_used_ = PUREATTRIB;
+          }
+          return p;
+        }
+      }
+    }
+    public BM_test_item_1* test_item_1 {
+      get {
+        fixed (BM_test_item_1* p = &_test_item_1) {
+          if (_field_used_ != TEST_ITEM_1) {
+            Native.Utils.Clear(p, 4);
+            _field_used_ = TEST_ITEM_1;
+          }
+          return p;
+        }
+      }
+    }
+    public BM_test_item_2* test_item_2 {
+      get {
+        fixed (BM_test_item_2* p = &_test_item_2) {
+          if (_field_used_ != TEST_ITEM_2) {
+            Native.Utils.Clear(p, 4);
+            _field_used_ = TEST_ITEM_2;
+          }
+          return p;
+        }
+      }
+    }
+    public BM_test_item_3* test_item_3 {
+      get {
+        fixed (BM_test_item_3* p = &_test_item_3) {
+          if (_field_used_ != TEST_ITEM_3) {
+            Native.Utils.Clear(p, 4);
+            _field_used_ = TEST_ITEM_3;
           }
           return p;
         }
@@ -1444,8 +1926,12 @@ namespace Quantum {
         hash = hash * 31 + _DisableMove_NoEffect.GetHashCode();
         hash = hash * 31 + _DisableSkill.GetHashCode();
         hash = hash * 31 + _Hot.GetHashCode();
+        hash = hash * 31 + _PeterAttrib.GetHashCode();
         hash = hash * 31 + _Poison.GetHashCode();
         hash = hash * 31 + _PureAttrib.GetHashCode();
+        hash = hash * 31 + _test_item_1.GetHashCode();
+        hash = hash * 31 + _test_item_2.GetHashCode();
+        hash = hash * 31 + _test_item_3.GetHashCode();
         hash = hash * 31 + _Test1.GetHashCode();
         return hash;
       }
@@ -1475,6 +1961,9 @@ namespace Quantum {
         if (p->_field_used_ == HOT) {
           Quantum.BM_Hot.Serialize(&p->_Hot, serializer);
         }
+        if (p->_field_used_ == PETERATTRIB) {
+          Quantum.BM_PeterAttrib.Serialize(&p->_PeterAttrib, serializer);
+        }
         if (p->_field_used_ == POISON) {
           Quantum.BM_Poison.Serialize(&p->_Poison, serializer);
         }
@@ -1484,12 +1973,21 @@ namespace Quantum {
         if (p->_field_used_ == TEST1) {
           Quantum.BM_Test1.Serialize(&p->_Test1, serializer);
         }
+        if (p->_field_used_ == TEST_ITEM_1) {
+          Quantum.BM_test_item_1.Serialize(&p->_test_item_1, serializer);
+        }
+        if (p->_field_used_ == TEST_ITEM_2) {
+          Quantum.BM_test_item_2.Serialize(&p->_test_item_2, serializer);
+        }
+        if (p->_field_used_ == TEST_ITEM_3) {
+          Quantum.BM_test_item_3.Serialize(&p->_test_item_3, serializer);
+        }
     }
   }
   [StructLayout(LayoutKind.Explicit)]
   [Union()]
   public unsafe partial struct TLNode {
-    public const Int32 SIZE = 88;
+    public const Int32 SIZE = 112;
     public const Int32 ALIGNMENT = 8;
     [FieldOffset(0)]
     private Int32 _field_used_;
@@ -1505,9 +2003,14 @@ namespace Quantum {
     [FieldOverlap(8)]
     [FramePrinter.PrintIf("_field_used_", Quantum.TLNode.PLAYANIM)]
     private TLNode_PlayAnim _PlayAnim;
+    [FieldOffset(8)]
+    [FieldOverlap(8)]
+    [FramePrinter.PrintIf("_field_used_", Quantum.TLNode.FIREBULLET)]
+    private TLNode_FireBullet _FireBullet;
     public const Int32 LOG = 1;
     public const Int32 ADDBUFFTOCASTER = 2;
     public const Int32 PLAYANIM = 3;
+    public const Int32 FIREBULLET = 4;
     public Int32 Field {
       get {
         return _field_used_;
@@ -1546,6 +2049,17 @@ namespace Quantum {
         }
       }
     }
+    public TLNode_FireBullet* FireBullet {
+      get {
+        fixed (TLNode_FireBullet* p = &_FireBullet) {
+          if (_field_used_ != FIREBULLET) {
+            Native.Utils.Clear(p, 104);
+            _field_used_ = FIREBULLET;
+          }
+          return p;
+        }
+      }
+    }
     public override Int32 GetHashCode() {
       unchecked { 
         var hash = 11701;
@@ -1553,12 +2067,16 @@ namespace Quantum {
         hash = hash * 31 + _Log.GetHashCode();
         hash = hash * 31 + _AddBuffToCaster.GetHashCode();
         hash = hash * 31 + _PlayAnim.GetHashCode();
+        hash = hash * 31 + _FireBullet.GetHashCode();
         return hash;
       }
     }
     public void ClearPointers(FrameBase f, EntityRef entity) {
       if (_field_used_ == ADDBUFFTOCASTER) {
         _AddBuffToCaster.ClearPointers(f, entity);
+      }
+      if (_field_used_ == FIREBULLET) {
+        _FireBullet.ClearPointers(f, entity);
       }
     }
     public static void Serialize(void* ptr, FrameSerializer serializer) {
@@ -1570,6 +2088,9 @@ namespace Quantum {
         serializer.Stream.Serialize(&p->_field_used_);
         if (p->_field_used_ == ADDBUFFTOCASTER) {
           Quantum.TLNode_AddBuffToCaster.Serialize(&p->_AddBuffToCaster, serializer);
+        }
+        if (p->_field_used_ == FIREBULLET) {
+          Quantum.TLNode_FireBullet.Serialize(&p->_FireBullet, serializer);
         }
         if (p->_field_used_ == LOG) {
           Quantum.TLNode_Log.Serialize(&p->_Log, serializer);
@@ -1773,14 +2294,16 @@ namespace Quantum {
   }
   [StructLayout(LayoutKind.Explicit)]
   public unsafe partial struct BuffComp : Quantum.IComponent {
-    public const Int32 SIZE = 8;
+    public const Int32 SIZE = 12;
     public const Int32 ALIGNMENT = 4;
-    [FieldOffset(4)]
+    [FieldOffset(0)]
+    public QBoolean isDirty;
+    [FieldOffset(8)]
     [AllocateOnComponentAdded()]
     [FreeOnComponentRemoved()]
     [HideInInspector()]
     public QListPtr<BuffObj> Buffs;
-    [FieldOffset(0)]
+    [FieldOffset(4)]
     [AllocateOnComponentAdded()]
     [FreeOnComponentRemoved()]
     [HideInInspector()]
@@ -1788,6 +2311,7 @@ namespace Quantum {
     public override Int32 GetHashCode() {
       unchecked { 
         var hash = 20047;
+        hash = hash * 31 + isDirty.GetHashCode();
         hash = hash * 31 + Buffs.GetHashCode();
         hash = hash * 31 + AddBuffs.GetHashCode();
         return hash;
@@ -1811,8 +2335,99 @@ namespace Quantum {
     }
     public static void Serialize(void* ptr, FrameSerializer serializer) {
         var p = (BuffComp*)ptr;
+        QBoolean.Serialize(&p->isDirty, serializer);
         QList.Serialize(&p->AddBuffs, serializer, Statics.SerializeAddBuffInfo);
         QList.Serialize(&p->Buffs, serializer, Statics.SerializeBuffObj);
+    }
+  }
+  [StructLayout(LayoutKind.Explicit)]
+  public unsafe partial struct BulletComp : Quantum.IComponent {
+    public const Int32 SIZE = 96;
+    public const Int32 ALIGNMENT = 8;
+    [FieldOffset(40)]
+    [HideInInspector()]
+    public BulletModel Model;
+    [FieldOffset(4)]
+    [HideInInspector()]
+    public Int32 Hp;
+    [FieldOffset(0)]
+    [HideInInspector()]
+    public Int32 ElapsedFrame;
+    [FieldOffset(8)]
+    [HideInInspector()]
+    public Int32 RemainFrame;
+    [FieldOffset(12)]
+    [HideInInspector()]
+    public Int32 TimeCanHit;
+    [FieldOffset(32)]
+    [HideInInspector()]
+    public FP Speed;
+    [FieldOffset(24)]
+    [HideInInspector()]
+    public EntityRef Caster;
+    [FieldOffset(16)]
+    [AllocateOnComponentAdded()]
+    [FreeOnComponentRemoved()]
+    [HideInInspector()]
+    public QListPtr<BulletHitRecord> HitRecords;
+    public override Int32 GetHashCode() {
+      unchecked { 
+        var hash = 2713;
+        hash = hash * 31 + Model.GetHashCode();
+        hash = hash * 31 + Hp.GetHashCode();
+        hash = hash * 31 + ElapsedFrame.GetHashCode();
+        hash = hash * 31 + RemainFrame.GetHashCode();
+        hash = hash * 31 + TimeCanHit.GetHashCode();
+        hash = hash * 31 + Speed.GetHashCode();
+        hash = hash * 31 + Caster.GetHashCode();
+        hash = hash * 31 + HitRecords.GetHashCode();
+        return hash;
+      }
+    }
+    public void ClearPointers(FrameBase f, EntityRef entity) {
+      Model.ClearPointers(f, entity);
+      if (HitRecords != default) f.FreeList(ref HitRecords);
+    }
+    public static void OnRemoved(FrameBase frame, EntityRef entity, void* ptr) {
+      var p = (Quantum.BulletComp*)ptr;
+      p->ClearPointers((Frame)frame, entity);
+    }
+    public void AllocatePointers(FrameBase f, EntityRef entity) {
+      f.TryAllocateList(ref HitRecords);
+    }
+    public static void OnAdded(FrameBase frame, EntityRef entity, void* ptr) {
+      var p = (Quantum.BulletComp*)ptr;
+      p->AllocatePointers((Frame)frame, entity);
+    }
+    public static void Serialize(void* ptr, FrameSerializer serializer) {
+        var p = (BulletComp*)ptr;
+        serializer.Stream.Serialize(&p->ElapsedFrame);
+        serializer.Stream.Serialize(&p->Hp);
+        serializer.Stream.Serialize(&p->RemainFrame);
+        serializer.Stream.Serialize(&p->TimeCanHit);
+        QList.Serialize(&p->HitRecords, serializer, Statics.SerializeBulletHitRecord);
+        EntityRef.Serialize(&p->Caster, serializer);
+        FP.Serialize(&p->Speed, serializer);
+        Quantum.BulletModel.Serialize(&p->Model, serializer);
+    }
+  }
+  [StructLayout(LayoutKind.Explicit)]
+  public unsafe partial struct CampComp : Quantum.IComponent {
+    public const Int32 SIZE = 4;
+    public const Int32 ALIGNMENT = 4;
+    [FieldOffset(0)]
+    [HideInInspector()]
+    public Int32 Camp;
+    public override Int32 GetHashCode() {
+      unchecked { 
+        var hash = 9811;
+        hash = hash * 31 + Camp.GetHashCode();
+        return hash;
+      }
+    }
+    public static void Serialize(void* ptr, FrameSerializer serializer) {
+        var p = (CampComp*)ptr;
+        serializer.Stream.Serialize(&p->Camp);
     }
   }
   [StructLayout(LayoutKind.Explicit)]
@@ -1904,27 +2519,60 @@ namespace Quantum {
     }
   }
   [StructLayout(LayoutKind.Explicit)]
-  public unsafe partial struct MoveComp : Quantum.IComponent {
-    public const Int32 SIZE = 24;
+  public unsafe partial struct KccComp : Quantum.IComponent {
+    public const Int32 SIZE = 40;
     public const Int32 ALIGNMENT = 8;
+    [FieldOffset(24)]
+    [HideInInspector()]
+    public FPVector2 Velocity;
+    [FieldOffset(0)]
+    public AssetRef<KccSettings> Settings;
+    [FieldOffset(16)]
+    [HideInInspector()]
+    public FP MaxSpeed;
     [FieldOffset(8)]
     [HideInInspector()]
-    public FPVector2 Vector;
+    public FP Acceleration;
+    public override Int32 GetHashCode() {
+      unchecked { 
+        var hash = 12907;
+        hash = hash * 31 + Velocity.GetHashCode();
+        hash = hash * 31 + Settings.GetHashCode();
+        hash = hash * 31 + MaxSpeed.GetHashCode();
+        hash = hash * 31 + Acceleration.GetHashCode();
+        return hash;
+      }
+    }
+    public static void Serialize(void* ptr, FrameSerializer serializer) {
+        var p = (KccComp*)ptr;
+        AssetRef.Serialize(&p->Settings, serializer);
+        FP.Serialize(&p->Acceleration, serializer);
+        FP.Serialize(&p->MaxSpeed, serializer);
+        FPVector2.Serialize(&p->Velocity, serializer);
+    }
+  }
+  [StructLayout(LayoutKind.Explicit)]
+  public unsafe partial struct MoveComp : Quantum.IComponent {
+    public const Int32 SIZE = 32;
+    public const Int32 ALIGNMENT = 8;
     [FieldOffset(0)]
     [HideInInspector()]
-    public FP RotationDegree;
+    public FPVector2 Offset;
+    [FieldOffset(16)]
+    [HideInInspector()]
+    public FPVector2 Velocity;
     public override Int32 GetHashCode() {
       unchecked { 
         var hash = 17467;
-        hash = hash * 31 + Vector.GetHashCode();
-        hash = hash * 31 + RotationDegree.GetHashCode();
+        hash = hash * 31 + Offset.GetHashCode();
+        hash = hash * 31 + Velocity.GetHashCode();
         return hash;
       }
     }
     public static void Serialize(void* ptr, FrameSerializer serializer) {
         var p = (MoveComp*)ptr;
-        FP.Serialize(&p->RotationDegree, serializer);
-        FPVector2.Serialize(&p->Vector, serializer);
+        FPVector2.Serialize(&p->Offset, serializer);
+        FPVector2.Serialize(&p->Velocity, serializer);
     }
   }
   [StructLayout(LayoutKind.Explicit)]
@@ -1947,29 +2595,92 @@ namespace Quantum {
     }
   }
   [StructLayout(LayoutKind.Explicit)]
-  public unsafe partial struct SBuffModelContainerComp : Quantum.IComponentSingleton {
+  public unsafe partial struct RotateComp : Quantum.IComponent {
+    public const Int32 SIZE = 8;
+    public const Int32 ALIGNMENT = 8;
+    [FieldOffset(0)]
+    [HideInInspector()]
+    public FP Rotation;
+    public override Int32 GetHashCode() {
+      unchecked { 
+        var hash = 13313;
+        hash = hash * 31 + Rotation.GetHashCode();
+        return hash;
+      }
+    }
+    public static void Serialize(void* ptr, FrameSerializer serializer) {
+        var p = (RotateComp*)ptr;
+        FP.Serialize(&p->Rotation, serializer);
+    }
+  }
+  [StructLayout(LayoutKind.Explicit)]
+  public unsafe partial struct SBulletFireInfoComp : Quantum.IComponentSingleton {
     public const Int32 SIZE = 4;
     public const Int32 ALIGNMENT = 4;
     [FieldOffset(0)]
+    [AllocateOnComponentAdded()]
+    [FreeOnComponentRemoved()]
     [ExcludeFromPrototype()]
-    public QDictionaryPtr<Int32, BuffModel> Models;
+    public QListPtr<FireBulletInfo> FireBulletInfos;
     public override Int32 GetHashCode() {
       unchecked { 
-        var hash = 4259;
-        hash = hash * 31 + Models.GetHashCode();
+        var hash = 2887;
+        hash = hash * 31 + FireBulletInfos.GetHashCode();
         return hash;
       }
     }
     public void ClearPointers(FrameBase f, EntityRef entity) {
-      Models = default;
+      if (FireBulletInfos != default) f.FreeList(ref FireBulletInfos);
     }
     public static void OnRemoved(FrameBase frame, EntityRef entity, void* ptr) {
-      var p = (Quantum.SBuffModelContainerComp*)ptr;
+      var p = (Quantum.SBulletFireInfoComp*)ptr;
       p->ClearPointers((Frame)frame, entity);
     }
+    public void AllocatePointers(FrameBase f, EntityRef entity) {
+      f.TryAllocateList(ref FireBulletInfos);
+    }
+    public static void OnAdded(FrameBase frame, EntityRef entity, void* ptr) {
+      var p = (Quantum.SBulletFireInfoComp*)ptr;
+      p->AllocatePointers((Frame)frame, entity);
+    }
     public static void Serialize(void* ptr, FrameSerializer serializer) {
-        var p = (SBuffModelContainerComp*)ptr;
-        QDictionary.Serialize(&p->Models, serializer, Statics.SerializeInt32, Statics.SerializeBuffModel);
+        var p = (SBulletFireInfoComp*)ptr;
+        QList.Serialize(&p->FireBulletInfos, serializer, Statics.SerializeFireBulletInfo);
+    }
+  }
+  [StructLayout(LayoutKind.Explicit)]
+  public unsafe partial struct SDamageInfoComp : Quantum.IComponentSingleton {
+    public const Int32 SIZE = 4;
+    public const Int32 ALIGNMENT = 4;
+    [FieldOffset(0)]
+    [AllocateOnComponentAdded()]
+    [FreeOnComponentRemoved()]
+    [ExcludeFromPrototype()]
+    public QListPtr<DamageInfo> DamageInfos;
+    public override Int32 GetHashCode() {
+      unchecked { 
+        var hash = 6829;
+        hash = hash * 31 + DamageInfos.GetHashCode();
+        return hash;
+      }
+    }
+    public void ClearPointers(FrameBase f, EntityRef entity) {
+      if (DamageInfos != default) f.FreeList(ref DamageInfos);
+    }
+    public static void OnRemoved(FrameBase frame, EntityRef entity, void* ptr) {
+      var p = (Quantum.SDamageInfoComp*)ptr;
+      p->ClearPointers((Frame)frame, entity);
+    }
+    public void AllocatePointers(FrameBase f, EntityRef entity) {
+      f.TryAllocateList(ref DamageInfos);
+    }
+    public static void OnAdded(FrameBase frame, EntityRef entity, void* ptr) {
+      var p = (Quantum.SDamageInfoComp*)ptr;
+      p->AllocatePointers((Frame)frame, entity);
+    }
+    public static void Serialize(void* ptr, FrameSerializer serializer) {
+        var p = (SDamageInfoComp*)ptr;
+        QList.Serialize(&p->DamageInfos, serializer, Statics.SerializeDamageInfo);
     }
   }
   [StructLayout(LayoutKind.Explicit)]
@@ -2096,32 +2807,42 @@ namespace Quantum {
   }
   [StructLayout(LayoutKind.Explicit)]
   public unsafe partial struct StatsComp : Quantum.IComponent {
-    public const Int32 SIZE = 28;
+    public const Int32 SIZE = 40;
     public const Int32 ALIGNMENT = 4;
-    [FieldOffset(16)]
+    [FieldOffset(36)]
     [HideInInspector()]
-    public Int32 Hp;
+    public QBoolean IsInit;
     [FieldOffset(20)]
     [HideInInspector()]
+    public Int32 Hp;
+    [FieldOffset(28)]
+    [HideInInspector()]
     public Int32 Mp;
-    [FieldOffset(12)]
+    [FieldOffset(16)]
     [HideInInspector()]
     public Int32 Defence;
     [FieldOffset(0)]
     [HideInInspector()]
     public Int32 AttackClip;
-    [FieldOffset(24)]
+    [FieldOffset(32)]
     [HideInInspector()]
     public Int32 SuperPower;
-    [FieldOffset(8)]
+    [FieldOffset(12)]
     [HideInInspector()]
     public Int32 CanUseSkill;
     [FieldOffset(4)]
     [HideInInspector()]
     public Int32 CanMove;
+    [FieldOffset(8)]
+    [HideInInspector()]
+    public Int32 CanRotate;
+    [FieldOffset(24)]
+    [HideInInspector()]
+    public Int32 IsImmune;
     public override Int32 GetHashCode() {
       unchecked { 
         var hash = 8219;
+        hash = hash * 31 + IsInit.GetHashCode();
         hash = hash * 31 + Hp.GetHashCode();
         hash = hash * 31 + Mp.GetHashCode();
         hash = hash * 31 + Defence.GetHashCode();
@@ -2129,6 +2850,8 @@ namespace Quantum {
         hash = hash * 31 + SuperPower.GetHashCode();
         hash = hash * 31 + CanUseSkill.GetHashCode();
         hash = hash * 31 + CanMove.GetHashCode();
+        hash = hash * 31 + CanRotate.GetHashCode();
+        hash = hash * 31 + IsImmune.GetHashCode();
         return hash;
       }
     }
@@ -2136,15 +2859,18 @@ namespace Quantum {
         var p = (StatsComp*)ptr;
         serializer.Stream.Serialize(&p->AttackClip);
         serializer.Stream.Serialize(&p->CanMove);
+        serializer.Stream.Serialize(&p->CanRotate);
         serializer.Stream.Serialize(&p->CanUseSkill);
         serializer.Stream.Serialize(&p->Defence);
         serializer.Stream.Serialize(&p->Hp);
+        serializer.Stream.Serialize(&p->IsImmune);
         serializer.Stream.Serialize(&p->Mp);
         serializer.Stream.Serialize(&p->SuperPower);
+        QBoolean.Serialize(&p->IsInit, serializer);
     }
   }
   public unsafe partial interface ISignalOnPlayerSpawned : ISignal {
-    void OnPlayerSpawned(Frame f, EntityRef entityRef);
+    void OnPlayerSpawned(Frame f, EntityRef entityRef, PlayerRef playerRef);
   }
   public static unsafe partial class Constants {
   }
@@ -2174,6 +2900,10 @@ namespace Quantum {
       BuildSignalsArrayOnComponentRemoved<BotSDKGlobals>();
       BuildSignalsArrayOnComponentAdded<Quantum.BuffComp>();
       BuildSignalsArrayOnComponentRemoved<Quantum.BuffComp>();
+      BuildSignalsArrayOnComponentAdded<Quantum.BulletComp>();
+      BuildSignalsArrayOnComponentRemoved<Quantum.BulletComp>();
+      BuildSignalsArrayOnComponentAdded<Quantum.CampComp>();
+      BuildSignalsArrayOnComponentRemoved<Quantum.CampComp>();
       BuildSignalsArrayOnComponentAdded<CharacterController2D>();
       BuildSignalsArrayOnComponentRemoved<CharacterController2D>();
       BuildSignalsArrayOnComponentAdded<CharacterController3D>();
@@ -2186,6 +2916,8 @@ namespace Quantum {
       BuildSignalsArrayOnComponentRemoved<HFSMAgent>();
       BuildSignalsArrayOnComponentAdded<Quantum.InputComp>();
       BuildSignalsArrayOnComponentRemoved<Quantum.InputComp>();
+      BuildSignalsArrayOnComponentAdded<Quantum.KccComp>();
+      BuildSignalsArrayOnComponentRemoved<Quantum.KccComp>();
       BuildSignalsArrayOnComponentAdded<MapEntityLink>();
       BuildSignalsArrayOnComponentRemoved<MapEntityLink>();
       BuildSignalsArrayOnComponentAdded<Quantum.MoveComp>();
@@ -2216,8 +2948,12 @@ namespace Quantum {
       BuildSignalsArrayOnComponentRemoved<PhysicsJoints3D>();
       BuildSignalsArrayOnComponentAdded<Quantum.PlayerComp>();
       BuildSignalsArrayOnComponentRemoved<Quantum.PlayerComp>();
-      BuildSignalsArrayOnComponentAdded<Quantum.SBuffModelContainerComp>();
-      BuildSignalsArrayOnComponentRemoved<Quantum.SBuffModelContainerComp>();
+      BuildSignalsArrayOnComponentAdded<Quantum.RotateComp>();
+      BuildSignalsArrayOnComponentRemoved<Quantum.RotateComp>();
+      BuildSignalsArrayOnComponentAdded<Quantum.SBulletFireInfoComp>();
+      BuildSignalsArrayOnComponentRemoved<Quantum.SBulletFireInfoComp>();
+      BuildSignalsArrayOnComponentAdded<Quantum.SDamageInfoComp>();
+      BuildSignalsArrayOnComponentRemoved<Quantum.SDamageInfoComp>();
       BuildSignalsArrayOnComponentAdded<Quantum.SSkillModelContainerComp>();
       BuildSignalsArrayOnComponentRemoved<Quantum.SSkillModelContainerComp>();
       BuildSignalsArrayOnComponentAdded<Quantum.STimelineComp>();
@@ -2262,12 +2998,12 @@ namespace Quantum {
       Physics3D.Init(_globals->PhysicsState3D.MapStaticCollidersState.TrackedMap);
     }
     public unsafe partial struct FrameSignals {
-      public void OnPlayerSpawned(EntityRef entityRef) {
+      public void OnPlayerSpawned(EntityRef entityRef, PlayerRef playerRef) {
         var array = _f._ISignalOnPlayerSpawnedSystems;
         for (Int32 i = 0; i < array.Length; ++i) {
           var s = array[i];
           if (_f.SystemIsEnabledInHierarchy((SystemBase)s)) {
-            s.OnPlayerSpawned(_f, entityRef);
+            s.OnPlayerSpawned(_f, entityRef, playerRef);
           }
         }
       }
@@ -2278,11 +3014,13 @@ namespace Quantum {
     public static FrameSerializer.Delegate SerializeFP;
     public static FrameSerializer.Delegate SerializeAddBuffInfo;
     public static FrameSerializer.Delegate SerializeBuffObj;
+    public static FrameSerializer.Delegate SerializeBulletHitRecord;
     public static FrameSerializer.Delegate SerializeVariable;
     public static FrameSerializer.Delegate SerializeMovePreorder;
     public static FrameSerializer.Delegate SerializePlayerRef;
     public static FrameSerializer.Delegate SerializePlayerData;
-    public static FrameSerializer.Delegate SerializeBuffModel;
+    public static FrameSerializer.Delegate SerializeFireBulletInfo;
+    public static FrameSerializer.Delegate SerializeDamageInfo;
     public static FrameSerializer.Delegate SerializeSkillModel;
     public static FrameSerializer.Delegate SerializeTimelineObj;
     public static FrameSerializer.Delegate SerializeTimelineModel;
@@ -2295,11 +3033,13 @@ namespace Quantum {
       SerializeFP = FP.Serialize;
       SerializeAddBuffInfo = Quantum.AddBuffInfo.Serialize;
       SerializeBuffObj = Quantum.BuffObj.Serialize;
+      SerializeBulletHitRecord = Quantum.BulletHitRecord.Serialize;
       SerializeVariable = Quantum.Variable.Serialize;
       SerializeMovePreorder = Quantum.MovePreorder.Serialize;
       SerializePlayerRef = PlayerRef.Serialize;
       SerializePlayerData = Quantum.PlayerData.Serialize;
-      SerializeBuffModel = Quantum.BuffModel.Serialize;
+      SerializeFireBulletInfo = Quantum.FireBulletInfo.Serialize;
+      SerializeDamageInfo = Quantum.DamageInfo.Serialize;
       SerializeSkillModel = Quantum.SkillModel.Serialize;
       SerializeTimelineObj = Quantum.TimelineObj.Serialize;
       SerializeTimelineModel = Quantum.TimelineModel.Serialize;
@@ -2315,6 +3055,8 @@ namespace Quantum {
       typeRegistry.Register(typeof(AssetRef), AssetRef.SIZE);
       typeRegistry.Register(typeof(Quantum.AttribComp), Quantum.AttribComp.SIZE);
       typeRegistry.Register(typeof(Quantum.AttributeCost), Quantum.AttributeCost.SIZE);
+      typeRegistry.Register(typeof(Quantum.BLTM_Instance), Quantum.BLTM_Instance.SIZE);
+      typeRegistry.Register(typeof(Quantum.BM_Arrow), Quantum.BM_Arrow.SIZE);
       typeRegistry.Register(typeof(Quantum.BM_AutoReload), Quantum.BM_AutoReload.SIZE);
       typeRegistry.Register(typeof(Quantum.BM_Dash), Quantum.BM_Dash.SIZE);
       typeRegistry.Register(typeof(Quantum.BM_DisableMove), Quantum.BM_DisableMove.SIZE);
@@ -2322,9 +3064,14 @@ namespace Quantum {
       typeRegistry.Register(typeof(Quantum.BM_DisableSkill), Quantum.BM_DisableSkill.SIZE);
       typeRegistry.Register(typeof(Quantum.BM_Hot), Quantum.BM_Hot.SIZE);
       typeRegistry.Register(typeof(Quantum.BM_Instance), Quantum.BM_Instance.SIZE);
+      typeRegistry.Register(typeof(Quantum.BM_PeterAttrib), Quantum.BM_PeterAttrib.SIZE);
+      typeRegistry.Register(typeof(Quantum.BM_PistolBullet), Quantum.BM_PistolBullet.SIZE);
       typeRegistry.Register(typeof(Quantum.BM_Poison), Quantum.BM_Poison.SIZE);
       typeRegistry.Register(typeof(Quantum.BM_PureAttrib), Quantum.BM_PureAttrib.SIZE);
       typeRegistry.Register(typeof(Quantum.BM_Test1), Quantum.BM_Test1.SIZE);
+      typeRegistry.Register(typeof(Quantum.BM_test_item_1), Quantum.BM_test_item_1.SIZE);
+      typeRegistry.Register(typeof(Quantum.BM_test_item_2), Quantum.BM_test_item_2.SIZE);
+      typeRegistry.Register(typeof(Quantum.BM_test_item_3), Quantum.BM_test_item_3.SIZE);
       typeRegistry.Register(typeof(BTAgent), BTAgent.SIZE);
       typeRegistry.Register(typeof(Quantum.BitSet1024), Quantum.BitSet1024.SIZE);
       typeRegistry.Register(typeof(Quantum.BitSet128), Quantum.BitSet128.SIZE);
@@ -2337,16 +3084,23 @@ namespace Quantum {
       typeRegistry.Register(typeof(Quantum.BuffComp), Quantum.BuffComp.SIZE);
       typeRegistry.Register(typeof(Quantum.BuffModel), Quantum.BuffModel.SIZE);
       typeRegistry.Register(typeof(Quantum.BuffObj), Quantum.BuffObj.SIZE);
+      typeRegistry.Register(typeof(Quantum.BulletComp), Quantum.BulletComp.SIZE);
+      typeRegistry.Register(typeof(Quantum.BulletHitRecord), Quantum.BulletHitRecord.SIZE);
+      typeRegistry.Register(typeof(Quantum.BulletModel), Quantum.BulletModel.SIZE);
       typeRegistry.Register(typeof(Button), Button.SIZE);
       typeRegistry.Register(typeof(CallbackFlags), 4);
+      typeRegistry.Register(typeof(Quantum.CampComp), Quantum.CampComp.SIZE);
       typeRegistry.Register(typeof(CharacterController2D), CharacterController2D.SIZE);
       typeRegistry.Register(typeof(CharacterController3D), CharacterController3D.SIZE);
       typeRegistry.Register(typeof(ColorRGBA), ColorRGBA.SIZE);
       typeRegistry.Register(typeof(ComponentPrototypeRef), ComponentPrototypeRef.SIZE);
       typeRegistry.Register(typeof(ComponentTypeRef), ComponentTypeRef.SIZE);
+      typeRegistry.Register(typeof(Quantum.Damage), Quantum.Damage.SIZE);
+      typeRegistry.Register(typeof(Quantum.DamageInfo), Quantum.DamageInfo.SIZE);
       typeRegistry.Register(typeof(Quantum.DataContainer), Quantum.DataContainer.SIZE);
       typeRegistry.Register(typeof(DistanceJoint), DistanceJoint.SIZE);
       typeRegistry.Register(typeof(DistanceJoint3D), DistanceJoint3D.SIZE);
+      typeRegistry.Register(typeof(Quantum.EDamageInfoType), 4);
       typeRegistry.Register(typeof(Quantum.EGameState), 4);
       typeRegistry.Register(typeof(Quantum.EStateType), 4);
       typeRegistry.Register(typeof(Quantum.ETLNodeType), 4);
@@ -2361,6 +3115,7 @@ namespace Quantum {
       typeRegistry.Register(typeof(FPQuaternion), FPQuaternion.SIZE);
       typeRegistry.Register(typeof(FPVector2), FPVector2.SIZE);
       typeRegistry.Register(typeof(FPVector3), FPVector3.SIZE);
+      typeRegistry.Register(typeof(Quantum.FireBulletInfo), Quantum.FireBulletInfo.SIZE);
       typeRegistry.Register(typeof(Quantum.ForceMoveComp), Quantum.ForceMoveComp.SIZE);
       typeRegistry.Register(typeof(FrameMetaData), FrameMetaData.SIZE);
       typeRegistry.Register(typeof(FrameTimer), FrameTimer.SIZE);
@@ -2376,6 +3131,7 @@ namespace Quantum {
       typeRegistry.Register(typeof(Quantum.InputComp), Quantum.InputComp.SIZE);
       typeRegistry.Register(typeof(Joint), Joint.SIZE);
       typeRegistry.Register(typeof(Joint3D), Joint3D.SIZE);
+      typeRegistry.Register(typeof(Quantum.KccComp), Quantum.KccComp.SIZE);
       typeRegistry.Register(typeof(LayerMask), LayerMask.SIZE);
       typeRegistry.Register(typeof(MapEntityId), MapEntityId.SIZE);
       typeRegistry.Register(typeof(MapEntityLink), MapEntityLink.SIZE);
@@ -2410,7 +3166,9 @@ namespace Quantum {
       typeRegistry.Register(typeof(Quantum.Ptr), Quantum.Ptr.SIZE);
       typeRegistry.Register(typeof(QueryOptions), 2);
       typeRegistry.Register(typeof(RNGSession), RNGSession.SIZE);
-      typeRegistry.Register(typeof(Quantum.SBuffModelContainerComp), Quantum.SBuffModelContainerComp.SIZE);
+      typeRegistry.Register(typeof(Quantum.RotateComp), Quantum.RotateComp.SIZE);
+      typeRegistry.Register(typeof(Quantum.SBulletFireInfoComp), Quantum.SBulletFireInfoComp.SIZE);
+      typeRegistry.Register(typeof(Quantum.SDamageInfoComp), Quantum.SDamageInfoComp.SIZE);
       typeRegistry.Register(typeof(Quantum.SSkillModelContainerComp), Quantum.SSkillModelContainerComp.SIZE);
       typeRegistry.Register(typeof(Quantum.STimelineComp), Quantum.STimelineComp.SIZE);
       typeRegistry.Register(typeof(Quantum.STimelineModelContainerComp), Quantum.STimelineModelContainerComp.SIZE);
@@ -2424,6 +3182,7 @@ namespace Quantum {
       typeRegistry.Register(typeof(Quantum.StatsComp), Quantum.StatsComp.SIZE);
       typeRegistry.Register(typeof(Quantum.TLNode), Quantum.TLNode.SIZE);
       typeRegistry.Register(typeof(Quantum.TLNode_AddBuffToCaster), Quantum.TLNode_AddBuffToCaster.SIZE);
+      typeRegistry.Register(typeof(Quantum.TLNode_FireBullet), Quantum.TLNode_FireBullet.SIZE);
       typeRegistry.Register(typeof(Quantum.TLNode_Log), Quantum.TLNode_Log.SIZE);
       typeRegistry.Register(typeof(Quantum.TLNode_PlayAnim), Quantum.TLNode_PlayAnim.SIZE);
       typeRegistry.Register(typeof(Quantum.TimelineModel), Quantum.TimelineModel.SIZE);
@@ -2438,20 +3197,25 @@ namespace Quantum {
       typeRegistry.Register(typeof(Quantum._globals_), Quantum._globals_.SIZE);
     }
     static partial void InitComponentTypeIdGen() {
-      ComponentTypeId.Reset(ComponentTypeId.BuiltInComponentCount + 18)
+      ComponentTypeId.Reset(ComponentTypeId.BuiltInComponentCount + 23)
         .AddBuiltInComponents()
         .Add<AIBlackboardComponent>(AIBlackboardComponent.Serialize, AIBlackboardComponent.OnAdded, AIBlackboardComponent.OnRemoved, ComponentFlags.None)
         .Add<Quantum.AttribComp>(Quantum.AttribComp.Serialize, Quantum.AttribComp.OnAdded, Quantum.AttribComp.OnRemoved, ComponentFlags.None)
         .Add<BTAgent>(BTAgent.Serialize, BTAgent.OnAdded, BTAgent.OnRemoved, ComponentFlags.None)
         .Add<BotSDKGlobals>(BotSDKGlobals.Serialize, BotSDKGlobals.OnAdded, BotSDKGlobals.OnRemoved, ComponentFlags.Singleton)
         .Add<Quantum.BuffComp>(Quantum.BuffComp.Serialize, Quantum.BuffComp.OnAdded, Quantum.BuffComp.OnRemoved, ComponentFlags.None)
+        .Add<Quantum.BulletComp>(Quantum.BulletComp.Serialize, Quantum.BulletComp.OnAdded, Quantum.BulletComp.OnRemoved, ComponentFlags.None)
+        .Add<Quantum.CampComp>(Quantum.CampComp.Serialize, null, null, ComponentFlags.None)
         .Add<Quantum.ForceMoveComp>(Quantum.ForceMoveComp.Serialize, Quantum.ForceMoveComp.OnAdded, Quantum.ForceMoveComp.OnRemoved, ComponentFlags.None)
         .Add<Quantum.Gameplay>(Quantum.Gameplay.Serialize, Quantum.Gameplay.OnAdded, Quantum.Gameplay.OnRemoved, ComponentFlags.Singleton)
         .Add<HFSMAgent>(HFSMAgent.Serialize, HFSMAgent.OnAdded, HFSMAgent.OnRemoved, ComponentFlags.None)
         .Add<Quantum.InputComp>(Quantum.InputComp.Serialize, null, null, ComponentFlags.None)
+        .Add<Quantum.KccComp>(Quantum.KccComp.Serialize, null, null, ComponentFlags.None)
         .Add<Quantum.MoveComp>(Quantum.MoveComp.Serialize, null, null, ComponentFlags.None)
         .Add<Quantum.PlayerComp>(Quantum.PlayerComp.Serialize, null, null, ComponentFlags.None)
-        .Add<Quantum.SBuffModelContainerComp>(Quantum.SBuffModelContainerComp.Serialize, null, Quantum.SBuffModelContainerComp.OnRemoved, ComponentFlags.Singleton)
+        .Add<Quantum.RotateComp>(Quantum.RotateComp.Serialize, null, null, ComponentFlags.None)
+        .Add<Quantum.SBulletFireInfoComp>(Quantum.SBulletFireInfoComp.Serialize, Quantum.SBulletFireInfoComp.OnAdded, Quantum.SBulletFireInfoComp.OnRemoved, ComponentFlags.Singleton)
+        .Add<Quantum.SDamageInfoComp>(Quantum.SDamageInfoComp.Serialize, Quantum.SDamageInfoComp.OnAdded, Quantum.SDamageInfoComp.OnRemoved, ComponentFlags.Singleton)
         .Add<Quantum.SSkillModelContainerComp>(Quantum.SSkillModelContainerComp.Serialize, null, Quantum.SSkillModelContainerComp.OnRemoved, ComponentFlags.Singleton)
         .Add<Quantum.STimelineComp>(Quantum.STimelineComp.Serialize, Quantum.STimelineComp.OnAdded, Quantum.STimelineComp.OnRemoved, ComponentFlags.Singleton)
         .Add<Quantum.STimelineModelContainerComp>(Quantum.STimelineModelContainerComp.Serialize, null, Quantum.STimelineModelContainerComp.OnRemoved, ComponentFlags.Singleton)
@@ -2464,6 +3228,7 @@ namespace Quantum {
     public static void EnsureNotStrippedGen() {
       FramePrinter.EnsureNotStripped();
       FramePrinter.EnsurePrimitiveNotStripped<CallbackFlags>();
+      FramePrinter.EnsurePrimitiveNotStripped<Quantum.EDamageInfoType>();
       FramePrinter.EnsurePrimitiveNotStripped<Quantum.EGameState>();
       FramePrinter.EnsurePrimitiveNotStripped<Quantum.EStateType>();
       FramePrinter.EnsurePrimitiveNotStripped<Quantum.ETLNodeType>();

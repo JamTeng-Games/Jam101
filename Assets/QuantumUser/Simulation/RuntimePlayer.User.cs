@@ -12,13 +12,17 @@ namespace Quantum
         [Serializable]
         public class HeroData
         {
-            public ulong rid;        // record id, 数据库中的记录id
-            public string name;      // 玩家名称
-            public int level;        // 玩家等级
+            public string rid;          // record id, 数据库中的记录id
+            public string name;         // 玩家名称
+            public int hero;            // 英雄配置id
+            public List<BagItem> items; // 背包物品
+        }
 
-            public int round;       // 处于第几回合
-            public int hero_id;     // 英雄配置id
-            public List<int> items; // 背包物品
+        [Serializable]
+        public class BagItem
+        {
+            public int id;
+            public int amount;
         }
     }
 

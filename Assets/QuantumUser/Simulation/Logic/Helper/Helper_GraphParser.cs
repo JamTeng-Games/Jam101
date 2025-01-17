@@ -45,15 +45,16 @@ namespace Quantum.Helper
             // 解析技能 skm -> SkillModel
             SkillModel skm = new SkillModel()
             {
-                id = (int)g_skillNode.id,
+                id = g_skillNode.id,
                 cd = g_skillNode.cd,
-                isAttack = g_skillNode.isAttack,
+                type = (int)g_skillNode.skillType,
                 canInterrupt = g_skillNode.canInterrupt,
+                canLearnMulti = g_skillNode.canLearnMultiTimes,
                 indicatorType = (int)g_skillNode.indicatorType,
             };
             if (g_skillNode.timeline != null)
             {
-                skm.timelineModelId = (int)g_skillNode.timeline.id;
+                skm.timelineModelId = g_skillNode.id;
             }
             // 技能消耗的资源
             var skillCosts = f.AllocateList<AttributeCost>(16);
@@ -84,7 +85,7 @@ namespace Quantum.Helper
             {
                 // tlm -> TimelineModel
                 TimelineModel tlm =
-                    new TimelineModel() { id = (int)g_timeline.id, totalFrame = g_timeline.totalFrame, };
+                    new TimelineModel() { id = g_skillNode.id, totalFrame = g_timeline.totalFrame, };
                 var tlmNodes = f.AllocateList<TimelineNode>(16);
                 // sort
                 g_timeline.nodes.Sort((a, b) =>
@@ -120,6 +121,11 @@ namespace Quantum.Helper
                         tlmNode.nodeType = ETLNodeType.PlayAnim;
                         tlmNode.node.PlayAnim->animKey = (int)g_playAnimNode.animationKey;
                         tlmNode.node.PlayAnim->force = g_playAnimNode.force;
+                    }
+                    else if (g_node is FireBulletNode g_fireBulletNode)
+                    {
+                        tlmNode.nodeType = ETLNodeType.FireBullet;
+                        tlmNode.node.FireBullet->fireBulletInfo = g_fireBulletNode.ConvertToFireBulletInfo(f);
                     }
                     tlmNodes.Add(tlmNode);
                 }

@@ -1,0 +1,58 @@
+// Skill
+struct SkillObj
+{
+    SkillModel model;
+    int level;
+    int cd;
+    int refCount;
+}
+
+struct SkillModel
+{
+    // 消耗资源
+    list<AttributeCost> attrCosts;
+    // 学会技能时添加的buff
+    list<AddBuffInfo> addBuffs;
+    int id;
+    int cd;
+    // 技能类型
+    int type;
+    // 释放条件，会映射到一个函数
+    int condition;
+    int indicatorType;
+    // 对应的时间轴的 Id
+    int timelineModelId;
+    // 是否可以被打断
+    bool canInterrupt;
+    // 是否可以被多重学习
+    bool canLearnMulti;
+}
+
+struct AttributeCost
+{
+    int attrType;
+    int cost;
+}
+
+// Timeline
+struct TimelineObj
+{
+    TimelineModel model;    // 数据模板
+    entity_ref caster;      // 释放者
+    int elapsedFrame;       // 已经过去的帧数
+}
+
+struct TimelineModel
+{
+    int id;
+    int totalFrame;
+    list<TimelineNode> nodes;
+}
+
+struct TimelineNode
+{
+    int frame;
+    DataContainer args;
+    ETLNodeType nodeType;
+    TLNode node;
+}
