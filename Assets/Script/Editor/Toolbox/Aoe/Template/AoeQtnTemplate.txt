@@ -1,0 +1,6 @@
+﻿union AOEM_Instance
+{
+    __AOEM_UNION__
+}
+
+__AOEM_INSTANCE__

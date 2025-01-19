@@ -11,6 +11,7 @@ namespace Quantum.Helper
         {
             if (f.Unsafe.TryGetPointer<Transform2D>(entity, out var transComp))
             {
+                var oldPos = transComp->Position;
                 transComp->Position += correction;
                 transComp->Position += velocity;
 
@@ -22,7 +23,10 @@ namespace Quantum.Helper
                 // }
                 // transComp->Position += velocity;
 
-                f.Events.OnMove(entity, velocity);
+                if (oldPos != transComp->Position)
+                {
+                    f.Events.OnMove(entity, velocity);
+                }
             }
         }
 
@@ -36,8 +40,12 @@ namespace Quantum.Helper
                 //     transComp->Rotation = FPMath.Atan2(velocity.Y, velocity.X) - FP.Pi / 2;
                 // }
 
+                var oldRot = transComp->Rotation;
                 transComp->Rotation = rotation;
-                f.Events.OnRotate(entity, rotation);
+                if (oldRot != rotation)
+                {
+                    f.Events.OnRotate(entity, rotation);
+                }
             }
         }
 

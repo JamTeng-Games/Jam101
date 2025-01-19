@@ -47,11 +47,6 @@ namespace Quantum
             Helper_Move.ReqRotateTo(f, bulletEntity, angle);
             Helper_Move.ReqMove(f, bulletEntity, default, moveOffset);
 
-            // 子弹tick
-            bulletComp->ElapsedFrame++;
-            bulletComp->RemainFrame--;
-            Helper_Bullet.OnTick(f, bulletEntity, bulletComp);
-
             bool needDestroy = false;
             // 碰撞信息
             if (bulletComp->TimeCanHit > 0)
@@ -111,6 +106,11 @@ namespace Quantum
                     }
                 }
             }
+
+            // 子弹tick
+            bulletComp->ElapsedFrame++;
+            bulletComp->RemainFrame--;
+            Helper_Bullet.OnTick(f, bulletEntity, bulletComp);
 
             // 生命周期
             if (bulletComp->RemainFrame <= 0 || needDestroy)

@@ -20,6 +20,7 @@ namespace Quantum.Helper
                 { ETLNodeType.AddBuffToCaster, new TLNodeCmd_AddBuffToCaster() },
                 { ETLNodeType.PlayAnim, new TLNodeCmd_PlayAnim() },
                 { ETLNodeType.FireBullet, new TLNodeCmd_FireBullet() },
+                { ETLNodeType.CreateAoe, new TLNodeCmd_CreateAoe() },
             };
         }
 

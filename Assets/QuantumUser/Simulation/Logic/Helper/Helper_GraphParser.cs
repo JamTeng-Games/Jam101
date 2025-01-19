@@ -127,6 +127,11 @@ namespace Quantum.Helper
                         tlmNode.nodeType = ETLNodeType.FireBullet;
                         tlmNode.node.FireBullet->fireBulletInfo = g_fireBulletNode.ConvertToFireBulletInfo(f);
                     }
+                    else if (g_node is CreateAoeNode g_createAoeNode)
+                    {
+                        tlmNode.nodeType = ETLNodeType.CreateAoe;
+                        tlmNode.node.CreateAoe->createAoeInfo = g_createAoeNode.ConvertToCreateAoeInfo(f);
+                    }
                     tlmNodes.Add(tlmNode);
                 }
                 tlm.nodes = tlmNodes;

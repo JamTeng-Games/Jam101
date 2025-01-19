@@ -5,6 +5,7 @@ union TLNode
     TLNode_AddBuffToCaster AddBuffToCaster;
     TLNode_PlayAnim PlayAnim;
     TLNode_FireBullet FireBullet;
+    TLNode_CreateAoe CreateAoe;
 }
 
 enum ETLNodeType
@@ -14,6 +15,7 @@ enum ETLNodeType
     AddBuffToCaster,
     PlayAnim,
     FireBullet,
+    CreateAoe,
 }
 
 struct TLNode_Log
@@ -35,4 +37,9 @@ struct TLNode_PlayAnim
 struct TLNode_FireBullet
 {
     FireBulletInfo fireBulletInfo;
+}
+
+struct TLNode_CreateAoe
+{
+    CreateAoeInfo createAoeInfo;
 }

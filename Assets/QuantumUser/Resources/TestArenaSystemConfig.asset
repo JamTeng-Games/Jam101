@@ -108,6 +108,16 @@ MonoBehaviour:
     StartDisabled: 0
     Children: []
   - SystemType:
+      AssemblyQualifiedName: Quantum.CreateAoeSystem, Quantum.Simulation
+    SystemName: 
+    StartDisabled: 0
+    Children: []
+  - SystemType:
+      AssemblyQualifiedName: Quantum.AoeSystem, Quantum.Simulation
+    SystemName: 
+    StartDisabled: 0
+    Children: []
+  - SystemType:
       AssemblyQualifiedName: Quantum.DamageSystem, Quantum.Simulation
     SystemName: 
     StartDisabled: 0

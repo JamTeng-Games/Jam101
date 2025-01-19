@@ -5,7 +5,8 @@
     {
         None,
         Arrow,
-        PistolBullet
+        PistolBullet,
+        test_bullet_1
     }
 
 }

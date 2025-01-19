@@ -52,3 +52,11 @@ singleton component SBulletFireInfoComp
     [AllocateOnComponentAdded, FreeOnComponentRemoved, ExcludeFromPrototype]
     list<FireBulletInfo> FireBulletInfos;
 }
+
+// 保存发射Aoe的信息
+singleton component SCreateAoeInfoComp
+{
+// Damage id -> Damage
+    [AllocateOnComponentAdded, FreeOnComponentRemoved, ExcludeFromPrototype]
+    list<CreateAoeInfo> CreateAoeInfos;
+}

@@ -10,11 +10,11 @@ namespace Quantum.Helper
         // 计算伤害的公式
         public static int Calculate(Frame f, in DamageInfo damageInfo)
         {
-            int finalDamage = 0;
             bool isHeal = IsHeal(damageInfo);
 
+            Helper_Attrib.TryGetAttribValue(f, damageInfo.source, AttributeType.Attack, out int attack);
             // 初始伤害
-            int baseDamage = damageInfo.damage.aoe + damageInfo.damage.bullet;
+            int baseDamage = damageInfo.damage.aoe + damageInfo.damage.bullet + attack;
 
             // 闪避
             bool isDodge = !isHeal && CalcDodge(f, damageInfo);

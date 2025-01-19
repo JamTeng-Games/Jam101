@@ -1,0 +1,13 @@
+﻿union AOEM_Instance
+{
+    AOEM_test_aoe_1 test_aoe_1;
+    AOEM_test_aoe_2 test_aoe_2;
+}
+
+struct AOEM_test_aoe_1
+{
+}
+
+struct AOEM_test_aoe_2
+{
+}

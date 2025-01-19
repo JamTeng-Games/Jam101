@@ -23,12 +23,16 @@ MonoBehaviour:
     - rid: 2522078788334911509
     - rid: 2522078834876481554
     - rid: 2522078834876481572
-    - rid: 2522078834876481574
-    - rid: 2522078834876481578
+    - rid: 2522078900700839944
+    - rid: 2522078900700839948
+    - rid: 2522078900700839949
+    - rid: 2522078900700839953
+    - rid: 2522078900700839954
+    - rid: 2522078900700839958
     utilityNodes: []
     tmpName: peter_attack
     viewportInitiallySet: 1
-    viewPosition: {x: -4.8738403, y: 60.501495, z: 0}
+    viewPosition: {x: -661.0033, y: -433.22278, z: 0}
     viewScale: {x: 1, y: 1, z: 1}
   references:
     version: 2
@@ -74,7 +78,9 @@ MonoBehaviour:
         nodes:
         - rid: 2522078788334911510
         - rid: 2522078834876481555
-        - rid: 2522078834876481575
+        - rid: 2522078900700839945
+        - rid: 2522078900700839950
+        - rid: 2522078900700839955
     - rid: 2522078788334911509
       type: {class: NodeModel, ns: NewGraph, asm: NewGraph}
       data:
@@ -96,8 +102,8 @@ MonoBehaviour:
       data:
         nodeData:
           rid: 2522078834876481555
-        nodeX: 682.995
-        nodeY: 266
+        nodeX: 707.4813
+        nodeY: 260.75302
         name: "\u53D1\u5C04\u5B50\u5F39"
         isUtilityNode: 0
         foldouts: []
@@ -116,8 +122,8 @@ MonoBehaviour:
       data:
         nodeData:
           rid: 2522078834876481573
-        nodeX: 944.995
-        nodeY: 199
+        nodeX: 996.2146
+        nodeY: 262.2708
         name: "\u5F13\u7BAD"
         isUtilityNode: 0
         foldouts: []
@@ -133,37 +139,27 @@ MonoBehaviour:
         tweenType: 0
         useFireAngle: 0
         tags: 
-    - rid: 2522078834876481574
+    - rid: 2522078900700839944
       type: {class: NodeModel, ns: NewGraph, asm: NewGraph}
       data:
         nodeData:
-          rid: 2522078834876481575
-        nodeX: 683.995
-        nodeY: 551
+          rid: 2522078900700839945
+        nodeX: 706.1488
+        nodeY: 505.47498
         name: "\u53D1\u5C04\u5B50\u5F39"
         isUtilityNode: 0
         foldouts: []
-    - rid: 2522078834876481575
+    - rid: 2522078900700839945
       type: {class: FireBulletNode, ns: Quantum.Graph.Skill, asm: Quantum.Simulation}
       data:
-        frame: 29
+        frame: 13
         bulletNode:
-          rid: 2522078834876481579
-        speed: 60
-        duration: 300
-        timeCanHit: 0
+          rid: 2522078900700839947
+        speed: 120
+        duration: 90
+        timeCanHit: 1
         hitTimes: 1
-    - rid: 2522078834876481578
-      type: {class: NodeModel, ns: NewGraph, asm: NewGraph}
-      data:
-        nodeData:
-          rid: 2522078834876481579
-        nodeX: 986.88794
-        nodeY: 481.5606
-        name: "\u5F13\u7BAD"
-        isUtilityNode: 0
-        foldouts: []
-    - rid: 2522078834876481579
+    - rid: 2522078900700839947
       type: {class: BulletArrowNode, ns: Quantum.Graph.Skill, asm: Quantum.Simulation}
       data:
         radius: 125
@@ -175,3 +171,97 @@ MonoBehaviour:
         tweenType: 0
         useFireAngle: 0
         tags: 
+    - rid: 2522078900700839948
+      type: {class: NodeModel, ns: NewGraph, asm: NewGraph}
+      data:
+        nodeData:
+          rid: 2522078900700839947
+        nodeX: 1001.49457
+        nodeY: 541.37805
+        name: "\u5F13\u7BAD"
+        isUtilityNode: 0
+        foldouts: []
+    - rid: 2522078900700839949
+      type: {class: NodeModel, ns: NewGraph, asm: NewGraph}
+      data:
+        nodeData:
+          rid: 2522078900700839950
+        nodeX: 681.8167
+        nodeY: 723.7682
+        name: "\u53D1\u5C04\u5B50\u5F39"
+        isUtilityNode: 0
+        foldouts: []
+    - rid: 2522078900700839950
+      type: {class: FireBulletNode, ns: Quantum.Graph.Skill, asm: Quantum.Simulation}
+      data:
+        frame: 20
+        bulletNode:
+          rid: 2522078900700839952
+        speed: 120
+        duration: 90
+        timeCanHit: 1
+        hitTimes: 1
+    - rid: 2522078900700839952
+      type: {class: BulletArrowNode, ns: Quantum.Graph.Skill, asm: Quantum.Simulation}
+      data:
+        radius: 125
+        sameTargetDelayFrame: 0
+        moveType: 1
+        removeOnObstacle: 1
+        hitFoe: 1
+        hitAlly: 0
+        tweenType: 0
+        useFireAngle: 0
+        tags: 
+    - rid: 2522078900700839953
+      type: {class: NodeModel, ns: NewGraph, asm: NewGraph}
+      data:
+        nodeData:
+          rid: 2522078900700839952
+        nodeX: 984.76685
+        nodeY: 815.40784
+        name: "\u5F13\u7BAD"
+        isUtilityNode: 0
+        foldouts: []
+    - rid: 2522078900700839954
+      type: {class: NodeModel, ns: NewGraph, asm: NewGraph}
+      data:
+        nodeData:
+          rid: 2522078900700839955
+        nodeX: 665.8475
+        nodeY: 974.659
+        name: "\u53D1\u5C04\u5B50\u5F39"
+        isUtilityNode: 0
+        foldouts: []
+    - rid: 2522078900700839955
+      type: {class: FireBulletNode, ns: Quantum.Graph.Skill, asm: Quantum.Simulation}
+      data:
+        frame: 27
+        bulletNode:
+          rid: 2522078900700839957
+        speed: 120
+        duration: 90
+        timeCanHit: 1
+        hitTimes: 1
+    - rid: 2522078900700839957
+      type: {class: BulletArrowNode, ns: Quantum.Graph.Skill, asm: Quantum.Simulation}
+      data:
+        radius: 125
+        sameTargetDelayFrame: 0
+        moveType: 1
+        removeOnObstacle: 1
+        hitFoe: 1
+        hitAlly: 0
+        tweenType: 0
+        useFireAngle: 0
+        tags: 
+    - rid: 2522078900700839958
+      type: {class: NodeModel, ns: NewGraph, asm: NewGraph}
+      data:
+        nodeData:
+          rid: 2522078900700839957
+        nodeX: 967.27673
+        nodeY: 1126.0211
+        name: "\u5F13\u7BAD"
+        isUtilityNode: 0
+        foldouts: []

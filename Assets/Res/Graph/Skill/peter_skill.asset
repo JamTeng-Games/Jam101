@@ -21,14 +21,18 @@ MonoBehaviour:
     - rid: 2522078788334911490
     - rid: 2522078788334911515
     - rid: 2522078788334911517
+    - rid: 2522078900700839940
+    - rid: 2522078900700839942
     utilityNodes: []
     tmpName: peter_skill
     viewportInitiallySet: 1
-    viewPosition: {x: -78.88898, y: 142.5015, z: 0}
+    viewPosition: {x: -118.88898, y: 12.501495, z: 0}
     viewScale: {x: 1, y: 1, z: 1}
   references:
     version: 2
     RefIds:
+    - rid: -2
+      type: {class: , ns: , asm: }
     - rid: 2522078788334911490
       type: {class: NodeModel, ns: NewGraph, asm: NewGraph}
       data:
@@ -49,7 +53,8 @@ MonoBehaviour:
         canInterrupt: 0
         timeline:
           rid: 2522078788334911516
-        buffs: []
+        buffs:
+        - rid: -2
         costAttributes: []
         stateConditions: 
         indicatorType: 0
@@ -69,6 +74,7 @@ MonoBehaviour:
         totalFrame: 20
         nodes:
         - rid: 2522078788334911518
+        - rid: 2522078900700839941
     - rid: 2522078788334911517
       type: {class: NodeModel, ns: NewGraph, asm: NewGraph}
       data:
@@ -85,3 +91,39 @@ MonoBehaviour:
         frame: 5
         animationKey: 4
         force: 0
+    - rid: 2522078900700839940
+      type: {class: NodeModel, ns: NewGraph, asm: NewGraph}
+      data:
+        nodeData:
+          rid: 2522078900700839941
+        nodeX: 716.889
+        nodeY: 255.4985
+        name: "\u521B\u5EFAAOE"
+        isUtilityNode: 0
+        foldouts: []
+    - rid: 2522078900700839941
+      type: {class: CreateAoeNode, ns: Quantum.Graph.Skill, asm: Quantum.Simulation}
+      data:
+        frame: 6
+        aoeNode:
+          rid: 2522078900700839943
+        speed: 60
+        duration: 180
+    - rid: 2522078900700839942
+      type: {class: NodeModel, ns: NewGraph, asm: NewGraph}
+      data:
+        nodeData:
+          rid: 2522078900700839943
+        nodeX: 992.8889
+        nodeY: 256.4985
+        name: "\u6D4B\u8BD51"
+        isUtilityNode: 0
+        foldouts: []
+    - rid: 2522078900700839943
+      type: {class: Aoetest_aoe_1Node, ns: Quantum.Graph.Skill, asm: Quantum.Simulation}
+      data:
+        radius: 1500
+        tickTime: 10
+        removeOnObstacle: 0
+        tweenType: 0
+        tags: 

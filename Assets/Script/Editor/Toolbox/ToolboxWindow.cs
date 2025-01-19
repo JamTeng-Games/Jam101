@@ -37,6 +37,12 @@ namespace Jam.Editor_
         {
             BulletWindow.OpenWindow();
         }
+        
+        [Button("AOE管理", ButtonSizes.Gigantic), HorizontalGroup("row2")]
+        public void OpenAoe()
+        {
+            AoeWindow.OpenWindow();
+        }
 
         [Button("地图烘焙", ButtonSizes.Gigantic), HorizontalGroup("row3")]
         public void OpenMapBaker()

@@ -95,6 +95,24 @@ component BulletComp
     list<BulletHitRecord> HitRecords;   // 击中记录
 }
 
+// Aoe
+component AoeComp
+{
+    [HideInInspector] AoeModel Model;
+    [HideInInspector] int ElapsedFrame;   // 已经过去的帧数
+    [HideInInspector] int RemainFrame;    // 剩余帧数
+    [HideInInspector] int TickTime;       // 间隔多少帧tick一次
+    [HideInInspector] FP Speed;           // 速度
+    [HideInInspector] FP Radius;          // 半径
+    [HideInInspector] entity_ref Caster;  // 释放者
+
+    [AllocateOnComponentAdded, FreeOnComponentRemoved, HideInInspector]
+    list<AoeEntityRecord> entityInArea;   // Aoe范围内的单位
+    [AllocateOnComponentAdded, FreeOnComponentRemoved, HideInInspector]
+    list<AoeEntityRecord> bulletInArea;   // Aoe范围内的子弹
+}
+
+
 // Camp
 component CampComp
 {

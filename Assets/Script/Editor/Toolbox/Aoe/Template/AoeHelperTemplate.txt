@@ -1,0 +1,18 @@
+﻿using System.Collections.Generic;
+using Quantum.Graph.Skill;
+
+namespace Quantum.Helper
+{
+
+    public static unsafe partial class Helper_Aoe
+    {
+        static Helper_Aoe()
+        {
+            _aoeCmds = new Dictionary<int, AoeCmd>() 
+            {
+__AOE_CMD_HELPER__
+            };
+        }
+    }
+
+}

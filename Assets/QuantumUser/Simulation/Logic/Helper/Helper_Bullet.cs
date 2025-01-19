@@ -16,11 +16,6 @@ namespace Quantum.Helper
                 var infos = f.ResolveList(bulletFireComp->FireBulletInfos);
                 infos.Add(fireBulletInfo);
             }
-
-            // var playerEntity = f.Create(runtimePlayer.PlayerAvatar);
-            // f.AddOrGet<PlayerComp>(playerEntity, out var playerComp);
-            // playerComp->PlayerRef = playerRef;
-            // f.Signals.OnPlayerSpawned(playerEntity, playerRef);
         }
 
         public static bool CanHit(in QList<BulletHitRecord> hitRecords, EntityRef target)

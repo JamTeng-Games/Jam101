@@ -73,6 +73,61 @@ namespace Quantum.Prototypes.Unity {
     }
   }
   [System.SerializableAttribute()]
+  public unsafe partial class AoeCompPrototype : Quantum.QuantumUnityPrototypeAdapter<Quantum.Prototypes.AoeCompPrototype> {
+    [HideInInspector()]
+    public Quantum.Prototypes.AoeModelPrototype Model;
+    [HideInInspector()]
+    public Int32 ElapsedFrame;
+    [HideInInspector()]
+    public Int32 RemainFrame;
+    [HideInInspector()]
+    public Int32 TickTime;
+    [HideInInspector()]
+    public FP Speed;
+    [HideInInspector()]
+    public FP Radius;
+    [HideInInspector()]
+    public Quantum.QuantumEntityPrototype Caster;
+    [AllocateOnComponentAdded()]
+    [FreeOnComponentRemoved()]
+    [HideInInspector()]
+    [DynamicCollectionAttribute()]
+    public Quantum.Prototypes.Unity.AoeEntityRecordPrototype[] entityInArea = {};
+    [AllocateOnComponentAdded()]
+    [FreeOnComponentRemoved()]
+    [HideInInspector()]
+    [DynamicCollectionAttribute()]
+    public Quantum.Prototypes.Unity.AoeEntityRecordPrototype[] bulletInArea = {};
+    partial void ConvertUser(Quantum.QuantumEntityPrototypeConverter converter, ref Quantum.Prototypes.AoeCompPrototype prototype);
+    public override Quantum.Prototypes.AoeCompPrototype Convert(Quantum.QuantumEntityPrototypeConverter converter) {
+      var result = new Quantum.Prototypes.AoeCompPrototype();
+      converter.Convert(this.Model, out result.Model);
+      converter.Convert(this.ElapsedFrame, out result.ElapsedFrame);
+      converter.Convert(this.RemainFrame, out result.RemainFrame);
+      converter.Convert(this.TickTime, out result.TickTime);
+      converter.Convert(this.Speed, out result.Speed);
+      converter.Convert(this.Radius, out result.Radius);
+      converter.Convert(this.Caster, out result.Caster);
+      converter.Convert(this.entityInArea, out result.entityInArea);
+      converter.Convert(this.bulletInArea, out result.bulletInArea);
+      ConvertUser(converter, ref result);
+      return result;
+    }
+  }
+  [System.SerializableAttribute()]
+  public unsafe partial class AoeEntityRecordPrototype : Quantum.QuantumUnityPrototypeAdapter<Quantum.Prototypes.AoeEntityRecordPrototype> {
+    public Quantum.QuantumEntityPrototype entity;
+    public Int32 tickTime;
+    partial void ConvertUser(Quantum.QuantumEntityPrototypeConverter converter, ref Quantum.Prototypes.AoeEntityRecordPrototype prototype);
+    public override Quantum.Prototypes.AoeEntityRecordPrototype Convert(Quantum.QuantumEntityPrototypeConverter converter) {
+      var result = new Quantum.Prototypes.AoeEntityRecordPrototype();
+      converter.Convert(this.entity, out result.entity);
+      converter.Convert(this.tickTime, out result.tickTime);
+      ConvertUser(converter, ref result);
+      return result;
+    }
+  }
+  [System.SerializableAttribute()]
   public unsafe partial class BuffCompPrototype : Quantum.QuantumUnityPrototypeAdapter<Quantum.Prototypes.BuffCompPrototype> {
     public QBoolean isDirty;
     [AllocateOnComponentAdded()]
@@ -170,6 +225,27 @@ namespace Quantum.Prototypes.Unity {
     }
   }
   [System.SerializableAttribute()]
+  public unsafe partial class CreateAoeInfoPrototype : Quantum.QuantumUnityPrototypeAdapter<Quantum.Prototypes.CreateAoeInfoPrototype> {
+    public Quantum.Prototypes.AoeModelPrototype model;
+    public Int32 duration;
+    public Int32 speed;
+    public Quantum.QuantumEntityPrototype caster;
+    public FPVector2 position;
+    public FP angle;
+    partial void ConvertUser(Quantum.QuantumEntityPrototypeConverter converter, ref Quantum.Prototypes.CreateAoeInfoPrototype prototype);
+    public override Quantum.Prototypes.CreateAoeInfoPrototype Convert(Quantum.QuantumEntityPrototypeConverter converter) {
+      var result = new Quantum.Prototypes.CreateAoeInfoPrototype();
+      converter.Convert(this.model, out result.model);
+      converter.Convert(this.duration, out result.duration);
+      converter.Convert(this.speed, out result.speed);
+      converter.Convert(this.caster, out result.caster);
+      converter.Convert(this.position, out result.position);
+      converter.Convert(this.angle, out result.angle);
+      ConvertUser(converter, ref result);
+      return result;
+    }
+  }
+  [System.SerializableAttribute()]
   public unsafe partial class DamageInfoPrototype : Quantum.QuantumUnityPrototypeAdapter<Quantum.Prototypes.DamageInfoPrototype> {
     public Quantum.QuantumEntityPrototype source;
     public Quantum.QuantumEntityPrototype target;
@@ -229,6 +305,17 @@ namespace Quantum.Prototypes.Unity {
     partial void ConvertUser(Quantum.QuantumEntityPrototypeConverter converter, ref Quantum.Prototypes.SBulletFireInfoCompPrototype prototype);
     public override Quantum.Prototypes.SBulletFireInfoCompPrototype Convert(Quantum.QuantumEntityPrototypeConverter converter) {
       var result = new Quantum.Prototypes.SBulletFireInfoCompPrototype();
+      ConvertUser(converter, ref result);
+      return result;
+    }
+  }
+  [System.SerializableAttribute()]
+  public unsafe partial class SCreateAoeInfoCompPrototype : Quantum.QuantumUnityPrototypeAdapter<Quantum.Prototypes.SCreateAoeInfoCompPrototype> {
+    [HideInInspector()]
+    public Int32 _empty_prototype_dummy_field_;
+    partial void ConvertUser(Quantum.QuantumEntityPrototypeConverter converter, ref Quantum.Prototypes.SCreateAoeInfoCompPrototype prototype);
+    public override Quantum.Prototypes.SCreateAoeInfoCompPrototype Convert(Quantum.QuantumEntityPrototypeConverter converter) {
+      var result = new Quantum.Prototypes.SCreateAoeInfoCompPrototype();
       ConvertUser(converter, ref result);
       return result;
     }
@@ -347,6 +434,7 @@ namespace Quantum.Prototypes.Unity {
     public Quantum.Prototypes.Unity.TLNode_AddBuffToCasterPrototype AddBuffToCaster;
     public Quantum.Prototypes.TLNode_PlayAnimPrototype PlayAnim;
     public Quantum.Prototypes.Unity.TLNode_FireBulletPrototype FireBullet;
+    public Quantum.Prototypes.Unity.TLNode_CreateAoePrototype CreateAoe;
     partial void ConvertUser(Quantum.QuantumEntityPrototypeConverter converter, ref Quantum.Prototypes.TLNodePrototype prototype);
     public override Quantum.Prototypes.TLNodePrototype Convert(Quantum.QuantumEntityPrototypeConverter converter) {
       var result = new Quantum.Prototypes.TLNodePrototype();
@@ -355,6 +443,7 @@ namespace Quantum.Prototypes.Unity {
       converter.Convert(this.AddBuffToCaster, out result.AddBuffToCaster);
       converter.Convert(this.PlayAnim, out result.PlayAnim);
       converter.Convert(this.FireBullet, out result.FireBullet);
+      converter.Convert(this.CreateAoe, out result.CreateAoe);
       ConvertUser(converter, ref result);
       return result;
     }
@@ -366,6 +455,17 @@ namespace Quantum.Prototypes.Unity {
     public override Quantum.Prototypes.TLNode_AddBuffToCasterPrototype Convert(Quantum.QuantumEntityPrototypeConverter converter) {
       var result = new Quantum.Prototypes.TLNode_AddBuffToCasterPrototype();
       converter.Convert(this.addBuffInfo, out result.addBuffInfo);
+      ConvertUser(converter, ref result);
+      return result;
+    }
+  }
+  [System.SerializableAttribute()]
+  public unsafe partial class TLNode_CreateAoePrototype : Quantum.QuantumUnityPrototypeAdapter<Quantum.Prototypes.TLNode_CreateAoePrototype> {
+    public Quantum.Prototypes.Unity.CreateAoeInfoPrototype createAoeInfo;
+    partial void ConvertUser(Quantum.QuantumEntityPrototypeConverter converter, ref Quantum.Prototypes.TLNode_CreateAoePrototype prototype);
+    public override Quantum.Prototypes.TLNode_CreateAoePrototype Convert(Quantum.QuantumEntityPrototypeConverter converter) {
+      var result = new Quantum.Prototypes.TLNode_CreateAoePrototype();
+      converter.Convert(this.createAoeInfo, out result.createAoeInfo);
       ConvertUser(converter, ref result);
       return result;
     }

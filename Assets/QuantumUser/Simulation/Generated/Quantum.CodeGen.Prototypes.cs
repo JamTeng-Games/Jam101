@@ -86,6 +86,43 @@ namespace Quantum.Prototypes {
     public Quantum.Prototypes.TimelineModelPrototype Value;
   }
   [System.SerializableAttribute()]
+  [Quantum.Prototypes.Prototype(typeof(Quantum.AOEM_Instance))]
+  public unsafe partial class AOEM_InstancePrototype : UnionPrototype {
+    public string _field_used_;
+    public Quantum.Prototypes.AOEM_test_aoe_1Prototype test_aoe_1;
+    public Quantum.Prototypes.AOEM_test_aoe_2Prototype test_aoe_2;
+    partial void MaterializeUser(Frame frame, ref Quantum.AOEM_Instance result, in PrototypeMaterializationContext context);
+    public void Materialize(Frame frame, ref Quantum.AOEM_Instance result, in PrototypeMaterializationContext context = default) {
+        switch (_field_used_) {
+          case "TEST_AOE_1": this.test_aoe_1.Materialize(frame, ref *result.test_aoe_1, in context); break;
+          case "TEST_AOE_2": this.test_aoe_2.Materialize(frame, ref *result.test_aoe_2, in context); break;
+          case "": case null: break;
+          default: PrototypeValidator.UnknownUnionField(_field_used_, in context); break;
+        }
+        MaterializeUser(frame, ref result, in context);
+    }
+  }
+  [System.SerializableAttribute()]
+  [Quantum.Prototypes.Prototype(typeof(Quantum.AOEM_test_aoe_1))]
+  public unsafe partial class AOEM_test_aoe_1Prototype : StructPrototype {
+    [HideInInspector()]
+    public Int32 _empty_prototype_dummy_field_;
+    partial void MaterializeUser(Frame frame, ref Quantum.AOEM_test_aoe_1 result, in PrototypeMaterializationContext context);
+    public void Materialize(Frame frame, ref Quantum.AOEM_test_aoe_1 result, in PrototypeMaterializationContext context = default) {
+        MaterializeUser(frame, ref result, in context);
+    }
+  }
+  [System.SerializableAttribute()]
+  [Quantum.Prototypes.Prototype(typeof(Quantum.AOEM_test_aoe_2))]
+  public unsafe partial class AOEM_test_aoe_2Prototype : StructPrototype {
+    [HideInInspector()]
+    public Int32 _empty_prototype_dummy_field_;
+    partial void MaterializeUser(Frame frame, ref Quantum.AOEM_test_aoe_2 result, in PrototypeMaterializationContext context);
+    public void Materialize(Frame frame, ref Quantum.AOEM_test_aoe_2 result, in PrototypeMaterializationContext context = default) {
+        MaterializeUser(frame, ref result, in context);
+    }
+  }
+  [System.SerializableAttribute()]
   [Quantum.Prototypes.Prototype(typeof(Quantum.AddBuffInfo))]
   public unsafe class AddBuffInfoPrototype : StructPrototype {
     public Quantum.Prototypes.BuffModelPrototype buffModel;
@@ -103,6 +140,110 @@ namespace Quantum.Prototypes {
         result.duration = this.duration;
         result.isPermanent = this.isPermanent;
         result.isDurationSetTo = this.isDurationSetTo;
+    }
+  }
+  [System.SerializableAttribute()]
+  [Quantum.Prototypes.Prototype(typeof(Quantum.AoeComp))]
+  public unsafe class AoeCompPrototype : ComponentPrototype<Quantum.AoeComp> {
+    [HideInInspector()]
+    public Quantum.Prototypes.AoeModelPrototype Model;
+    [HideInInspector()]
+    public Int32 ElapsedFrame;
+    [HideInInspector()]
+    public Int32 RemainFrame;
+    [HideInInspector()]
+    public Int32 TickTime;
+    [HideInInspector()]
+    public FP Speed;
+    [HideInInspector()]
+    public FP Radius;
+    [HideInInspector()]
+    public MapEntityId Caster;
+    [AllocateOnComponentAdded()]
+    [FreeOnComponentRemoved()]
+    [HideInInspector()]
+    [DynamicCollectionAttribute()]
+    public Quantum.Prototypes.AoeEntityRecordPrototype[] entityInArea = {};
+    [AllocateOnComponentAdded()]
+    [FreeOnComponentRemoved()]
+    [HideInInspector()]
+    [DynamicCollectionAttribute()]
+    public Quantum.Prototypes.AoeEntityRecordPrototype[] bulletInArea = {};
+    public override Boolean AddToEntity(FrameBase f, EntityRef entity, in PrototypeMaterializationContext context) {
+        Quantum.AoeComp component = default;
+        Materialize((Frame)f, ref component, in context);
+        return f.Set(entity, component) == SetResult.ComponentAdded;
+    }
+    public void Materialize(Frame frame, ref Quantum.AoeComp result, in PrototypeMaterializationContext context = default) {
+        this.Model.Materialize(frame, ref result.Model, in context);
+        result.ElapsedFrame = this.ElapsedFrame;
+        result.RemainFrame = this.RemainFrame;
+        result.TickTime = this.TickTime;
+        result.Speed = this.Speed;
+        result.Radius = this.Radius;
+        PrototypeValidator.FindMapEntity(this.Caster, in context, out result.Caster);
+        if (this.entityInArea.Length == 0) {
+          result.entityInArea = default;
+        } else {
+          var list = frame.AllocateList(out result.entityInArea, this.entityInArea.Length);
+          for (int i = 0; i < this.entityInArea.Length; ++i) {
+            Quantum.AoeEntityRecord tmp = default;
+            this.entityInArea[i].Materialize(frame, ref tmp, in context);
+            list.Add(tmp);
+          }
+        }
+        if (this.bulletInArea.Length == 0) {
+          result.bulletInArea = default;
+        } else {
+          var list = frame.AllocateList(out result.bulletInArea, this.bulletInArea.Length);
+          for (int i = 0; i < this.bulletInArea.Length; ++i) {
+            Quantum.AoeEntityRecord tmp = default;
+            this.bulletInArea[i].Materialize(frame, ref tmp, in context);
+            list.Add(tmp);
+          }
+        }
+    }
+  }
+  [System.SerializableAttribute()]
+  [Quantum.Prototypes.Prototype(typeof(Quantum.AoeEntityRecord))]
+  public unsafe class AoeEntityRecordPrototype : StructPrototype {
+    public MapEntityId entity;
+    public Int32 tickTime;
+    public void Materialize(Frame frame, ref Quantum.AoeEntityRecord result, in PrototypeMaterializationContext context = default) {
+        PrototypeValidator.FindMapEntity(this.entity, in context, out result.entity);
+        result.tickTime = this.tickTime;
+    }
+  }
+  [System.SerializableAttribute()]
+  [Quantum.Prototypes.Prototype(typeof(Quantum.AoeModel))]
+  public unsafe partial class AoeModelPrototype : StructPrototype {
+    public Int32 type;
+    public FP radius;
+    public QBoolean removeOnObstacle;
+    public Int32 tickTime;
+    public Int32 tweenType;
+    [DynamicCollectionAttribute()]
+    public Int32[] tags = {};
+    public Quantum.Prototypes.AOEM_InstancePrototype instance;
+    partial void MaterializeUser(Frame frame, ref Quantum.AoeModel result, in PrototypeMaterializationContext context);
+    public void Materialize(Frame frame, ref Quantum.AoeModel result, in PrototypeMaterializationContext context = default) {
+        result.type = this.type;
+        result.radius = this.radius;
+        result.removeOnObstacle = this.removeOnObstacle;
+        result.tickTime = this.tickTime;
+        result.tweenType = this.tweenType;
+        if (this.tags.Length == 0) {
+          result.tags = default;
+        } else {
+          var list = frame.AllocateList(out result.tags, this.tags.Length);
+          for (int i = 0; i < this.tags.Length; ++i) {
+            Int32 tmp = default;
+            tmp = this.tags[i];
+            list.Add(tmp);
+          }
+        }
+        this.instance.Materialize(frame, ref result.instance, in context);
+        MaterializeUser(frame, ref result, in context);
     }
   }
   [System.SerializableAttribute()]
@@ -167,16 +308,28 @@ namespace Quantum.Prototypes {
     }
   }
   [System.SerializableAttribute()]
+  [Quantum.Prototypes.Prototype(typeof(Quantum.BLTM_Arrow))]
+  public unsafe partial class BLTM_ArrowPrototype : StructPrototype {
+    [HideInInspector()]
+    public Int32 _empty_prototype_dummy_field_;
+    partial void MaterializeUser(Frame frame, ref Quantum.BLTM_Arrow result, in PrototypeMaterializationContext context);
+    public void Materialize(Frame frame, ref Quantum.BLTM_Arrow result, in PrototypeMaterializationContext context = default) {
+        MaterializeUser(frame, ref result, in context);
+    }
+  }
+  [System.SerializableAttribute()]
   [Quantum.Prototypes.Prototype(typeof(Quantum.BLTM_Instance))]
   public unsafe partial class BLTM_InstancePrototype : UnionPrototype {
     public string _field_used_;
-    public Quantum.Prototypes.BM_ArrowPrototype Arrow;
-    public Quantum.Prototypes.BM_PistolBulletPrototype PistolBullet;
+    public Quantum.Prototypes.BLTM_ArrowPrototype Arrow;
+    public Quantum.Prototypes.BLTM_PistolBulletPrototype PistolBullet;
+    public Quantum.Prototypes.BLTM_test_bullet_1Prototype test_bullet_1;
     partial void MaterializeUser(Frame frame, ref Quantum.BLTM_Instance result, in PrototypeMaterializationContext context);
     public void Materialize(Frame frame, ref Quantum.BLTM_Instance result, in PrototypeMaterializationContext context = default) {
         switch (_field_used_) {
           case "ARROW": this.Arrow.Materialize(frame, ref *result.Arrow, in context); break;
           case "PISTOLBULLET": this.PistolBullet.Materialize(frame, ref *result.PistolBullet, in context); break;
+          case "TEST_BULLET_1": this.test_bullet_1.Materialize(frame, ref *result.test_bullet_1, in context); break;
           case "": case null: break;
           default: PrototypeValidator.UnknownUnionField(_field_used_, in context); break;
         }
@@ -184,12 +337,22 @@ namespace Quantum.Prototypes {
     }
   }
   [System.SerializableAttribute()]
-  [Quantum.Prototypes.Prototype(typeof(Quantum.BM_Arrow))]
-  public unsafe partial class BM_ArrowPrototype : StructPrototype {
+  [Quantum.Prototypes.Prototype(typeof(Quantum.BLTM_PistolBullet))]
+  public unsafe partial class BLTM_PistolBulletPrototype : StructPrototype {
     [HideInInspector()]
     public Int32 _empty_prototype_dummy_field_;
-    partial void MaterializeUser(Frame frame, ref Quantum.BM_Arrow result, in PrototypeMaterializationContext context);
-    public void Materialize(Frame frame, ref Quantum.BM_Arrow result, in PrototypeMaterializationContext context = default) {
+    partial void MaterializeUser(Frame frame, ref Quantum.BLTM_PistolBullet result, in PrototypeMaterializationContext context);
+    public void Materialize(Frame frame, ref Quantum.BLTM_PistolBullet result, in PrototypeMaterializationContext context = default) {
+        MaterializeUser(frame, ref result, in context);
+    }
+  }
+  [System.SerializableAttribute()]
+  [Quantum.Prototypes.Prototype(typeof(Quantum.BLTM_test_bullet_1))]
+  public unsafe partial class BLTM_test_bullet_1Prototype : StructPrototype {
+    public FP arg1;
+    partial void MaterializeUser(Frame frame, ref Quantum.BLTM_test_bullet_1 result, in PrototypeMaterializationContext context);
+    public void Materialize(Frame frame, ref Quantum.BLTM_test_bullet_1 result, in PrototypeMaterializationContext context = default) {
+        result.arg1 = this.arg1;
         MaterializeUser(frame, ref result, in context);
     }
   }
@@ -303,16 +466,6 @@ namespace Quantum.Prototypes {
     public Int32 _empty_prototype_dummy_field_;
     partial void MaterializeUser(Frame frame, ref Quantum.BM_PeterAttrib result, in PrototypeMaterializationContext context);
     public void Materialize(Frame frame, ref Quantum.BM_PeterAttrib result, in PrototypeMaterializationContext context = default) {
-        MaterializeUser(frame, ref result, in context);
-    }
-  }
-  [System.SerializableAttribute()]
-  [Quantum.Prototypes.Prototype(typeof(Quantum.BM_PistolBullet))]
-  public unsafe partial class BM_PistolBulletPrototype : StructPrototype {
-    [HideInInspector()]
-    public Int32 _empty_prototype_dummy_field_;
-    partial void MaterializeUser(Frame frame, ref Quantum.BM_PistolBullet result, in PrototypeMaterializationContext context);
-    public void Materialize(Frame frame, ref Quantum.BM_PistolBullet result, in PrototypeMaterializationContext context = default) {
         MaterializeUser(frame, ref result, in context);
     }
   }
@@ -612,6 +765,24 @@ namespace Quantum.Prototypes {
     public void Materialize(Frame frame, ref Quantum.CampComp result, in PrototypeMaterializationContext context = default) {
         result.Camp = this.Camp;
         MaterializeUser(frame, ref result, in context);
+    }
+  }
+  [System.SerializableAttribute()]
+  [Quantum.Prototypes.Prototype(typeof(Quantum.CreateAoeInfo))]
+  public unsafe class CreateAoeInfoPrototype : StructPrototype {
+    public Quantum.Prototypes.AoeModelPrototype model;
+    public Int32 duration;
+    public Int32 speed;
+    public MapEntityId caster;
+    public FPVector2 position;
+    public FP angle;
+    public void Materialize(Frame frame, ref Quantum.CreateAoeInfo result, in PrototypeMaterializationContext context = default) {
+        this.model.Materialize(frame, ref result.model, in context);
+        result.duration = this.duration;
+        result.speed = this.speed;
+        PrototypeValidator.FindMapEntity(this.caster, in context, out result.caster);
+        result.position = this.position;
+        result.angle = this.angle;
     }
   }
   [System.SerializableAttribute()]
@@ -924,6 +1095,19 @@ namespace Quantum.Prototypes {
     }
   }
   [System.SerializableAttribute()]
+  [Quantum.Prototypes.Prototype(typeof(Quantum.SCreateAoeInfoComp))]
+  public unsafe class SCreateAoeInfoCompPrototype : ComponentPrototype<Quantum.SCreateAoeInfoComp> {
+    [HideInInspector()]
+    public Int32 _empty_prototype_dummy_field_;
+    public override Boolean AddToEntity(FrameBase f, EntityRef entity, in PrototypeMaterializationContext context) {
+        Quantum.SCreateAoeInfoComp component = default;
+        Materialize((Frame)f, ref component, in context);
+        return f.Set(entity, component) == SetResult.ComponentAdded;
+    }
+    public void Materialize(Frame frame, ref Quantum.SCreateAoeInfoComp result, in PrototypeMaterializationContext context = default) {
+    }
+  }
+  [System.SerializableAttribute()]
   [Quantum.Prototypes.Prototype(typeof(Quantum.SDamageInfoComp))]
   public unsafe class SDamageInfoCompPrototype : ComponentPrototype<Quantum.SDamageInfoComp> {
     [HideInInspector()]
@@ -1112,12 +1296,14 @@ namespace Quantum.Prototypes {
     public Quantum.Prototypes.TLNode_AddBuffToCasterPrototype AddBuffToCaster;
     public Quantum.Prototypes.TLNode_PlayAnimPrototype PlayAnim;
     public Quantum.Prototypes.TLNode_FireBulletPrototype FireBullet;
+    public Quantum.Prototypes.TLNode_CreateAoePrototype CreateAoe;
     public void Materialize(Frame frame, ref Quantum.TLNode result, in PrototypeMaterializationContext context = default) {
         switch (_field_used_) {
           case "LOG": this.Log.Materialize(frame, ref *result.Log, in context); break;
           case "ADDBUFFTOCASTER": this.AddBuffToCaster.Materialize(frame, ref *result.AddBuffToCaster, in context); break;
           case "PLAYANIM": this.PlayAnim.Materialize(frame, ref *result.PlayAnim, in context); break;
           case "FIREBULLET": this.FireBullet.Materialize(frame, ref *result.FireBullet, in context); break;
+          case "CREATEAOE": this.CreateAoe.Materialize(frame, ref *result.CreateAoe, in context); break;
           case "": case null: break;
           default: PrototypeValidator.UnknownUnionField(_field_used_, in context); break;
         }
@@ -1129,6 +1315,14 @@ namespace Quantum.Prototypes {
     public Quantum.Prototypes.AddBuffInfoPrototype addBuffInfo;
     public void Materialize(Frame frame, ref Quantum.TLNode_AddBuffToCaster result, in PrototypeMaterializationContext context = default) {
         this.addBuffInfo.Materialize(frame, ref result.addBuffInfo, in context);
+    }
+  }
+  [System.SerializableAttribute()]
+  [Quantum.Prototypes.Prototype(typeof(Quantum.TLNode_CreateAoe))]
+  public unsafe class TLNode_CreateAoePrototype : StructPrototype {
+    public Quantum.Prototypes.CreateAoeInfoPrototype createAoeInfo;
+    public void Materialize(Frame frame, ref Quantum.TLNode_CreateAoe result, in PrototypeMaterializationContext context = default) {
+        this.createAoeInfo.Materialize(frame, ref result.createAoeInfo, in context);
     }
   }
   [System.SerializableAttribute()]

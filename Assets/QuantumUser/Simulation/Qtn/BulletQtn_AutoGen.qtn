@@ -1,13 +1,19 @@
 ﻿union BLTM_Instance
 {
-    BM_Arrow Arrow;
-    BM_PistolBullet PistolBullet;
+    BLTM_Arrow Arrow;
+    BLTM_PistolBullet PistolBullet;
+    BLTM_test_bullet_1 test_bullet_1;
 }
 
-struct BM_Arrow
+struct BLTM_Arrow
 {
 }
 
-struct BM_PistolBullet
+struct BLTM_PistolBullet
 {
+}
+
+struct BLTM_test_bullet_1
+{
+    FP arg1;  // 
 }

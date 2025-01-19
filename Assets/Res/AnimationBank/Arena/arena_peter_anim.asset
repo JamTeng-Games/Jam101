@@ -21,7 +21,7 @@ MonoBehaviour:
         _NormalizedTimes: []
         _Callbacks: []
         _Names: []
-      _Clip: {fileID: 7400000, guid: c947f7fbcc1b30c44a5acc0c9940710d, type: 2}
+      _Clip: {fileID: -6841133554730031802, guid: 4d5d369c80066304ba7b86370df5c95e, type: 3}
       _NormalizedStartTime: NaN
     priority: 0
     canReplay: 0
@@ -33,7 +33,7 @@ MonoBehaviour:
         _NormalizedTimes: []
         _Callbacks: []
         _Names: []
-      _Clip: {fileID: 7400000, guid: ccd4e563f27063a4a9abc0d1bfa79513, type: 2}
+      _Clip: {fileID: -4036951797296613129, guid: 4d5d369c80066304ba7b86370df5c95e, type: 3}
       _NormalizedStartTime: NaN
     priority: 1
     canReplay: 0
@@ -45,7 +45,7 @@ MonoBehaviour:
         _NormalizedTimes: []
         _Callbacks: []
         _Names: []
-      _Clip: {fileID: 7400000, guid: cb2af90471839234db5838fe3ea79238, type: 2}
+      _Clip: {fileID: 7733563311733390743, guid: 4d5d369c80066304ba7b86370df5c95e, type: 3}
       _NormalizedStartTime: NaN
     priority: 2
     canReplay: 1
@@ -57,7 +57,7 @@ MonoBehaviour:
         _NormalizedTimes: []
         _Callbacks: []
         _Names: []
-      _Clip: {fileID: 7400000, guid: 75beb3924f1c4254fadcfe8d26179551, type: 2}
+      _Clip: {fileID: -3501028530277975024, guid: 4d5d369c80066304ba7b86370df5c95e, type: 3}
       _NormalizedStartTime: 0
     priority: 3
     canReplay: 0
@@ -69,7 +69,7 @@ MonoBehaviour:
         _NormalizedTimes: []
         _Callbacks: []
         _Names: []
-      _Clip: {fileID: 7400000, guid: a50568866b06a5d4eb9942161ca8131d, type: 2}
+      _Clip: {fileID: 1037819924253866601, guid: 4d5d369c80066304ba7b86370df5c95e, type: 3}
       _NormalizedStartTime: NaN
     priority: 4
     canReplay: 0
@@ -81,7 +81,7 @@ MonoBehaviour:
         _NormalizedTimes: []
         _Callbacks: []
         _Names: []
-      _Clip: {fileID: 7400000, guid: bc5ff1dfd0e06404889a4dc5a2c30226, type: 2}
+      _Clip: {fileID: 5617208400000692558, guid: 4d5d369c80066304ba7b86370df5c95e, type: 3}
       _NormalizedStartTime: NaN
     priority: 5
     canReplay: 0

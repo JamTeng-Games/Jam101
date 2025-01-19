@@ -12,7 +12,8 @@ namespace Quantum
         public override void Update(Frame f, ref Filter filter)
         {
             Helper_Move.Move(f, filter.Entity, filter.MoveComp->Velocity, filter.MoveComp->Offset);
-
+            filter.MoveComp->Velocity = FPVector2.Zero;
+            filter.MoveComp->Offset = FPVector2.Zero;
             //     filter.MoveComp->Vector = FPVector2.Zero;
             // else
             // {

@@ -57,7 +57,7 @@ MonoBehaviour:
     PositionOffset:
       RawValue: 0
   PhysicsCollider:
-    IsTrigger: 0
+    IsTrigger: 1
     Material:
       Id:
         Value: 0
@@ -239,7 +239,6 @@ MonoBehaviour:
       type: 0
       radius:
         RawValue: 0
-      hitTimes: 0
       sameTargetDelayFrame: 0
       moveType: 0
       removeOnObstacle:
@@ -258,10 +257,15 @@ MonoBehaviour:
           _empty_prototype_dummy_field_: 0
         PistolBullet:
           _empty_prototype_dummy_field_: 0
+        test_bullet_1:
+          arg1:
+            RawValue: 0
     Hp: 0
     ElapsedFrame: 0
     RemainFrame: 0
-    CanHitAfterCreated: 0
+    TimeCanHit: 0
+    Speed:
+      RawValue: 0
     Caster: {fileID: 0}
     HitRecords: []
 --- !u!114 &2216652342521861430
@@ -311,7 +315,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8714500456613226703}
-  - component: {fileID: 4299043214481333783}
+  - component: {fileID: 2553625301479486136}
   m_Layer: 10
   m_Name: View
   m_TagString: Untagged
@@ -334,7 +338,7 @@ Transform:
   m_Children: []
   m_Father: {fileID: 7377030397563967961}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &4299043214481333783
+--- !u!114 &2553625301479486136
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -343,6 +347,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 7185198882724575541}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 38a868fc867645649fa1052cf3bfbd0f, type: 3}
+  m_Script: {fileID: 11500000, guid: d6d88ba392ee4c429ca78536400a1d27, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 

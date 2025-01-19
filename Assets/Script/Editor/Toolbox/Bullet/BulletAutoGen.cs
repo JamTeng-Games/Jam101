@@ -44,14 +44,14 @@ namespace Jam.Editor_
             string unionPart =
                 string.Join(
                     "\n    ",
-                    bullets.Select(b => $"BM_{b.name} {b.name};"));
+                    bullets.Select(b => $"BLTM_{b.name} {b.name};"));
             string fileContent = Define.BulletQtnTemplate.Replace(Define.__BLTM_UNION__, unionPart);
 
             // instance part
             string instancePart = string.Join("\n", bullets.Select(b =>
             {
                 StringBuilder body = new StringBuilder();
-                body.Append($"struct BM_{b.name}\n{{\n");
+                body.Append($"struct BLTM_{b.name}\n{{\n");
                 if (b.args != null)
                 {
                     // if (b.args.Count == 0)
