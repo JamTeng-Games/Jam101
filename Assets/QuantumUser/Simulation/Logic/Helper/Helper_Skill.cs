@@ -173,6 +173,33 @@ namespace Quantum.Helper
             return false;
         }
 
+        public static bool TryGetSkillObjByType(Frame f, EntityRef entity, SkillType skillType, out SkillObj skillObj)
+        {
+            skillObj = default;
+            // Find attack skill id
+            if (f.Unsafe.TryGetPointer<SkillComp>(entity, out var skillComp))
+            {
+                var skillList = f.ResolveList(skillComp->Skills);
+                int skillIndex = -1;
+                for (int i = 0; i < skillList.Count; i++)
+                {
+                    if (skillList[i].model.type == (int)skillType)
+                    {
+                        skillIndex = i;
+                        break;
+                    }
+                }
+                if (skillIndex == -1)
+                {
+                    Log.Error($"No attack skill found for entity {entity}");
+                    return false;
+                }
+                skillObj = skillList[skillIndex];
+                return true;
+            }
+            return false;
+        }
+
         ///////////////////////////// Private methods /////////////////////////////
         private static bool IsSkillLearned(QList<SkillObj> skills, int skillId)
         {

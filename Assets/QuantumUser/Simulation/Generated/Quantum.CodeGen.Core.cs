@@ -81,8 +81,13 @@ namespace Quantum {
   }
   [System.FlagsAttribute()]
   public enum InputButtons : int {
-    Attack = 1 << 0,
-    Skill = 1 << 1,
+    AttackPrepare = 1 << 0,
+    Attack = 1 << 1,
+    SkillPrepare = 1 << 2,
+    Skill = 1 << 3,
+    SuperSkillPrepare = 1 << 4,
+    SuperSkill = 1 << 5,
+    Cancel = 1 << 6,
   }
   public static unsafe partial class FlagsExtensions {
     public static Boolean IsFlagSet(this EDamageInfoType self, EDamageInfoType flag) {
@@ -511,15 +516,17 @@ namespace Quantum {
     public const Int32 SIZE = 4;
     public const Int32 ALIGNMENT = 4;
     [FieldOffset(0)]
-    private fixed Byte _alignment_padding_[4];
+    public Int32 arc;
     public override Int32 GetHashCode() {
       unchecked { 
         var hash = 12757;
+        hash = hash * 31 + arc.GetHashCode();
         return hash;
       }
     }
     public static void Serialize(void* ptr, FrameSerializer serializer) {
         var p = (AOEM_test_aoe_1*)ptr;
+        serializer.Stream.Serialize(&p->arc);
     }
   }
   [StructLayout(LayoutKind.Explicit)]
@@ -1315,26 +1322,41 @@ namespace Quantum {
   }
   [StructLayout(LayoutKind.Explicit)]
   public unsafe partial struct Input {
-    public const Int32 SIZE = 72;
+    public const Int32 SIZE = 128;
     public const Int32 ALIGNMENT = 8;
-    [FieldOffset(40)]
+    [FieldOffset(112)]
     public FPVector2 MoveDirection;
+    [FieldOffset(96)]
+    public FPVector2 AimDirection;
     [FieldOffset(0)]
+    public FP AimLength;
+    [FieldOffset(20)]
+    public Button AttackPrepare;
+    [FieldOffset(8)]
     public Button Attack;
-    [FieldOffset(24)]
-    public FPVector2 AttackScreenPos;
-    [FieldOffset(12)]
-    public Button Skill;
     [FieldOffset(56)]
-    public FPVector2 SkillScreenPos;
+    public Button SkillPrepare;
+    [FieldOffset(44)]
+    public Button Skill;
+    [FieldOffset(80)]
+    public Button SuperSkillPrepare;
+    [FieldOffset(68)]
+    public Button SuperSkill;
+    [FieldOffset(32)]
+    public Button Cancel;
     public override Int32 GetHashCode() {
       unchecked { 
         var hash = 19249;
         hash = hash * 31 + MoveDirection.GetHashCode();
+        hash = hash * 31 + AimDirection.GetHashCode();
+        hash = hash * 31 + AimLength.GetHashCode();
+        hash = hash * 31 + AttackPrepare.GetHashCode();
         hash = hash * 31 + Attack.GetHashCode();
-        hash = hash * 31 + AttackScreenPos.GetHashCode();
+        hash = hash * 31 + SkillPrepare.GetHashCode();
         hash = hash * 31 + Skill.GetHashCode();
-        hash = hash * 31 + SkillScreenPos.GetHashCode();
+        hash = hash * 31 + SuperSkillPrepare.GetHashCode();
+        hash = hash * 31 + SuperSkill.GetHashCode();
+        hash = hash * 31 + Cancel.GetHashCode();
         return hash;
       }
     }
@@ -1343,25 +1365,40 @@ namespace Quantum {
     }
     public Boolean IsDown(InputButtons button) {
       switch (button) {
+        case InputButtons.AttackPrepare: return AttackPrepare.IsDown;
         case InputButtons.Attack: return Attack.IsDown;
+        case InputButtons.SkillPrepare: return SkillPrepare.IsDown;
         case InputButtons.Skill: return Skill.IsDown;
+        case InputButtons.SuperSkillPrepare: return SuperSkillPrepare.IsDown;
+        case InputButtons.SuperSkill: return SuperSkill.IsDown;
+        case InputButtons.Cancel: return Cancel.IsDown;
         default: return false;
       }
     }
     public Boolean WasPressed(InputButtons button) {
       switch (button) {
+        case InputButtons.AttackPrepare: return AttackPrepare.WasPressed;
         case InputButtons.Attack: return Attack.WasPressed;
+        case InputButtons.SkillPrepare: return SkillPrepare.WasPressed;
         case InputButtons.Skill: return Skill.WasPressed;
+        case InputButtons.SuperSkillPrepare: return SuperSkillPrepare.WasPressed;
+        case InputButtons.SuperSkill: return SuperSkill.WasPressed;
+        case InputButtons.Cancel: return Cancel.WasPressed;
         default: return false;
       }
     }
     static partial void SerializeCodeGen(void* ptr, FrameSerializer serializer) {
         var p = (Input*)ptr;
+        FP.Serialize(&p->AimLength, serializer);
         Button.Serialize(&p->Attack, serializer);
+        Button.Serialize(&p->AttackPrepare, serializer);
+        Button.Serialize(&p->Cancel, serializer);
         Button.Serialize(&p->Skill, serializer);
-        FPVector2.Serialize(&p->AttackScreenPos, serializer);
+        Button.Serialize(&p->SkillPrepare, serializer);
+        Button.Serialize(&p->SuperSkill, serializer);
+        Button.Serialize(&p->SuperSkillPrepare, serializer);
+        FPVector2.Serialize(&p->AimDirection, serializer);
         FPVector2.Serialize(&p->MoveDirection, serializer);
-        FPVector2.Serialize(&p->SkillScreenPos, serializer);
     }
   }
   [StructLayout(LayoutKind.Explicit)]
@@ -1438,28 +1475,38 @@ namespace Quantum {
   }
   [StructLayout(LayoutKind.Explicit)]
   public unsafe partial struct SkillModel {
-    public const Int32 SIZE = 40;
+    public const Int32 SIZE = 60;
     public const Int32 ALIGNMENT = 4;
-    [FieldOffset(36)]
+    [FieldOffset(56)]
     public QListPtr<AttributeCost> attrCosts;
-    [FieldOffset(32)]
+    [FieldOffset(52)]
     public QListPtr<AddBuffInfo> addBuffs;
     [FieldOffset(8)]
     public Int32 id;
     [FieldOffset(0)]
     public Int32 cd;
-    [FieldOffset(20)]
+    [FieldOffset(40)]
     public Int32 type;
     [FieldOffset(4)]
     public Int32 condition;
-    [FieldOffset(12)]
+    [FieldOffset(36)]
+    public Int32 timelineModelId;
+    [FieldOffset(44)]
+    public QBoolean canInterrupt;
+    [FieldOffset(48)]
+    public QBoolean canLearnMulti;
+    [FieldOffset(28)]
     public Int32 indicatorType;
     [FieldOffset(16)]
-    public Int32 timelineModelId;
+    public Int32 indicatorMaxRange;
+    [FieldOffset(20)]
+    public Int32 indicatorRadius;
+    [FieldOffset(12)]
+    public Int32 indicatorArc;
+    [FieldOffset(32)]
+    public Int32 indicatorWidth;
     [FieldOffset(24)]
-    public QBoolean canInterrupt;
-    [FieldOffset(28)]
-    public QBoolean canLearnMulti;
+    public Int32 indicatorScatter;
     public override Int32 GetHashCode() {
       unchecked { 
         var hash = 6329;
@@ -1469,10 +1516,15 @@ namespace Quantum {
         hash = hash * 31 + cd.GetHashCode();
         hash = hash * 31 + type.GetHashCode();
         hash = hash * 31 + condition.GetHashCode();
-        hash = hash * 31 + indicatorType.GetHashCode();
         hash = hash * 31 + timelineModelId.GetHashCode();
         hash = hash * 31 + canInterrupt.GetHashCode();
         hash = hash * 31 + canLearnMulti.GetHashCode();
+        hash = hash * 31 + indicatorType.GetHashCode();
+        hash = hash * 31 + indicatorMaxRange.GetHashCode();
+        hash = hash * 31 + indicatorRadius.GetHashCode();
+        hash = hash * 31 + indicatorArc.GetHashCode();
+        hash = hash * 31 + indicatorWidth.GetHashCode();
+        hash = hash * 31 + indicatorScatter.GetHashCode();
         return hash;
       }
     }
@@ -1485,7 +1537,12 @@ namespace Quantum {
         serializer.Stream.Serialize(&p->cd);
         serializer.Stream.Serialize(&p->condition);
         serializer.Stream.Serialize(&p->id);
+        serializer.Stream.Serialize(&p->indicatorArc);
+        serializer.Stream.Serialize(&p->indicatorMaxRange);
+        serializer.Stream.Serialize(&p->indicatorRadius);
+        serializer.Stream.Serialize(&p->indicatorScatter);
         serializer.Stream.Serialize(&p->indicatorType);
+        serializer.Stream.Serialize(&p->indicatorWidth);
         serializer.Stream.Serialize(&p->timelineModelId);
         serializer.Stream.Serialize(&p->type);
         QBoolean.Serialize(&p->canInterrupt, serializer);
@@ -1496,7 +1553,7 @@ namespace Quantum {
   }
   [StructLayout(LayoutKind.Explicit)]
   public unsafe partial struct SkillObj {
-    public const Int32 SIZE = 52;
+    public const Int32 SIZE = 72;
     public const Int32 ALIGNMENT = 4;
     [FieldOffset(12)]
     public SkillModel model;
@@ -1726,7 +1783,7 @@ namespace Quantum {
   }
   [StructLayout(LayoutKind.Explicit)]
   public unsafe partial struct _globals_ {
-    public const Int32 SIZE = 1024;
+    public const Int32 SIZE = 1360;
     public const Int32 ALIGNMENT = 8;
     [FieldOffset(0)]
     public AssetRef<Map> Map;
@@ -1750,20 +1807,20 @@ namespace Quantum {
     public Int32 PlayerConnectedCount;
     [FieldOffset(552)]
     [FramePrinter.FixedArrayAttribute(typeof(Input), 6)]
-    private fixed Byte _input_[432];
-    [FieldOffset(984)]
+    private fixed Byte _input_[768];
+    [FieldOffset(1320)]
     public BitSet6 PlayerLastConnectionState;
-    [FieldOffset(992)]
+    [FieldOffset(1328)]
     public EGameState State;
-    [FieldOffset(1016)]
+    [FieldOffset(1352)]
     public FP MatchTimer;
-    [FieldOffset(1008)]
+    [FieldOffset(1344)]
     public FP MatchDuration;
-    [FieldOffset(1000)]
+    [FieldOffset(1336)]
     public FP GameDuration;
     public FixedArray<Input> input {
       get {
-        fixed (byte* p = _input_) { return new FixedArray<Input>(p, 72, 6); }
+        fixed (byte* p = _input_) { return new FixedArray<Input>(p, 128, 6); }
       }
     }
     public override Int32 GetHashCode() {
@@ -2541,9 +2598,9 @@ namespace Quantum {
   }
   [StructLayout(LayoutKind.Explicit)]
   public unsafe partial struct AoeComp : Quantum.IComponent {
-    public const Int32 SIZE = 88;
+    public const Int32 SIZE = 96;
     public const Int32 ALIGNMENT = 8;
-    [FieldOffset(48)]
+    [FieldOffset(56)]
     [HideInInspector()]
     public AoeModel Model;
     [FieldOffset(0)]
@@ -2555,12 +2612,15 @@ namespace Quantum {
     [FieldOffset(8)]
     [HideInInspector()]
     public Int32 TickTime;
-    [FieldOffset(40)]
+    [FieldOffset(48)]
     [HideInInspector()]
     public FP Speed;
-    [FieldOffset(32)]
+    [FieldOffset(40)]
     [HideInInspector()]
     public FP Radius;
+    [FieldOffset(32)]
+    [HideInInspector()]
+    public FP AngleRad;
     [FieldOffset(24)]
     [HideInInspector()]
     public EntityRef Caster;
@@ -2583,6 +2643,7 @@ namespace Quantum {
         hash = hash * 31 + TickTime.GetHashCode();
         hash = hash * 31 + Speed.GetHashCode();
         hash = hash * 31 + Radius.GetHashCode();
+        hash = hash * 31 + AngleRad.GetHashCode();
         hash = hash * 31 + Caster.GetHashCode();
         hash = hash * 31 + entityInArea.GetHashCode();
         hash = hash * 31 + bulletInArea.GetHashCode();
@@ -2614,6 +2675,7 @@ namespace Quantum {
         QList.Serialize(&p->bulletInArea, serializer, Statics.SerializeAoeEntityRecord);
         QList.Serialize(&p->entityInArea, serializer, Statics.SerializeAoeEntityRecord);
         EntityRef.Serialize(&p->Caster, serializer);
+        FP.Serialize(&p->AngleRad, serializer);
         FP.Serialize(&p->Radius, serializer);
         FP.Serialize(&p->Speed, serializer);
         Quantum.AoeModel.Serialize(&p->Model, serializer);
@@ -2872,7 +2934,7 @@ namespace Quantum {
   }
   [StructLayout(LayoutKind.Explicit)]
   public unsafe partial struct InputComp : Quantum.IComponent {
-    public const Int32 SIZE = 72;
+    public const Int32 SIZE = 128;
     public const Int32 ALIGNMENT = 8;
     [FieldOffset(0)]
     [HideInInspector()]
@@ -3389,10 +3451,15 @@ namespace Quantum {
       if ((int)player >= (int)_globals->input.Length) { throw new System.ArgumentOutOfRangeException("player"); }
       var i = _globals->input.GetPointer(player);
       i->MoveDirection = input.MoveDirection;
+      i->AimDirection = input.AimDirection;
+      i->AimLength = input.AimLength;
+      i->AttackPrepare = i->AttackPrepare.Update(this.Number, input.AttackPrepare);
       i->Attack = i->Attack.Update(this.Number, input.Attack);
-      i->AttackScreenPos = input.AttackScreenPos;
+      i->SkillPrepare = i->SkillPrepare.Update(this.Number, input.SkillPrepare);
       i->Skill = i->Skill.Update(this.Number, input.Skill);
-      i->SkillScreenPos = input.SkillScreenPos;
+      i->SuperSkillPrepare = i->SuperSkillPrepare.Update(this.Number, input.SuperSkillPrepare);
+      i->SuperSkill = i->SuperSkill.Update(this.Number, input.SuperSkill);
+      i->Cancel = i->Cancel.Update(this.Number, input.Cancel);
     }
     public Input* GetPlayerInput(PlayerRef player) {
       if ((int)player >= (int)_globals->input.Length) { throw new System.ArgumentOutOfRangeException("player"); }

@@ -1,12 +1,19 @@
 input
 {
     FPVector2 MoveDirection;
+    FPVector2 AimDirection;
+    FP AimLength;
     // Attack
+    button AttackPrepare;
     button Attack;
-    FPVector2 AttackScreenPos;
     // Skill
+    button SkillPrepare;
     button Skill;
-    FPVector2 SkillScreenPos;
+    // Super Skill
+    button SuperSkillPrepare;
+    button SuperSkill;
+    // Cancel
+    button Cancel;
 }
 
 component InputComp

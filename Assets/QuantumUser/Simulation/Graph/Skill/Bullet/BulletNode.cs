@@ -17,6 +17,7 @@ namespace Quantum.Graph.Skill
 
     public enum TweenType
     {
+        None,
         Linear,
     }
 

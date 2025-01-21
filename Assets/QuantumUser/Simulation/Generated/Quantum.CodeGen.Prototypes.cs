@@ -105,10 +105,10 @@ namespace Quantum.Prototypes {
   [System.SerializableAttribute()]
   [Quantum.Prototypes.Prototype(typeof(Quantum.AOEM_test_aoe_1))]
   public unsafe partial class AOEM_test_aoe_1Prototype : StructPrototype {
-    [HideInInspector()]
-    public Int32 _empty_prototype_dummy_field_;
+    public Int32 arc;
     partial void MaterializeUser(Frame frame, ref Quantum.AOEM_test_aoe_1 result, in PrototypeMaterializationContext context);
     public void Materialize(Frame frame, ref Quantum.AOEM_test_aoe_1 result, in PrototypeMaterializationContext context = default) {
+        result.arc = this.arc;
         MaterializeUser(frame, ref result, in context);
     }
   }
@@ -158,6 +158,8 @@ namespace Quantum.Prototypes {
     [HideInInspector()]
     public FP Radius;
     [HideInInspector()]
+    public FP AngleRad;
+    [HideInInspector()]
     public MapEntityId Caster;
     [AllocateOnComponentAdded()]
     [FreeOnComponentRemoved()]
@@ -181,6 +183,7 @@ namespace Quantum.Prototypes {
         result.TickTime = this.TickTime;
         result.Speed = this.Speed;
         result.Radius = this.Radius;
+        result.AngleRad = this.AngleRad;
         PrototypeValidator.FindMapEntity(this.Caster, in context, out result.Caster);
         if (this.entityInArea.Length == 0) {
           result.entityInArea = default;
@@ -938,17 +941,27 @@ namespace Quantum.Prototypes {
   [Quantum.Prototypes.Prototype(typeof(Quantum.Input))]
   public unsafe partial class InputPrototype : StructPrototype {
     public FPVector2 MoveDirection;
+    public FPVector2 AimDirection;
+    public FP AimLength;
+    public Button AttackPrepare;
     public Button Attack;
-    public FPVector2 AttackScreenPos;
+    public Button SkillPrepare;
     public Button Skill;
-    public FPVector2 SkillScreenPos;
+    public Button SuperSkillPrepare;
+    public Button SuperSkill;
+    public Button Cancel;
     partial void MaterializeUser(Frame frame, ref Quantum.Input result, in PrototypeMaterializationContext context);
     public void Materialize(Frame frame, ref Quantum.Input result, in PrototypeMaterializationContext context = default) {
         result.MoveDirection = this.MoveDirection;
+        result.AimDirection = this.AimDirection;
+        result.AimLength = this.AimLength;
+        result.AttackPrepare = this.AttackPrepare;
         result.Attack = this.Attack;
-        result.AttackScreenPos = this.AttackScreenPos;
+        result.SkillPrepare = this.SkillPrepare;
         result.Skill = this.Skill;
-        result.SkillScreenPos = this.SkillScreenPos;
+        result.SuperSkillPrepare = this.SuperSkillPrepare;
+        result.SuperSkill = this.SuperSkill;
+        result.Cancel = this.Cancel;
         MaterializeUser(frame, ref result, in context);
     }
   }
@@ -1196,10 +1209,15 @@ namespace Quantum.Prototypes {
     public Int32 cd;
     public Int32 type;
     public Int32 condition;
-    public Int32 indicatorType;
     public Int32 timelineModelId;
     public QBoolean canInterrupt;
     public QBoolean canLearnMulti;
+    public Int32 indicatorType;
+    public Int32 indicatorMaxRange;
+    public Int32 indicatorRadius;
+    public Int32 indicatorArc;
+    public Int32 indicatorWidth;
+    public Int32 indicatorScatter;
     public void Materialize(Frame frame, ref Quantum.SkillModel result, in PrototypeMaterializationContext context = default) {
         if (this.attrCosts.Length == 0) {
           result.attrCosts = default;
@@ -1225,10 +1243,15 @@ namespace Quantum.Prototypes {
         result.cd = this.cd;
         result.type = this.type;
         result.condition = this.condition;
-        result.indicatorType = this.indicatorType;
         result.timelineModelId = this.timelineModelId;
         result.canInterrupt = this.canInterrupt;
         result.canLearnMulti = this.canLearnMulti;
+        result.indicatorType = this.indicatorType;
+        result.indicatorMaxRange = this.indicatorMaxRange;
+        result.indicatorRadius = this.indicatorRadius;
+        result.indicatorArc = this.indicatorArc;
+        result.indicatorWidth = this.indicatorWidth;
+        result.indicatorScatter = this.indicatorScatter;
     }
   }
   [System.SerializableAttribute()]

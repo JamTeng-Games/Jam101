@@ -9,8 +9,11 @@ namespace Jam.Arena
 
     public class EntityViewSpawner : JamEntityViewComp
     {
+        public static EntityRef LocalPlayerEntityRef;
+        public static int localCount = 0;
+
         private bool _isLocalPlayer;
-        private int _assetHandleId = 0;
+        // private int _assetHandleId = 0;
 
         public override void OnActivate(Frame frame)
         {
@@ -20,9 +23,14 @@ namespace Jam.Arena
             if (frame.TryGet<PlayerComp>(EntityRef, out var playerComp))
             {
                 _isLocalPlayer = Game.PlayerIsLocal(playerComp.PlayerRef);
+                if (_isLocalPlayer)
+                {
+                    localCount++;
+                }
                 if (_isLocalPlayer && ViewContext.followCamera.Follow == null)
                 {
                     ViewContext.followCamera.Follow = transform;
+                    LocalPlayerEntityRef = EntityRef;
                 }
 
                 int heroId = frame.GetPlayerData(playerComp.PlayerRef).heroData.hero;
@@ -65,7 +73,7 @@ namespace Jam.Arena
             if (string.IsNullOrEmpty(loadPath))
                 return;
             GameObject entityAsset = Resources.Load<GameObject>(loadPath);
-            InstantiateModel(entityAsset);
+            InstantiateModel(entityAsset, _isLocalPlayer);
         }
 
         public override void OnDeactivate()
@@ -78,12 +86,17 @@ namespace Jam.Arena
         {
         }
 
-        private void InstantiateModel(GameObject asset)
+        private void InstantiateModel(GameObject asset, bool isLocalPlayer)
         {
             var go = Instantiate(asset, transform);
             go.transform.localPosition = Vector3.zero;
             go.transform.localRotation = Quaternion.identity;
             // _assetHandleId = obj.Id;
+
+            if (isLocalPlayer && localCount == 1)
+            {
+                AddLocalPlayerComps(go);
+            }
 
             // Attach ViewComps
             if (EntityView is JamEntityView ev)
@@ -93,6 +106,14 @@ namespace Jam.Arena
                 {
                     ev.AddViewComp(c);
                 }
+            }
+        }
+
+        private void AddLocalPlayerComps(GameObject go)
+        {
+            if (EntityView is JamEntityView ev)
+            {
+                go.AddComponent<SkillIndicatorComp>();
             }
         }
     }

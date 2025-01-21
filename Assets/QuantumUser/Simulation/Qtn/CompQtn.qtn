@@ -104,6 +104,7 @@ component AoeComp
     [HideInInspector] int TickTime;       // 间隔多少帧tick一次
     [HideInInspector] FP Speed;           // 速度
     [HideInInspector] FP Radius;          // 半径
+    [HideInInspector] FP AngleRad;        // 角度
     [HideInInspector] entity_ref Caster;  // 释放者
 
     [AllocateOnComponentAdded, FreeOnComponentRemoved, HideInInspector]

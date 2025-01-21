@@ -6,6 +6,7 @@
 
 struct AOEM_test_aoe_1
 {
+    int arc;  // 弧度值
 }
 
 struct AOEM_test_aoe_2

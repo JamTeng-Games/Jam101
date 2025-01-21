@@ -32,7 +32,7 @@ MonoBehaviour:
     utilityNodes: []
     tmpName: peter_attack
     viewportInitiallySet: 1
-    viewPosition: {x: -661.0033, y: -433.22278, z: 0}
+    viewPosition: {x: -496.72485, y: -325.326, z: 0}
     viewScale: {x: 1, y: 1, z: 1}
   references:
     version: 2
@@ -60,7 +60,12 @@ MonoBehaviour:
         buffs: []
         costAttributes: []
         stateConditions: 
-        indicatorType: 0
+        indicatorType: 2
+        indicatorMaxRange: 0
+        indicatorRadius: 5000
+        indicatorArc: 0
+        indicatorWidth: 1
+        indicatorScatter: 0
     - rid: 2522078788334911507
       type: {class: NodeModel, ns: NewGraph, asm: NewGraph}
       data:
@@ -122,7 +127,7 @@ MonoBehaviour:
       data:
         nodeData:
           rid: 2522078834876481573
-        nodeX: 996.2146
+        nodeX: 1008.32874
         nodeY: 262.2708
         name: "\u5F13\u7BAD"
         isUtilityNode: 0

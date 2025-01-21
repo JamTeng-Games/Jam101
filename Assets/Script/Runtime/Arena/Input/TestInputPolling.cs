@@ -13,13 +13,23 @@ namespace Jam.Arena
         private Quantum.Input _accumulatedInput;
         private bool _resetAccumulatedInput;
         private int _lastAccumulateFrame;
+        private Camera _camera;
+
+        public static bool IsPrepareAttack { get; private set; }
+        public static bool IsPrepareSkill { get; private set; }
+        public static bool IsPrepareSuperSkill { get; private set; }
+        public static bool IsAttack { get; private set; }
+        public static bool IsSkill { get; private set; }
+        public static bool IsSuperSkill { get; private set; }
+
+        public static FPVector2 MouseScreenPos { get; private set; }
 
         private void OnEnable()
         {
             _inputMap = new PlayerInputMap();
             _inputMap.Enable();
-
             _inputMap.Basic.MoveDir.ReadValue<Vector2>();
+            _camera = Camera.main;
 
             QuantumCallback.Subscribe(this, (CallbackPollInput callback) => PollInput(callback));
         }
@@ -49,28 +59,92 @@ namespace Jam.Arena
         {
             // Move dir
             _accumulatedInput.MoveDirection = _inputMap.Basic.MoveDir.ReadValue<Vector2>().normalized.ToFPVector2();
+            MouseScreenPos = Mouse.current.position.ReadValue().ToFPVector2();
 
+            // Prepare
+            // PrepareAttack
+            IsPrepareAttack = Mouse.current.leftButton.isPressed;
+            if (IsPrepareAttack)
+            {
+                _accumulatedInput.AttackPrepare = true;
+            }
+
+            // PrepareSkill
+            IsPrepareSkill = Mouse.current.rightButton.isPressed;
+            if (IsPrepareSkill)
+            {
+                _accumulatedInput.SkillPrepare = true;
+            }
+
+            // PrepareSuperSkill
+            IsPrepareSuperSkill = Keyboard.current.spaceKey.isPressed;
+            if (IsPrepareSuperSkill)
+            {
+                _accumulatedInput.SuperSkillPrepare = true;
+            }
+
+            // Do
             // Attack
-            if (Mouse.current.leftButton.wasPressedThisFrame)
+            IsAttack = Mouse.current.leftButton.wasReleasedThisFrame;
+            if (IsAttack)
             {
                 _accumulatedInput.Attack = true;
-                _accumulatedInput.AttackScreenPos = Mouse.current.position.ReadValue().ToFPVector2();
             }
             // Skill
-            if (Mouse.current.rightButton.wasPressedThisFrame)
+            IsSkill = Mouse.current.rightButton.wasReleasedThisFrame;
+            if (IsSkill)
             {
                 _accumulatedInput.Skill = true;
-                _accumulatedInput.SkillScreenPos = Mouse.current.position.ReadValue().ToFPVector2();
             }
+            // SuperSkill
+            IsSuperSkill = Keyboard.current.spaceKey.wasReleasedThisFrame;
+            if (IsSuperSkill)
+            {
+                _accumulatedInput.SuperSkill = true;
+            }
+
+            // Cancel
+            if (Keyboard.current.escapeKey.wasPressedThisFrame)
+            {
+                _accumulatedInput.Cancel = true;
+            }
+
+            //
+            _accumulatedInput.AimDirection = GetDirectionToMouse();
+            _accumulatedInput.AimLength = _accumulatedInput.AimDirection.Magnitude;
         }
 
         private void PollInput(CallbackPollInput callback)
         {
             AccumulateInput();
-
             callback.SetInput(_accumulatedInput, DeterministicInputFlags.Repeatable);
-
             _resetAccumulatedInput = true;
+        }
+
+        private FPVector2 GetDirectionToMouse()
+        {
+            if (QuantumRunner.Default == null || QuantumRunner.Default.Game == null)
+                return default;
+
+            Frame frame = QuantumRunner.Default.Game.Frames.Predicted;
+            if (frame == null)
+                return default;
+
+            EntityRef localPlayer = EntityViewSpawner.LocalPlayerEntityRef;
+            if (!frame.Exists(EntityViewSpawner.LocalPlayerEntityRef))
+                return default;
+
+            Transform2D trans = frame.Get<Transform2D>(localPlayer);
+            FPVector2 playerPos = trans.Position;
+
+            Vector2 mousePosition = Mouse.current.position.ReadValue();
+            Ray ray = _camera.ScreenPointToRay(mousePosition);
+            UnityEngine.Plane plane = new UnityEngine.Plane(Vector3.up, Vector3.zero);
+            if (plane.Raycast(ray, out var enter))
+            {
+                return (ray.GetPoint(enter).ToFPVector2() - playerPos);
+            }
+            return default;
         }
     }
 

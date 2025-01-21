@@ -27,7 +27,6 @@ namespace Quantum
 
             // Aoe位移 (下一帧数起效)
             (FPVector2 moveOffset, FP angle) = Helper_Aoe.OnTween(f, aoeEntity, aoeComp, default);
-            Log.Debug($"AoeSystem OnTween moveOffset:{moveOffset} angle:{angle}");
             Helper_Move.ReqRotateTo(f, aoeEntity, angle);
             Helper_Move.ReqMove(f, aoeEntity, default, moveOffset);
 
@@ -65,9 +64,8 @@ namespace Quantum
             var layer = f.Layers.GetLayerMask("Bullet");
 
             Shape2D shape = Shape2D.CreateCircle(aoeComp->Model.radius);
-            var hits = f.Physics2D.OverlapShape(aoeTransform->Position, FP._0, shape, layer, options: QueryOptions.HitAll);
-            if (hits.Count > 0)
-                Log.Info($"Hit bullet {hits.Count}");
+            var hits = f.Physics2D.OverlapShape(aoeTransform->Position, FP._0, shape, layer,
+                                                options: QueryOptions.HitAll | QueryOptions.ComputeDetailedInfo);
 
             var inAreaBullets = f.ResolveList(aoeComp->bulletInArea);
             Span<AoeEntityRecord> toRemove = stackalloc AoeEntityRecord[inAreaBullets.Count];
@@ -122,7 +120,8 @@ namespace Quantum
             var layer = f.Layers.GetLayerMask("Entity");
 
             Shape2D shape = Shape2D.CreateCircle(aoeComp->Model.radius);
-            var hits = f.Physics2D.OverlapShape(aoeTransform->Position, FP._0, shape, layer, options: QueryOptions.HitAll);
+            var hits = f.Physics2D.OverlapShape(aoeTransform->Position, FP._0, shape, layer,
+                                                options: QueryOptions.HitAll | QueryOptions.ComputeDetailedInfo);
 
             var inAreaEntities = f.ResolveList(aoeComp->entityInArea);
             Span<AoeEntityRecord> toRemove = stackalloc AoeEntityRecord[inAreaEntities.Count];
@@ -158,6 +157,7 @@ namespace Quantum
             {
                 var hit = hits[i];
                 var targetEntity = hit.Entity;
+
                 if (IsAlreadyIn(inAreaEntities, targetEntity))
                     continue;
 

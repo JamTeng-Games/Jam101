@@ -14,7 +14,7 @@ namespace Quantum.Helper
 
             Helper_Attrib.TryGetAttribValue(f, damageInfo.source, AttributeType.Attack, out int attack);
             // 初始伤害
-            int baseDamage = damageInfo.damage.aoe + damageInfo.damage.bullet + attack;
+            int baseDamage = damageInfo.damage.aoe + damageInfo.damage.bullet;
 
             // 闪避
             bool isDodge = !isHeal && CalcDodge(f, damageInfo);

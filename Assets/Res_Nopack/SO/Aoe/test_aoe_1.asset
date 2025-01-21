@@ -14,5 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   descName: "\u6D4B\u8BD51"
   name: test_aoe_1
-  args: []
+  args:
+  - type: 4
+    argName: arc
+    desc: "\u5F27\u5EA6\u503C"
   desc: 

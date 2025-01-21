@@ -87,6 +87,8 @@ namespace Quantum.Prototypes.Unity {
     [HideInInspector()]
     public FP Radius;
     [HideInInspector()]
+    public FP AngleRad;
+    [HideInInspector()]
     public Quantum.QuantumEntityPrototype Caster;
     [AllocateOnComponentAdded()]
     [FreeOnComponentRemoved()]
@@ -107,6 +109,7 @@ namespace Quantum.Prototypes.Unity {
       converter.Convert(this.TickTime, out result.TickTime);
       converter.Convert(this.Speed, out result.Speed);
       converter.Convert(this.Radius, out result.Radius);
+      converter.Convert(this.AngleRad, out result.AngleRad);
       converter.Convert(this.Caster, out result.Caster);
       converter.Convert(this.entityInArea, out result.entityInArea);
       converter.Convert(this.bulletInArea, out result.bulletInArea);
@@ -389,10 +392,15 @@ namespace Quantum.Prototypes.Unity {
     public Int32 cd;
     public Int32 type;
     public Int32 condition;
-    public Int32 indicatorType;
     public Int32 timelineModelId;
     public QBoolean canInterrupt;
     public QBoolean canLearnMulti;
+    public Int32 indicatorType;
+    public Int32 indicatorMaxRange;
+    public Int32 indicatorRadius;
+    public Int32 indicatorArc;
+    public Int32 indicatorWidth;
+    public Int32 indicatorScatter;
     partial void ConvertUser(Quantum.QuantumEntityPrototypeConverter converter, ref Quantum.Prototypes.SkillModelPrototype prototype);
     public override Quantum.Prototypes.SkillModelPrototype Convert(Quantum.QuantumEntityPrototypeConverter converter) {
       var result = new Quantum.Prototypes.SkillModelPrototype();
@@ -402,10 +410,15 @@ namespace Quantum.Prototypes.Unity {
       converter.Convert(this.cd, out result.cd);
       converter.Convert(this.type, out result.type);
       converter.Convert(this.condition, out result.condition);
-      converter.Convert(this.indicatorType, out result.indicatorType);
       converter.Convert(this.timelineModelId, out result.timelineModelId);
       converter.Convert(this.canInterrupt, out result.canInterrupt);
       converter.Convert(this.canLearnMulti, out result.canLearnMulti);
+      converter.Convert(this.indicatorType, out result.indicatorType);
+      converter.Convert(this.indicatorMaxRange, out result.indicatorMaxRange);
+      converter.Convert(this.indicatorRadius, out result.indicatorRadius);
+      converter.Convert(this.indicatorArc, out result.indicatorArc);
+      converter.Convert(this.indicatorWidth, out result.indicatorWidth);
+      converter.Convert(this.indicatorScatter, out result.indicatorScatter);
       ConvertUser(converter, ref result);
       return result;
     }

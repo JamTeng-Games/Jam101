@@ -6,6 +6,9 @@
         None,
         Circle,
         Line,
+        Arc,
+        Scatter,
+        MoveCircle,
     }
 
 }

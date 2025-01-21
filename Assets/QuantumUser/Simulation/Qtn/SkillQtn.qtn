@@ -19,13 +19,19 @@ struct SkillModel
     int type;
     // 释放条件，会映射到一个函数
     int condition;
-    int indicatorType;
     // 对应的时间轴的 Id
     int timelineModelId;
     // 是否可以被打断
     bool canInterrupt;
     // 是否可以被多重学习
     bool canLearnMulti;
+    // 指示器
+    int indicatorType;
+    int indicatorMaxRange;
+    int indicatorRadius;
+    int indicatorArc;
+    int indicatorWidth;
+    int indicatorScatter;
 }
 
 struct AttributeCost

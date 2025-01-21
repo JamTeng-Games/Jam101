@@ -45,6 +45,26 @@ namespace Quantum.Graph.Skill
         // 技能指示器类型
         [GraphDisplay(DisplayType.BothViews)]
         public IndicatorType indicatorType;
+
+        // 技能指示器参数 - 最大范围
+        [GraphDisplay(DisplayType.BothViews)]
+        public int indicatorMaxRange; // range/1000
+
+        // 技能指示器参数 - 半径
+        [GraphDisplay(DisplayType.BothViews)]
+        public int indicatorRadius; // Radius/1000
+
+        // 技能指示器参数 - 弧度
+        [GraphDisplay(DisplayType.BothViews)]
+        public int indicatorArc; // 0 - 360
+
+        // 技能指示器参数 - 宽度
+        [GraphDisplay(DisplayType.BothViews)]
+        public int indicatorWidth; // width/1000
+
+        // 技能指示器参数 - 散射数量
+        [GraphDisplay(DisplayType.BothViews)]
+        public int indicatorScatter;
     }
 
     [Serializable]

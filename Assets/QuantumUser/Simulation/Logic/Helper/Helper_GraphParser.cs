@@ -51,6 +51,11 @@ namespace Quantum.Helper
                 canInterrupt = g_skillNode.canInterrupt,
                 canLearnMulti = g_skillNode.canLearnMultiTimes,
                 indicatorType = (int)g_skillNode.indicatorType,
+                indicatorMaxRange = g_skillNode.indicatorMaxRange,
+                indicatorRadius = g_skillNode.indicatorRadius,
+                indicatorArc = g_skillNode.indicatorArc,
+                indicatorWidth = g_skillNode.indicatorWidth,
+                indicatorScatter = g_skillNode.indicatorScatter,
             };
             if (g_skillNode.timeline != null)
             {

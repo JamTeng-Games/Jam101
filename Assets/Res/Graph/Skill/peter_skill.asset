@@ -26,13 +26,11 @@ MonoBehaviour:
     utilityNodes: []
     tmpName: peter_skill
     viewportInitiallySet: 1
-    viewPosition: {x: -118.88898, y: 12.501495, z: 0}
+    viewPosition: {x: -493.62854, y: -73.05853, z: 0}
     viewScale: {x: 1, y: 1, z: 1}
   references:
     version: 2
     RefIds:
-    - rid: -2
-      type: {class: , ns: , asm: }
     - rid: 2522078788334911490
       type: {class: NodeModel, ns: NewGraph, asm: NewGraph}
       data:
@@ -47,17 +45,21 @@ MonoBehaviour:
       type: {class: SkillNode, ns: Quantum.Graph.Skill, asm: Quantum.Simulation}
       data:
         id: 20001
-        cd: 120
+        cd: 1
         skillType: 2
         canLearnMultiTimes: 0
         canInterrupt: 0
         timeline:
           rid: 2522078788334911516
-        buffs:
-        - rid: -2
+        buffs: []
         costAttributes: []
         stateConditions: 
-        indicatorType: 0
+        indicatorType: 3
+        indicatorMaxRange: 5000
+        indicatorRadius: 3000
+        indicatorArc: 120
+        indicatorWidth: 0
+        indicatorScatter: 0
     - rid: 2522078788334911515
       type: {class: NodeModel, ns: NewGraph, asm: NewGraph}
       data:
@@ -107,23 +109,24 @@ MonoBehaviour:
         frame: 6
         aoeNode:
           rid: 2522078900700839943
-        speed: 60
-        duration: 180
+        speed: 10
+        duration: 300
     - rid: 2522078900700839942
       type: {class: NodeModel, ns: NewGraph, asm: NewGraph}
       data:
         nodeData:
           rid: 2522078900700839943
-        nodeX: 992.8889
-        nodeY: 256.4985
+        nodeX: 996.339
+        nodeY: 238.0986
         name: "\u6D4B\u8BD51"
         isUtilityNode: 0
         foldouts: []
     - rid: 2522078900700839943
       type: {class: Aoetest_aoe_1Node, ns: Quantum.Graph.Skill, asm: Quantum.Simulation}
       data:
-        radius: 1500
+        radius: 3000
         tickTime: 10
         removeOnObstacle: 0
-        tweenType: 0
+        tweenType: 1
         tags: 
+        arc: 120
