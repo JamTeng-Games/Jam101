@@ -99,6 +99,7 @@ namespace Jam.Runtime.UI_
         private void OnClickJoinRoom(SimpleRoomCellWidget widget)
         {
             var roomInfo = widget.RoomInfo;
+            G.UI.Back();
             G.Net.Send(NetCmd.CS_JoinRoom, new JoinRoomReq() { id = roomInfo.id });
         }
     }

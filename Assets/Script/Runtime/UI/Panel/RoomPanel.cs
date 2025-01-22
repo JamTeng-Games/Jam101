@@ -109,6 +109,7 @@ namespace Jam.Runtime.UI_
         private void OnClickExit()
         {
             G.Net.Send(NetCmd.CS_LeaveRoom, EmptyMsg.Data);
+            G.UI.BackToHome();
         }
 
         private void OnClickChat()

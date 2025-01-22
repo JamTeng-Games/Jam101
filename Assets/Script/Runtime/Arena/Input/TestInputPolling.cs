@@ -1,3 +1,4 @@
+using Jam.Core;
 using Photon.Deterministic;
 using Quantum;
 using UnityEngine;
@@ -117,6 +118,7 @@ namespace Jam.Arena
         private void PollInput(CallbackPollInput callback)
         {
             AccumulateInput();
+            JLog.Warning(_accumulatedInput.MoveDirection);
             callback.SetInput(_accumulatedInput, DeterministicInputFlags.Repeatable);
             _resetAccumulatedInput = true;
         }
