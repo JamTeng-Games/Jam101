@@ -39,6 +39,7 @@ namespace Jam.Arena
             QuantumEvent.Subscribe<EventOnChangeHp>(listener: this, handler: OnChangeHp);
             // QuantumEvent.Subscribe<EventOnHit>(listener: this, handler: OnHit);
             QuantumEvent.Subscribe<EventOnDie>(listener: this, handler: OnDie);
+            QuantumEvent.Subscribe<EventOnReborn>(listener: this, handler: OnReborn);
         }
 
         private void OnPlayAnimEvent(EventPlayAnim callback)
@@ -79,6 +80,12 @@ namespace Jam.Arena
                 return;
             _isDead = true;
             Play(AnimationKey.Die);
+        }
+
+        private void OnReborn(EventOnReborn callback)
+        {
+            _isDead = false;
+            Play(AnimationKey.Idle);
         }
 
         private void OnHit(EventOnHit callback)

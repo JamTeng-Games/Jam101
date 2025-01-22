@@ -43,3 +43,8 @@ event OnKill
     EntityRef source;
     EntityRef target;
 }
+
+event OnReborn
+{
+    EntityRef entity;
+}

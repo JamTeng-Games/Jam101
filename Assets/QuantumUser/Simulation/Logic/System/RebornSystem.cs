@@ -29,6 +29,7 @@ namespace Quantum
         private void Reborn(Frame f, EntityRef entity)
         {
             Helper_Stats.ResetStats(f, entity);
+            f.Events.OnReborn(entity);
         }
     }
 
