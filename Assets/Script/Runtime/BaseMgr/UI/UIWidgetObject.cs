@@ -26,6 +26,8 @@ namespace Jam.Runtime.UI_
 
         public override void Release(bool isShutdown)
         {
+            if (isShutdown)
+                return;
             GameObject.Destroy(((UIWidget)Target).gameObject);
             G.Asset.Unload(_assetHandleId);
         }

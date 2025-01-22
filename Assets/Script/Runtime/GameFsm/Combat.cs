@@ -23,6 +23,7 @@ namespace Jam.Runtime.GameFsm
 
         public override void OnExit()
         {
+            G.Event.Unsubscribe(GlobalEventId.ExitCombat, OnExitCombat);
         }
 
         public override void OnTick(float dt)
@@ -41,19 +42,23 @@ namespace Jam.Runtime.GameFsm
             };
 
             // var skillGraphs = new List<Quantum.AssetRef<AssetObjectGraphModel>>();
-            List<Quantum.AssetRef<AssetObjectGraphModel>> skillGraphs = null; //new List<Quantum.AssetRef<AssetObjectGraphModel>>();
+            // List<Quantum.AssetRef<AssetObjectGraphModel>> skillGraphs = null; //new List<Quantum.AssetRef<AssetObjectGraphModel>>();
 
+            string roomId = G.Data.RoomData.id == 0 ? null : G.Data.RoomData.id.ToString();
             await G.Instance.QuantumChannel.ConnectAsync(runtimePlayerData: new RuntimePlayer() { heroData = heroData },
-                                                         runtimeConfig: new RuntimeConfig() { SkillGraphs = skillGraphs });
+                                                         // runtimeConfig: new RuntimeConfig() { SkillGraphs = skillGraphs },
+                                                         roomId: roomId);
             G.UI.CloseAll();
             G.UI.Open(UIPanelId.ArenaMain);
         }
 
         private async void OnExitCombat()
         {
-            await SceneMgr.LoadSceneAsync("Home");
+            JLog.Info("Before Change Home");
             G.UI.CloseAll();
+            await SceneMgr.LoadSceneAsync("Home");
             ChangeState<Home>();
+            JLog.Info("After Change Home");
         }
     }
 

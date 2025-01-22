@@ -188,4 +188,81 @@ namespace Jam.Runtime.Data_
         public int hero;
     }
 
+    [Serializable]
+    public class RoomUser
+    {
+        public string name;
+        public int hero;
+        public int seat;
+        public bool ready;
+    }
+
+    [Serializable]
+    public class RoomUserInfos
+    {
+        public List<RoomUser> users;
+    }
+
+    [Serializable]
+    public class RoomSeat
+    {
+        public int seat;
+    }
+
+    [Serializable]
+    public class RoomSeatReady
+    {
+        public int seat;
+        public bool ready;
+    }
+
+    [Serializable]
+    public class RoomUserChat
+    {
+        public int seat;
+        public string msg;
+    }
+
+    [Serializable]
+    public class CreateRoomReq
+    {
+        public string name;
+    }
+
+    [Serializable]
+    public class JoinRoomReq
+    {
+        public int id;
+    }
+
+    [Serializable]
+    public class RoomChatReq
+    {
+        public string msg;
+    }
+
+    [Serializable]
+    public class RoomListRes
+    {
+        public List<RoomInfo> rooms;
+    }
+
+    [Serializable]
+    public class RoomInfo
+    {
+        public int id;
+        public string name;
+    }
+
+    [Serializable]
+    public class RoomUserReadyReq
+    {
+        public bool ready;
+    }
+
+    [Serializable]
+    public class BattleStart
+    {
+        public int room;
+    }
 }

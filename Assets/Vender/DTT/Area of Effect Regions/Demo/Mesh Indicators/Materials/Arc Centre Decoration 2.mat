@@ -62,7 +62,7 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _Angle: 0.56831926
+    - _Angle: 0.3108735
     - _Arc: 0.6666667
     - _BumpScale: 1
     - _Cutoff: 0.5

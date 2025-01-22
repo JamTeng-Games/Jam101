@@ -45,6 +45,14 @@ namespace Jam.Cfg
         /// 商店道具信息
         /// </summary>
         ShopGoods = 7,
+        /// <summary>
+        /// 房间座位
+        /// </summary>
+        SimpleSeat = 8,
+        /// <summary>
+        /// 房间列表栏位
+        /// </summary>
+        SimpleRoomCell = 9,
     }
 
 } 

@@ -77,6 +77,14 @@ namespace Jam.Cfg
         /// 道具信息界面
         /// </summary>
         ItemInfo = 15,
+        /// <summary>
+        /// 房间界面
+        /// </summary>
+        Room = 16,
+        /// <summary>
+        /// 房间列表
+        /// </summary>
+        RoomList = 17,
     }
 
 } 

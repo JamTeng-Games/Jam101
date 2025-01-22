@@ -51,7 +51,10 @@ namespace Jam.Runtime.Quantum_
         //     await Controller.HandleConnectionResult(result, this.Controller);
         // }
 
-        public async Task<QuantumConnectResult> ConnectAsync(QuantumConnectArgs connectArgs = null, RuntimePlayer runtimePlayerData = null, RuntimeConfig runtimeConfig = null)
+        public async Task<QuantumConnectResult> ConnectAsync(QuantumConnectArgs connectArgs = null,
+                                                             RuntimePlayer runtimePlayerData = null,
+                                                             RuntimeConfig runtimeConfig = null,
+                                                             string roomId = null)
         {
             if (connectArgs == null)
                 connectArgs = _connectArgs;
@@ -80,7 +83,7 @@ namespace Jam.Runtime.Quantum_
                 EmptyRoomTtlInSeconds = connectArgs.ServerSettings.EmptyRoomTtlInSeconds,
                 PlayerTtlInSeconds = connectArgs.ServerSettings.PlayerTtlInSeconds,
                 MaxPlayers = connectArgs.MaxPlayerCount,
-                RoomName = connectArgs.Session,
+                RoomName = roomId ?? connectArgs.Session,
                 CanOnlyJoin = !string.IsNullOrEmpty(connectArgs.Session) && !connectArgs.Creating,
                 PluginName = connectArgs.PhotonPluginName,
                 AsyncConfig = new AsyncConfig()
@@ -407,6 +410,7 @@ namespace Jam.Runtime.Quantum_
                 try
                 {
                     // await SceneMgr.UnloadSceneAsync(_loadedScene);
+                    JLog.Info("GlobalEventId.ExitCombat");
                     G.Event.Send(GlobalEventId.ExitCombat);
                 }
                 catch (Exception e)
@@ -482,8 +486,14 @@ namespace Jam.Runtime.Quantum_
             if (runtimeConfigData.SkillGraphs != null)
             {
                 connectArgs.RuntimeConfig.SkillGraphs = runtimeConfigData.SkillGraphs;
-                // connectArgs.RuntimePlayer.heroData = runtimeConfigData.heroData;
-                // connectArgs.RuntimePlayer.PlayerNickname = runtimeConfigData.heroData.name;
+            }
+            if (runtimeConfigData.BulletPrototype != null)
+            {
+                connectArgs.RuntimeConfig.BulletPrototype = runtimeConfigData.BulletPrototype;
+            }
+            if (runtimeConfigData.AoePrototype != null)
+            {
+                connectArgs.RuntimeConfig.AoePrototype = runtimeConfigData.AoePrototype;
             }
         }
 

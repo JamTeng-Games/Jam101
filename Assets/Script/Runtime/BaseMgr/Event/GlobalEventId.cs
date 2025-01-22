@@ -46,6 +46,19 @@
         ShopGoodsRemove,
         RoundUpdate,
         HeroChange,
+        
+        // room
+        CreateRoomFail,
+        JoinRoomSuccess,
+        JoinRoomFail,
+        LeaveRoomSuccess,
+        LeaveRoomFail,
+        RoomUserInfosUpdate,
+        RoomUserEnter,
+        RoomUserLeave,
+        RoomUserReadyUpdate,
+        RoomUserChat,
+        RoomListUpdate,
 
         END,
     }

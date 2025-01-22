@@ -33,5 +33,15 @@
     "id": 7,
     "name": "商店道具信息",
     "asset_name": "ShopGoodsWidget"
+  },
+  {
+    "id": 8,
+    "name": "房间座位",
+    "asset_name": "SimpleSeatWidget"
+  },
+  {
+    "id": 9,
+    "name": "房间列表一栏",
+    "asset_name": "SimpleRoomCellWidget"
   }
 ]

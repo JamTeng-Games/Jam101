@@ -2,6 +2,7 @@
 using Jam.Core;
 using Jam.Runtime.Constant;
 using Jam.Runtime.Event;
+using Jam.Runtime.Helpers;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -79,7 +80,15 @@ namespace Jam.Runtime.UI_
 
         private void OnClickBattle()
         {
-            G.Event.Send(GlobalEventId.EnterCombat);
+            if (RoomHelper.IsInRoom())
+            {
+                G.UI.Open(UIPanelId.Room);
+            }
+            else
+            {
+                G.UI.Open(UIPanelId.RoomList);
+            }
+            // G.Event.Send(GlobalEventId.EnterCombat);
         }
 
         private void OnClickShop()
