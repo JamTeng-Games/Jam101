@@ -22,6 +22,15 @@ namespace Quantum.Helper
             }
         }
 
+        public static void ResetStats(Frame f, EntityRef entity)
+        {
+            if (f.Unsafe.TryGetPointer<StatsComp>(entity, out var statsComp))
+            {
+                Helper_Attrib.TryGetAttribValue(f, entity, AttributeType.MaxHp, out int maxHp);
+                statsComp->Hp = maxHp;
+            }
+        }
+
         public static void AddHp(Frame f, EntityRef entity, int hp, bool showText = false)
         {
             if (f.Unsafe.TryGetPointer<StatsComp>(entity, out var statsComp))
@@ -35,7 +44,8 @@ namespace Quantum.Helper
 
                 if (statsComp->Hp <= 0)
                 {
-                    f.Add<DeadTag>(entity);
+                    f.Add<DeadComp>(entity, out var deadComp);
+                    deadComp->RebornFrame = 90;
                     f.Events.OnDie(entity);
                 }
             }

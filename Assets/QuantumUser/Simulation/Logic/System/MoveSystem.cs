@@ -15,7 +15,7 @@ namespace Quantum
             public MoveComp* MoveComp;
         }
 
-        public override ComponentSet Without => ComponentSet.Create<DeadTag>();
+        public override ComponentSet Without => ComponentSet.Create<DeadComp>();
 
         public override void Update(Frame f, ref Filter filter)
         {

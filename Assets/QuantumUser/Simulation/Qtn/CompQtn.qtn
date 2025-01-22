@@ -119,3 +119,9 @@ component CampComp
 {
     [HideInInspector] int Camp;
 }
+
+// Dead
+component DeadComp
+{
+    [HideInInspector] int RebornFrame;
+}

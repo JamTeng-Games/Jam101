@@ -17,7 +17,7 @@ namespace Quantum
             public InputComp* InputComp;
         }
 
-        public override ComponentSet Without => ComponentSet.Create<DeadTag>();
+        public override ComponentSet Without => ComponentSet.Create<DeadComp>();
 
         public void OnAdded(Frame f, EntityRef entity, KccComp* component)
         {

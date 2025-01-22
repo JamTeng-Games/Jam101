@@ -882,17 +882,18 @@ namespace Quantum.Prototypes {
     }
   }
   [System.SerializableAttribute()]
-  [Quantum.Prototypes.Prototype(typeof(Quantum.DeadTag))]
-  public unsafe partial class DeadTagPrototype : ComponentPrototype<Quantum.DeadTag> {
+  [Quantum.Prototypes.Prototype(typeof(Quantum.DeadComp))]
+  public unsafe partial class DeadCompPrototype : ComponentPrototype<Quantum.DeadComp> {
     [HideInInspector()]
-    public Int32 _empty_prototype_dummy_field_;
-    partial void MaterializeUser(Frame frame, ref Quantum.DeadTag result, in PrototypeMaterializationContext context);
+    public Int32 RebornFrame;
+    partial void MaterializeUser(Frame frame, ref Quantum.DeadComp result, in PrototypeMaterializationContext context);
     public override Boolean AddToEntity(FrameBase f, EntityRef entity, in PrototypeMaterializationContext context) {
-        Quantum.DeadTag component = default;
+        Quantum.DeadComp component = default;
         Materialize((Frame)f, ref component, in context);
         return f.Set(entity, component) == SetResult.ComponentAdded;
     }
-    public void Materialize(Frame frame, ref Quantum.DeadTag result, in PrototypeMaterializationContext context = default) {
+    public void Materialize(Frame frame, ref Quantum.DeadComp result, in PrototypeMaterializationContext context = default) {
+        result.RebornFrame = this.RebornFrame;
         MaterializeUser(frame, ref result, in context);
     }
   }

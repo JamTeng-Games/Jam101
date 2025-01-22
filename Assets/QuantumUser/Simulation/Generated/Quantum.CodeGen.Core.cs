@@ -2936,19 +2936,22 @@ namespace Quantum {
     }
   }
   [StructLayout(LayoutKind.Explicit)]
-  public unsafe partial struct DeadTag : Quantum.IComponent {
+  public unsafe partial struct DeadComp : Quantum.IComponent {
     public const Int32 SIZE = 4;
     public const Int32 ALIGNMENT = 4;
     [FieldOffset(0)]
-    private fixed Byte _alignment_padding_[4];
+    [HideInInspector()]
+    public Int32 RebornFrame;
     public override Int32 GetHashCode() {
       unchecked { 
-        var hash = 491;
+        var hash = 19699;
+        hash = hash * 31 + RebornFrame.GetHashCode();
         return hash;
       }
     }
     public static void Serialize(void* ptr, FrameSerializer serializer) {
-        var p = (DeadTag*)ptr;
+        var p = (DeadComp*)ptr;
+        serializer.Stream.Serialize(&p->RebornFrame);
     }
   }
   [StructLayout(LayoutKind.Explicit)]
@@ -3466,8 +3469,8 @@ namespace Quantum {
       BuildSignalsArrayOnComponentRemoved<CharacterController2D>();
       BuildSignalsArrayOnComponentAdded<CharacterController3D>();
       BuildSignalsArrayOnComponentRemoved<CharacterController3D>();
-      BuildSignalsArrayOnComponentAdded<Quantum.DeadTag>();
-      BuildSignalsArrayOnComponentRemoved<Quantum.DeadTag>();
+      BuildSignalsArrayOnComponentAdded<Quantum.DeadComp>();
+      BuildSignalsArrayOnComponentRemoved<Quantum.DeadComp>();
       BuildSignalsArrayOnComponentAdded<Quantum.ForceMoveComp>();
       BuildSignalsArrayOnComponentRemoved<Quantum.ForceMoveComp>();
       BuildSignalsArrayOnComponentAdded<Quantum.Gameplay>();
@@ -3679,7 +3682,7 @@ namespace Quantum {
       typeRegistry.Register(typeof(Quantum.Damage), Quantum.Damage.SIZE);
       typeRegistry.Register(typeof(Quantum.DamageInfo), Quantum.DamageInfo.SIZE);
       typeRegistry.Register(typeof(Quantum.DataContainer), Quantum.DataContainer.SIZE);
-      typeRegistry.Register(typeof(Quantum.DeadTag), Quantum.DeadTag.SIZE);
+      typeRegistry.Register(typeof(Quantum.DeadComp), Quantum.DeadComp.SIZE);
       typeRegistry.Register(typeof(DistanceJoint), DistanceJoint.SIZE);
       typeRegistry.Register(typeof(DistanceJoint3D), DistanceJoint3D.SIZE);
       typeRegistry.Register(typeof(Quantum.EDamageInfoType), 4);
@@ -3791,7 +3794,7 @@ namespace Quantum {
         .Add<Quantum.BuffComp>(Quantum.BuffComp.Serialize, Quantum.BuffComp.OnAdded, Quantum.BuffComp.OnRemoved, ComponentFlags.None)
         .Add<Quantum.BulletComp>(Quantum.BulletComp.Serialize, Quantum.BulletComp.OnAdded, Quantum.BulletComp.OnRemoved, ComponentFlags.None)
         .Add<Quantum.CampComp>(Quantum.CampComp.Serialize, null, null, ComponentFlags.None)
-        .Add<Quantum.DeadTag>(Quantum.DeadTag.Serialize, null, null, ComponentFlags.None)
+        .Add<Quantum.DeadComp>(Quantum.DeadComp.Serialize, null, null, ComponentFlags.None)
         .Add<Quantum.ForceMoveComp>(Quantum.ForceMoveComp.Serialize, Quantum.ForceMoveComp.OnAdded, Quantum.ForceMoveComp.OnRemoved, ComponentFlags.None)
         .Add<Quantum.Gameplay>(Quantum.Gameplay.Serialize, Quantum.Gameplay.OnAdded, Quantum.Gameplay.OnRemoved, ComponentFlags.Singleton)
         .Add<HFSMAgent>(HFSMAgent.Serialize, HFSMAgent.OnAdded, HFSMAgent.OnRemoved, ComponentFlags.None)

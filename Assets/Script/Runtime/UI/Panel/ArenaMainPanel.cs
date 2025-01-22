@@ -22,14 +22,18 @@ namespace Jam.Runtime.UI_
 
         public override void OnOpen(object userData)
         {
+#if UNITY_EDITOR
             _btn_disconnect.onClick.AddListener(OnClickDisconnect);
+#endif
             G.Event.Subscribe<int>(GlobalEventId.CombatTimeUpdate, OnTimeUpdate);
             G.Event.Subscribe<string>(GlobalEventId.KillHero, OnKillHero);
         }
 
         public override void OnClose()
         {
+#if UNITY_EDITOR
             _btn_disconnect.onClick.RemoveListener(OnClickDisconnect);
+#endif
             G.Event.Unsubscribe<int>(GlobalEventId.CombatTimeUpdate, OnTimeUpdate);
             G.Event.Unsubscribe<string>(GlobalEventId.KillHero, OnKillHero);
         }
