@@ -59,6 +59,10 @@
         RoomUserReadyUpdate,
         RoomUserChat,
         RoomListUpdate,
+        
+        // combat
+        CombatTimeUpdate,   // 倒计时
+        KillHero,
 
         END,
     }

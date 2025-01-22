@@ -37,3 +37,9 @@ event OnDie
 {
     EntityRef entity;
 }
+
+event OnKill
+{
+    EntityRef source;
+    EntityRef target;
+}

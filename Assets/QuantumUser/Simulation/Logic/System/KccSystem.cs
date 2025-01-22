@@ -17,6 +17,8 @@ namespace Quantum
             public InputComp* InputComp;
         }
 
+        public override ComponentSet Without => ComponentSet.Create<DeadTag>();
+
         public void OnAdded(Frame f, EntityRef entity, KccComp* component)
         {
             KccSettings kccSettings = f.FindAsset<KccSettings>(component->Settings.Id);

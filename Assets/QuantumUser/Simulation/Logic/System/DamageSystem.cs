@@ -102,6 +102,11 @@ namespace Quantum
                     }
                     // 扣血
                     Helper_Stats.ReduceHp(f, targetEntity, dmgValue, true);
+                    // 如果杀死了目标
+                    if (Helper_Stats.IsDead(f, targetEntity))
+                    {
+                        f.Events.OnKill(sourceEntity, targetEntity);
+                    }
                 }
 
                 // 执行添加buff流程

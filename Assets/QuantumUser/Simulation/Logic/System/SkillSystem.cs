@@ -19,6 +19,8 @@ namespace Quantum
             public SkillComp* SkillComp;
         }
 
+        public override ComponentSet Without => ComponentSet.Create<DeadTag>();
+
         public override void Update(Frame f, ref Filter filter)
         {
             var skills = f.ResolveList(filter.SkillComp->Skills);

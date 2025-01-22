@@ -33,8 +33,9 @@ namespace Quantum.Helper
                 if (showText)
                     f.Events.OnChangeHp(entity, statsComp->Hp - oldHp);
 
-                if (statsComp->Hp == 0)
+                if (statsComp->Hp <= 0)
                 {
+                    f.Add<DeadTag>(entity);
                     f.Events.OnDie(entity);
                 }
             }
@@ -181,6 +182,14 @@ namespace Quantum.Helper
             }
         }
 
+        public static void AddRC_DisableRotate(Frame f, EntityRef entity)
+        {
+            if (f.Unsafe.TryGetPointer<StatsComp>(entity, out var statsComp))
+            {
+                statsComp->CanRotate += 1;
+            }
+        }
+
         public static void AddRC_DisableSkill(Frame f, EntityRef entity)
         {
             if (f.Unsafe.TryGetPointer<StatsComp>(entity, out var statsComp))
@@ -206,6 +215,19 @@ namespace Quantum.Helper
                 {
                     statsComp->CanMove = 0;
                     Log.Error("ReduceRC_DisableMove: canMove < 0");
+                }
+            }
+        }
+
+        public static void ReduceRC_DisableRotate(Frame f, EntityRef entity)
+        {
+            if (f.Unsafe.TryGetPointer<StatsComp>(entity, out var statsComp))
+            {
+                statsComp->CanRotate -= 1;
+                if (statsComp->CanRotate < 0)
+                {
+                    statsComp->CanRotate = 0;
+                    Log.Error("ReduceRC_DisableRotate: CanRotate < 0");
                 }
             }
         }

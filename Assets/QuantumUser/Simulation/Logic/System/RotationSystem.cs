@@ -16,9 +16,14 @@ namespace Quantum
             public RotateComp* RotateComp;
         }
 
+        public override ComponentSet Without => ComponentSet.Create<DeadTag>();
+
         public override void Update(Frame f, ref Filter filter)
         {
-            Helper_Move.Rotate(f, filter.Entity, filter.RotateComp->Rotation);
+            if (Helper_Stats.CanRotate(f, filter.Entity))
+            {
+                Helper_Move.Rotate(f, filter.Entity, filter.RotateComp->Rotation);
+            }
         }
     }
 

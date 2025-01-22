@@ -400,12 +400,32 @@ namespace Quantum.Prototypes {
     }
   }
   [System.SerializableAttribute()]
+  [Quantum.Prototypes.Prototype(typeof(Quantum.BM_DisableRotate_NoEffect))]
+  public unsafe partial class BM_DisableRotate_NoEffectPrototype : StructPrototype {
+    [HideInInspector()]
+    public Int32 _empty_prototype_dummy_field_;
+    partial void MaterializeUser(Frame frame, ref Quantum.BM_DisableRotate_NoEffect result, in PrototypeMaterializationContext context);
+    public void Materialize(Frame frame, ref Quantum.BM_DisableRotate_NoEffect result, in PrototypeMaterializationContext context = default) {
+        MaterializeUser(frame, ref result, in context);
+    }
+  }
+  [System.SerializableAttribute()]
   [Quantum.Prototypes.Prototype(typeof(Quantum.BM_DisableSkill))]
   public unsafe partial class BM_DisableSkillPrototype : StructPrototype {
     [HideInInspector()]
     public Int32 _empty_prototype_dummy_field_;
     partial void MaterializeUser(Frame frame, ref Quantum.BM_DisableSkill result, in PrototypeMaterializationContext context);
     public void Materialize(Frame frame, ref Quantum.BM_DisableSkill result, in PrototypeMaterializationContext context = default) {
+        MaterializeUser(frame, ref result, in context);
+    }
+  }
+  [System.SerializableAttribute()]
+  [Quantum.Prototypes.Prototype(typeof(Quantum.BM_EnableRotate))]
+  public unsafe partial class BM_EnableRotatePrototype : StructPrototype {
+    [HideInInspector()]
+    public Int32 _empty_prototype_dummy_field_;
+    partial void MaterializeUser(Frame frame, ref Quantum.BM_EnableRotate result, in PrototypeMaterializationContext context);
+    public void Materialize(Frame frame, ref Quantum.BM_EnableRotate result, in PrototypeMaterializationContext context = default) {
         MaterializeUser(frame, ref result, in context);
     }
   }
@@ -431,7 +451,9 @@ namespace Quantum.Prototypes {
     public Quantum.Prototypes.BM_DashPrototype Dash;
     public Quantum.Prototypes.BM_DisableMovePrototype DisableMove;
     public Quantum.Prototypes.BM_DisableMove_NoEffectPrototype DisableMove_NoEffect;
+    public Quantum.Prototypes.BM_DisableRotate_NoEffectPrototype DisableRotate_NoEffect;
     public Quantum.Prototypes.BM_DisableSkillPrototype DisableSkill;
+    public Quantum.Prototypes.BM_EnableRotatePrototype EnableRotate;
     public Quantum.Prototypes.BM_HotPrototype Hot;
     public Quantum.Prototypes.BM_PeterAttribPrototype PeterAttrib;
     public Quantum.Prototypes.BM_PoisonPrototype Poison;
@@ -447,7 +469,9 @@ namespace Quantum.Prototypes {
           case "DASH": this.Dash.Materialize(frame, ref *result.Dash, in context); break;
           case "DISABLEMOVE": this.DisableMove.Materialize(frame, ref *result.DisableMove, in context); break;
           case "DISABLEMOVE_NOEFFECT": this.DisableMove_NoEffect.Materialize(frame, ref *result.DisableMove_NoEffect, in context); break;
+          case "DISABLEROTATE_NOEFFECT": this.DisableRotate_NoEffect.Materialize(frame, ref *result.DisableRotate_NoEffect, in context); break;
           case "DISABLESKILL": this.DisableSkill.Materialize(frame, ref *result.DisableSkill, in context); break;
+          case "ENABLEROTATE": this.EnableRotate.Materialize(frame, ref *result.EnableRotate, in context); break;
           case "HOT": this.Hot.Materialize(frame, ref *result.Hot, in context); break;
           case "PETERATTRIB": this.PeterAttrib.Materialize(frame, ref *result.PeterAttrib, in context); break;
           case "POISON": this.Poison.Materialize(frame, ref *result.Poison, in context); break;
@@ -854,6 +878,21 @@ namespace Quantum.Prototypes {
             PrototypeValidator.AddToDictionary(dict, tmpKey, tmpValue, in context);
           }
         }
+        MaterializeUser(frame, ref result, in context);
+    }
+  }
+  [System.SerializableAttribute()]
+  [Quantum.Prototypes.Prototype(typeof(Quantum.DeadTag))]
+  public unsafe partial class DeadTagPrototype : ComponentPrototype<Quantum.DeadTag> {
+    [HideInInspector()]
+    public Int32 _empty_prototype_dummy_field_;
+    partial void MaterializeUser(Frame frame, ref Quantum.DeadTag result, in PrototypeMaterializationContext context);
+    public override Boolean AddToEntity(FrameBase f, EntityRef entity, in PrototypeMaterializationContext context) {
+        Quantum.DeadTag component = default;
+        Materialize((Frame)f, ref component, in context);
+        return f.Set(entity, component) == SetResult.ComponentAdded;
+    }
+    public void Materialize(Frame frame, ref Quantum.DeadTag result, in PrototypeMaterializationContext context = default) {
         MaterializeUser(frame, ref result, in context);
     }
   }

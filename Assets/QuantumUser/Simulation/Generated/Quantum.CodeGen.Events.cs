@@ -52,7 +52,7 @@ namespace Quantum {
   public unsafe partial class Frame {
     public unsafe partial struct FrameEvents {
       static partial void GetEventTypeCountCodeGen(ref Int32 eventCount) {
-        eventCount = 8;
+        eventCount = 9;
       }
       static partial void GetParentEventIDCodeGen(Int32 eventID, ref Int32 parentEventID) {
         switch (eventID) {
@@ -68,6 +68,7 @@ namespace Quantum {
           case EventOnChangeHp.ID: result = typeof(EventOnChangeHp); return;
           case EventOnHit.ID: result = typeof(EventOnHit); return;
           case EventOnDie.ID: result = typeof(EventOnDie); return;
+          case EventOnKill.ID: result = typeof(EventOnKill); return;
           default: break;
         }
       }
@@ -115,6 +116,13 @@ namespace Quantum {
       public EventOnDie OnDie(EntityRef entity) {
         var ev = _f.Context.AcquireEvent<EventOnDie>(EventOnDie.ID);
         ev.entity = entity;
+        _f.AddEvent(ev);
+        return ev;
+      }
+      public EventOnKill OnKill(EntityRef source, EntityRef target) {
+        var ev = _f.Context.AcquireEvent<EventOnKill>(EventOnKill.ID);
+        ev.source = source;
+        ev.target = target;
         _f.AddEvent(ev);
         return ev;
       }
@@ -301,6 +309,33 @@ namespace Quantum {
       unchecked {
         var hash = 67;
         hash = hash * 31 + entity.GetHashCode();
+        return hash;
+      }
+    }
+  }
+  public unsafe partial class EventOnKill : EventBase {
+    public new const Int32 ID = 8;
+    public EntityRef source;
+    public EntityRef target;
+    protected EventOnKill(Int32 id, EventFlags flags) : 
+        base(id, flags) {
+    }
+    public EventOnKill() : 
+        base(8, EventFlags.Server|EventFlags.Client) {
+    }
+    public new QuantumGame Game {
+      get {
+        return (QuantumGame)base.Game;
+      }
+      set {
+        base.Game = value;
+      }
+    }
+    public override Int32 GetHashCode() {
+      unchecked {
+        var hash = 71;
+        hash = hash * 31 + source.GetHashCode();
+        hash = hash * 31 + target.GetHashCode();
         return hash;
       }
     }

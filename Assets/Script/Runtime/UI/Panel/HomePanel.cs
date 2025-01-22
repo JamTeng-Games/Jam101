@@ -49,6 +49,7 @@ namespace Jam.Runtime.UI_
         {
             _txt_player_name.text = G.Data.UserData.name;
             _txt_round.text = $"Round {G.Data.UserData.round.ToString()}";
+            RefreshHero();
         }
 
         private void OnRoleDataUpdate()

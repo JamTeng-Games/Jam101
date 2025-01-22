@@ -67,15 +67,27 @@ namespace Quantum.Helper
             }
         }
 
-        // Force Move --- move表示距离和方向
-        public static void ReqForceMove(Frame f, EntityRef entity, MovePreorder move)
+        public static void ForceMove(Frame f, EntityRef entity, FPVector2 velocity, FPVector2 correction = default)
         {
-            if (f.Unsafe.TryGetPointer<ForceMoveComp>(entity, out var forceMoveComp))
-            {
-                var forceList = f.ResolveList(forceMoveComp->MovePreorder);
-                forceList.Add(move);
-            }
+            ReqMove(f, entity, velocity, correction);
+            Move(f, entity, velocity, correction);
         }
+
+        public static void ForceRotate(Frame f, EntityRef entity, FP rotation)
+        {
+            ReqRotateTo(f, entity, rotation);
+            Rotate(f, entity, rotation);
+        }
+
+        // // Force Move --- move表示距离和方向
+        // public static void ReqForceMove(Frame f, EntityRef entity, MovePreorder move)
+        // {
+        //     if (f.Unsafe.TryGetPointer<ForceMoveComp>(entity, out var forceMoveComp))
+        //     {
+        //         var forceList = f.ResolveList(forceMoveComp->MovePreorder);
+        //         forceList.Add(move);
+        //     }
+        // }
 
         public static bool TryConsumeForceMove(Frame f, EntityRef entity, out FPVector2 totalMove)
         {

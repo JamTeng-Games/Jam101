@@ -284,6 +284,9 @@ namespace Jam.Runtime.Quantum_
                 {
                     QuantumReconnectInformation.Reset();
                 }
+                if (reason == QuantumConnectFailReason.CombatTimeUp)
+                {
+                }
 
                 // Stop the running game
                 return CleanupAsync();
@@ -474,6 +477,8 @@ namespace Jam.Runtime.Quantum_
             {
                 connectArgs.RuntimePlayer.heroData = runtimePlayerData.heroData;
                 connectArgs.RuntimePlayer.PlayerNickname = runtimePlayerData.heroData.name;
+                connectArgs.AuthValues.AuthType = CustomAuthenticationType.Custom;
+                connectArgs.AuthValues.UserId = runtimePlayerData.heroData.rid;
             }
         }
 

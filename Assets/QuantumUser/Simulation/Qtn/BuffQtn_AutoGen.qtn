@@ -1,10 +1,12 @@
-union BM_Instance
+﻿union BM_Instance
 {
     BM_AutoReload AutoReload;
     BM_Dash Dash;
     BM_DisableMove DisableMove;
     BM_DisableMove_NoEffect DisableMove_NoEffect;
+    BM_DisableRotate_NoEffect DisableRotate_NoEffect;
     BM_DisableSkill DisableSkill;
+    BM_EnableRotate EnableRotate;
     BM_Hot Hot;
     BM_PeterAttrib PeterAttrib;
     BM_Poison Poison;
@@ -33,7 +35,15 @@ struct BM_DisableMove_NoEffect
 {
 }
 
+struct BM_DisableRotate_NoEffect
+{
+}
+
 struct BM_DisableSkill
+{
+}
+
+struct BM_EnableRotate
 {
 }
 

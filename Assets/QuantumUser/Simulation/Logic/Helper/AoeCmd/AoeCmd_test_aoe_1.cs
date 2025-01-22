@@ -36,7 +36,9 @@ namespace Quantum.Helper
             //     angle = trans.Rotation,
             // });
             // f.Events.OnHit(target);
-            Helper_Move.ReqRotateTo(f, aoeComp->Caster, transAoe->Rotation - FP.Pi / 2);
+            Helper_Move.ForceRotate(f, aoeComp->Caster, transAoe->Rotation - FP.Pi / 2);
+            // Disable Rotate
+            Helper_Stats.AddRC_DisableRotate(f, aoeComp->Caster);
             var areaEntity = f.ResolveList(aoeComp->entityInArea);
             for (int i = 0; i < areaEntity.Count; i++)
             {
@@ -56,6 +58,10 @@ namespace Quantum.Helper
                     f.Events.OnHit(target.entity);
                 }
             }
+        }
+
+        public override void OnTick(Frame f, EntityRef aoeEntity, AoeComp* aoeComp)
+        {
         }
 
         // public override void OnEntityEnter(Frame f, EntityRef entity, AoeComp* aoeComp, ReadOnlySpan<EntityRef> targets, int count)

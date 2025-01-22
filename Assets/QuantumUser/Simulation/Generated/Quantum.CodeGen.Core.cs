@@ -798,6 +798,22 @@ namespace Quantum {
     }
   }
   [StructLayout(LayoutKind.Explicit)]
+  public unsafe partial struct BM_DisableRotate_NoEffect {
+    public const Int32 SIZE = 4;
+    public const Int32 ALIGNMENT = 4;
+    [FieldOffset(0)]
+    private fixed Byte _alignment_padding_[4];
+    public override Int32 GetHashCode() {
+      unchecked { 
+        var hash = 11731;
+        return hash;
+      }
+    }
+    public static void Serialize(void* ptr, FrameSerializer serializer) {
+        var p = (BM_DisableRotate_NoEffect*)ptr;
+    }
+  }
+  [StructLayout(LayoutKind.Explicit)]
   public unsafe partial struct BM_DisableSkill {
     public const Int32 SIZE = 4;
     public const Int32 ALIGNMENT = 4;
@@ -811,6 +827,22 @@ namespace Quantum {
     }
     public static void Serialize(void* ptr, FrameSerializer serializer) {
         var p = (BM_DisableSkill*)ptr;
+    }
+  }
+  [StructLayout(LayoutKind.Explicit)]
+  public unsafe partial struct BM_EnableRotate {
+    public const Int32 SIZE = 4;
+    public const Int32 ALIGNMENT = 4;
+    [FieldOffset(0)]
+    private fixed Byte _alignment_padding_[4];
+    public override Int32 GetHashCode() {
+      unchecked { 
+        var hash = 3803;
+        return hash;
+      }
+    }
+    public static void Serialize(void* ptr, FrameSerializer serializer) {
+        var p = (BM_EnableRotate*)ptr;
     }
   }
   [StructLayout(LayoutKind.Explicit)]
@@ -2046,8 +2078,16 @@ namespace Quantum {
     private BM_DisableMove_NoEffect _DisableMove_NoEffect;
     [FieldOffset(8)]
     [FieldOverlap(8)]
+    [FramePrinter.PrintIf("_field_used_", Quantum.BM_Instance.DISABLEROTATE_NOEFFECT)]
+    private BM_DisableRotate_NoEffect _DisableRotate_NoEffect;
+    [FieldOffset(8)]
+    [FieldOverlap(8)]
     [FramePrinter.PrintIf("_field_used_", Quantum.BM_Instance.DISABLESKILL)]
     private BM_DisableSkill _DisableSkill;
+    [FieldOffset(8)]
+    [FieldOverlap(8)]
+    [FramePrinter.PrintIf("_field_used_", Quantum.BM_Instance.ENABLEROTATE)]
+    private BM_EnableRotate _EnableRotate;
     [FieldOffset(8)]
     [FieldOverlap(8)]
     [FramePrinter.PrintIf("_field_used_", Quantum.BM_Instance.HOT)]
@@ -2084,15 +2124,17 @@ namespace Quantum {
     public const Int32 DASH = 2;
     public const Int32 DISABLEMOVE = 3;
     public const Int32 DISABLEMOVE_NOEFFECT = 4;
-    public const Int32 DISABLESKILL = 5;
-    public const Int32 HOT = 6;
-    public const Int32 PETERATTRIB = 7;
-    public const Int32 POISON = 8;
-    public const Int32 PUREATTRIB = 9;
-    public const Int32 TEST_ITEM_1 = 10;
-    public const Int32 TEST_ITEM_2 = 11;
-    public const Int32 TEST_ITEM_3 = 12;
-    public const Int32 TEST1 = 13;
+    public const Int32 DISABLEROTATE_NOEFFECT = 5;
+    public const Int32 DISABLESKILL = 6;
+    public const Int32 ENABLEROTATE = 7;
+    public const Int32 HOT = 8;
+    public const Int32 PETERATTRIB = 9;
+    public const Int32 POISON = 10;
+    public const Int32 PUREATTRIB = 11;
+    public const Int32 TEST_ITEM_1 = 12;
+    public const Int32 TEST_ITEM_2 = 13;
+    public const Int32 TEST_ITEM_3 = 14;
+    public const Int32 TEST1 = 15;
     public Int32 Field {
       get {
         return _field_used_;
@@ -2142,12 +2184,34 @@ namespace Quantum {
         }
       }
     }
+    public BM_DisableRotate_NoEffect* DisableRotate_NoEffect {
+      get {
+        fixed (BM_DisableRotate_NoEffect* p = &_DisableRotate_NoEffect) {
+          if (_field_used_ != DISABLEROTATE_NOEFFECT) {
+            Native.Utils.Clear(p, 4);
+            _field_used_ = DISABLEROTATE_NOEFFECT;
+          }
+          return p;
+        }
+      }
+    }
     public BM_DisableSkill* DisableSkill {
       get {
         fixed (BM_DisableSkill* p = &_DisableSkill) {
           if (_field_used_ != DISABLESKILL) {
             Native.Utils.Clear(p, 4);
             _field_used_ = DISABLESKILL;
+          }
+          return p;
+        }
+      }
+    }
+    public BM_EnableRotate* EnableRotate {
+      get {
+        fixed (BM_EnableRotate* p = &_EnableRotate) {
+          if (_field_used_ != ENABLEROTATE) {
+            Native.Utils.Clear(p, 4);
+            _field_used_ = ENABLEROTATE;
           }
           return p;
         }
@@ -2249,7 +2313,9 @@ namespace Quantum {
         hash = hash * 31 + _Dash.GetHashCode();
         hash = hash * 31 + _DisableMove.GetHashCode();
         hash = hash * 31 + _DisableMove_NoEffect.GetHashCode();
+        hash = hash * 31 + _DisableRotate_NoEffect.GetHashCode();
         hash = hash * 31 + _DisableSkill.GetHashCode();
+        hash = hash * 31 + _EnableRotate.GetHashCode();
         hash = hash * 31 + _Hot.GetHashCode();
         hash = hash * 31 + _PeterAttrib.GetHashCode();
         hash = hash * 31 + _Poison.GetHashCode();
@@ -2280,8 +2346,14 @@ namespace Quantum {
         if (p->_field_used_ == DISABLEMOVE_NOEFFECT) {
           Quantum.BM_DisableMove_NoEffect.Serialize(&p->_DisableMove_NoEffect, serializer);
         }
+        if (p->_field_used_ == DISABLEROTATE_NOEFFECT) {
+          Quantum.BM_DisableRotate_NoEffect.Serialize(&p->_DisableRotate_NoEffect, serializer);
+        }
         if (p->_field_used_ == DISABLESKILL) {
           Quantum.BM_DisableSkill.Serialize(&p->_DisableSkill, serializer);
+        }
+        if (p->_field_used_ == ENABLEROTATE) {
+          Quantum.BM_EnableRotate.Serialize(&p->_EnableRotate, serializer);
         }
         if (p->_field_used_ == HOT) {
           Quantum.BM_Hot.Serialize(&p->_Hot, serializer);
@@ -2864,6 +2936,22 @@ namespace Quantum {
     }
   }
   [StructLayout(LayoutKind.Explicit)]
+  public unsafe partial struct DeadTag : Quantum.IComponent {
+    public const Int32 SIZE = 4;
+    public const Int32 ALIGNMENT = 4;
+    [FieldOffset(0)]
+    private fixed Byte _alignment_padding_[4];
+    public override Int32 GetHashCode() {
+      unchecked { 
+        var hash = 491;
+        return hash;
+      }
+    }
+    public static void Serialize(void* ptr, FrameSerializer serializer) {
+        var p = (DeadTag*)ptr;
+    }
+  }
+  [StructLayout(LayoutKind.Explicit)]
   public unsafe partial struct ForceMoveComp : Quantum.IComponent {
     public const Int32 SIZE = 4;
     public const Int32 ALIGNMENT = 4;
@@ -3378,6 +3466,8 @@ namespace Quantum {
       BuildSignalsArrayOnComponentRemoved<CharacterController2D>();
       BuildSignalsArrayOnComponentAdded<CharacterController3D>();
       BuildSignalsArrayOnComponentRemoved<CharacterController3D>();
+      BuildSignalsArrayOnComponentAdded<Quantum.DeadTag>();
+      BuildSignalsArrayOnComponentRemoved<Quantum.DeadTag>();
       BuildSignalsArrayOnComponentAdded<Quantum.ForceMoveComp>();
       BuildSignalsArrayOnComponentRemoved<Quantum.ForceMoveComp>();
       BuildSignalsArrayOnComponentAdded<Quantum.Gameplay>();
@@ -3550,7 +3640,9 @@ namespace Quantum {
       typeRegistry.Register(typeof(Quantum.BM_Dash), Quantum.BM_Dash.SIZE);
       typeRegistry.Register(typeof(Quantum.BM_DisableMove), Quantum.BM_DisableMove.SIZE);
       typeRegistry.Register(typeof(Quantum.BM_DisableMove_NoEffect), Quantum.BM_DisableMove_NoEffect.SIZE);
+      typeRegistry.Register(typeof(Quantum.BM_DisableRotate_NoEffect), Quantum.BM_DisableRotate_NoEffect.SIZE);
       typeRegistry.Register(typeof(Quantum.BM_DisableSkill), Quantum.BM_DisableSkill.SIZE);
+      typeRegistry.Register(typeof(Quantum.BM_EnableRotate), Quantum.BM_EnableRotate.SIZE);
       typeRegistry.Register(typeof(Quantum.BM_Hot), Quantum.BM_Hot.SIZE);
       typeRegistry.Register(typeof(Quantum.BM_Instance), Quantum.BM_Instance.SIZE);
       typeRegistry.Register(typeof(Quantum.BM_PeterAttrib), Quantum.BM_PeterAttrib.SIZE);
@@ -3587,6 +3679,7 @@ namespace Quantum {
       typeRegistry.Register(typeof(Quantum.Damage), Quantum.Damage.SIZE);
       typeRegistry.Register(typeof(Quantum.DamageInfo), Quantum.DamageInfo.SIZE);
       typeRegistry.Register(typeof(Quantum.DataContainer), Quantum.DataContainer.SIZE);
+      typeRegistry.Register(typeof(Quantum.DeadTag), Quantum.DeadTag.SIZE);
       typeRegistry.Register(typeof(DistanceJoint), DistanceJoint.SIZE);
       typeRegistry.Register(typeof(DistanceJoint3D), DistanceJoint3D.SIZE);
       typeRegistry.Register(typeof(Quantum.EDamageInfoType), 4);
@@ -3688,7 +3781,7 @@ namespace Quantum {
       typeRegistry.Register(typeof(Quantum._globals_), Quantum._globals_.SIZE);
     }
     static partial void InitComponentTypeIdGen() {
-      ComponentTypeId.Reset(ComponentTypeId.BuiltInComponentCount + 25)
+      ComponentTypeId.Reset(ComponentTypeId.BuiltInComponentCount + 26)
         .AddBuiltInComponents()
         .Add<AIBlackboardComponent>(AIBlackboardComponent.Serialize, AIBlackboardComponent.OnAdded, AIBlackboardComponent.OnRemoved, ComponentFlags.None)
         .Add<Quantum.AoeComp>(Quantum.AoeComp.Serialize, Quantum.AoeComp.OnAdded, Quantum.AoeComp.OnRemoved, ComponentFlags.None)
@@ -3698,6 +3791,7 @@ namespace Quantum {
         .Add<Quantum.BuffComp>(Quantum.BuffComp.Serialize, Quantum.BuffComp.OnAdded, Quantum.BuffComp.OnRemoved, ComponentFlags.None)
         .Add<Quantum.BulletComp>(Quantum.BulletComp.Serialize, Quantum.BulletComp.OnAdded, Quantum.BulletComp.OnRemoved, ComponentFlags.None)
         .Add<Quantum.CampComp>(Quantum.CampComp.Serialize, null, null, ComponentFlags.None)
+        .Add<Quantum.DeadTag>(Quantum.DeadTag.Serialize, null, null, ComponentFlags.None)
         .Add<Quantum.ForceMoveComp>(Quantum.ForceMoveComp.Serialize, Quantum.ForceMoveComp.OnAdded, Quantum.ForceMoveComp.OnRemoved, ComponentFlags.None)
         .Add<Quantum.Gameplay>(Quantum.Gameplay.Serialize, Quantum.Gameplay.OnAdded, Quantum.Gameplay.OnRemoved, ComponentFlags.Singleton)
         .Add<HFSMAgent>(HFSMAgent.Serialize, HFSMAgent.OnAdded, HFSMAgent.OnRemoved, ComponentFlags.None)

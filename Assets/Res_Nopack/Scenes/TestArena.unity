@@ -138,7 +138,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1280957532
 Transform:
   m_ObjectHideFlags: 0
@@ -215,15 +215,6 @@ MonoBehaviour:
       items:
       - id: 10006
         amount: 2
-  - PlayerAvatar:
-      Id:
-        Value: 1482721101906855630
-    PlayerNickname: 
-    heroData:
-      rid: 
-      name: 
-      hero: 1
-      items: []
   MaxPlayerCount: 8
   SimulationSpeedMultiplier: 1
   DisplaySaveAndReloadButton: 0

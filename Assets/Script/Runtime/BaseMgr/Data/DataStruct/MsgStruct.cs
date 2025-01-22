@@ -265,4 +265,11 @@ namespace Jam.Runtime.Data_
     {
         public int room;
     }
+
+    [Serializable]
+    public class CombatTimeUpdateData
+    {
+        public int time;
+    }
+
 }

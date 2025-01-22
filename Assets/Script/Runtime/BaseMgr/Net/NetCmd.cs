@@ -57,19 +57,21 @@
         SC_CreateRoleSuccess = 1052, // 创角成功
         SC_EnterGame = 1053,         // 进入游戏
 
-        SC_CreateRoomFail = 1060, // 创建房间失败
-        SC_JoinRoomSucc = 1061,   // 加入房间成功
-        SC_JoinRoomFail = 1062,   // 加入房间失败
-        SC_LeaveRoomSucc = 1063,  // 离开房间成功
-        SC_LeaveRoomFail = 1064,  // 离开房间失败
-        SC_RoomUserEnter = 1065,  // 用户进入房间
-        SC_RoomUserLeave = 1066,  // 用户离开房间
-        SC_RoomUserUpdate = 1067, // 房间用户更新
-        SC_RoomUserChat = 1068,   // 房间用户聊天
-        SC_RoomUserInfos = 1069,  // 房间的全部用户信息
-        SC_RoomDestroy = 1070,    // 房间销毁
-        SC_RoomList = 1071,       // 房间列表
-        SC_StartBattle = 1072,    // 战斗开始
+        SC_CreateRoomFail = 1060,   // 创建房间失败
+        SC_JoinRoomSucc = 1061,     // 加入房间成功
+        SC_JoinRoomFail = 1062,     // 加入房间失败
+        SC_LeaveRoomSucc = 1063,    // 离开房间成功
+        SC_LeaveRoomFail = 1064,    // 离开房间失败
+        SC_RoomUserEnter = 1065,    // 用户进入房间
+        SC_RoomUserLeave = 1066,    // 用户离开房间
+        SC_RoomUserUpdate = 1067,   // 房间用户更新
+        SC_RoomUserChat = 1068,     // 房间用户聊天
+        SC_RoomUserInfos = 1069,    // 房间的全部用户信息
+        SC_RoomDestroy = 1070,      // 房间销毁
+        SC_RoomList = 1071,         // 房间列表
+        SC_StartBattle = 1072,      // 战斗开始
+        SC_CombatEnd = 1073,        // 战斗结束
+        SC_CombatTimeUpdate = 1074, // 战斗时间更新
 
         SC_END = 1999,
     }

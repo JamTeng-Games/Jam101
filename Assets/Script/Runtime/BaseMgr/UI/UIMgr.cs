@@ -1,6 +1,7 @@
 ﻿using System;
 using Jam.Core;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 using Jam.Cfg;
 using Jam.Runtime.Asset;
@@ -176,7 +177,7 @@ namespace Jam.Runtime.UI_
         public void CloseAll()
         {
             // Close all loading panels
-            foreach (var (id, _) in _loadingPanels)
+            foreach (var id in _loadingPanels.Keys.ToArray())
             {
                 Close(id);
             }

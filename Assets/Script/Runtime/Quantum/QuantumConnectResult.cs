@@ -63,6 +63,10 @@ namespace Jam.Runtime.Quantum_
         /// </summary>
         Disconnect = 3,
         /// <summary>
+        /// Combat time up.
+        /// </summary>
+        CombatTimeUp = 4,
+        /// <summary>
         /// The connection to Photon servers failed.
         /// </summary>
         ConnectingFailed = 10,

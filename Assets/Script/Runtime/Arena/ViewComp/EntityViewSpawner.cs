@@ -114,6 +114,7 @@ namespace Jam.Arena
             if (EntityView is JamEntityView ev)
             {
                 go.AddComponent<SkillIndicatorComp>();
+                go.AddComponent<KillComp>();
             }
         }
     }

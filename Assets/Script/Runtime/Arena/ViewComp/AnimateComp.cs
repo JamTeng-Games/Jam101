@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Animancer;
+using Photon.Deterministic;
 using Quantum;
 using Quantum.Graph.Skill;
 using UnityEngine;
@@ -29,11 +31,13 @@ namespace Jam.Arena
 
         public override void OnActivate(Frame frame)
         {
+            QuantumEvent.UnsubscribeListener(this);
+
             QuantumEvent.Subscribe<EventOnMove>(listener: this, handler: OnMoveEvent);
             QuantumEvent.Subscribe<EventOnStopMove>(listener: this, handler: OnStopMoveEvent);
             QuantumEvent.Subscribe<EventPlayAnim>(listener: this, handler: OnPlayAnimEvent);
             QuantumEvent.Subscribe<EventOnChangeHp>(listener: this, handler: OnChangeHp);
-            QuantumEvent.Subscribe<EventOnHit>(listener: this, handler: OnHit);
+            // QuantumEvent.Subscribe<EventOnHit>(listener: this, handler: OnHit);
             QuantumEvent.Subscribe<EventOnDie>(listener: this, handler: OnDie);
         }
 
@@ -50,7 +54,7 @@ namespace Jam.Arena
                 return;
             Log.Debug("OnMove");
 
-            if (callback.velocity == default)
+            if (callback.velocity.Magnitude < FP._0_10)
             {
                 if (_currentAnim.key == AnimationKey.Run)
                     Play(AnimationKey.Idle, true);
