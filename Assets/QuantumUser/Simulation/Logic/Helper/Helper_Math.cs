@@ -56,6 +56,13 @@ namespace Quantum.Helper
             float y = Mathf.Sin(angle);
             return new Vector2(x, y);
         }
+
+        public static FPVector2 RandomPosition(Frame f, FP radius)
+        {
+            FP x = f.RNG->Next(-radius, radius);
+            FP y = f.RNG->Next(-radius, radius);
+            return new FPVector2(x, y);
+        }
     }
 
 }

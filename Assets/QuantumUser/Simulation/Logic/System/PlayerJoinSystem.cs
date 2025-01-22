@@ -1,4 +1,5 @@
 using Quantum.Cfg_;
+using Quantum.Helper;
 using UnityEngine;
 
 namespace Quantum
@@ -25,6 +26,9 @@ namespace Quantum
                 f.AddOrGet<PlayerComp>(playerEntity, out var playerComp);
                 playerComp->PlayerRef = playerRef;
                 f.Signals.OnPlayerSpawned(playerEntity, playerRef);
+
+                var transform = f.Unsafe.GetPointer<Transform2D>(playerEntity);
+                transform->Position = Helper_Math.RandomPosition(f, 18);
             }
         }
 

@@ -30,6 +30,9 @@ namespace Quantum
         {
             Helper_Stats.ResetStats(f, entity);
             f.Events.OnReborn(entity);
+
+            var transform = f.Unsafe.GetPointer<Transform2D>(entity);
+            transform->Position = Helper_Math.RandomPosition(f, 18);
         }
     }
 

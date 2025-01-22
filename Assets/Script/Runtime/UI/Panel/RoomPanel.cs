@@ -85,6 +85,7 @@ namespace Jam.Runtime.UI_
             var widgetId = _widgetIds[info.seat - 1];
             var widget = this.GetWidget<SimpleSeatWidget>(widgetId);
             widget?.Refresh(info);
+            RefreshButton();
         }
 
         private void OnRoomUserLeave(RoomSeat info)
@@ -92,6 +93,7 @@ namespace Jam.Runtime.UI_
             var widgetId = _widgetIds[info.seat - 1];
             var widget = this.GetWidget<SimpleSeatWidget>(widgetId);
             widget?.Refresh(null);
+            RefreshButton();
         }
 
         private void OnRoomUserChat(RoomUserChat info)
