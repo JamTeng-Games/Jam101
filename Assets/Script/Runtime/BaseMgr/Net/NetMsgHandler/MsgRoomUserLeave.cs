@@ -1,4 +1,5 @@
-﻿using Jam.Runtime.Data_;
+﻿using Jam.Core;
+using Jam.Runtime.Data_;
 using Jam.Runtime.Helpers;
 
 namespace Jam.Runtime.Net_
@@ -11,6 +12,7 @@ namespace Jam.Runtime.Net_
         public void HandleMsg(NetCmd cmd, Packet packet)
         {
             RoomSeat m = packet.Decode<RoomSeat>();
+            JLog.Info($"Recv {cmd}: {m.seat}");
             RoomHelper.UserLeave(m);
         }
     }

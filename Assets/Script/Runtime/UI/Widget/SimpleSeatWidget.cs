@@ -1,4 +1,5 @@
 ﻿using Jam.Runtime.Data_;
+using UnityEngine.Diagnostics;
 
 namespace Jam.Runtime.UI_
 {
@@ -9,8 +10,13 @@ namespace Jam.Runtime.UI_
         private float _chatDuration = 6f;
         private bool _isChatShow = false;
 
+        private UnityEngine.Color _readyColor;
+        private UnityEngine.Color _unreadyColor;
+
         public override void OnInit()
         {
+            _readyColor = Jam.Core.Utils.Color.FromHex("3CB91D");
+            _unreadyColor = Jam.Core.Utils.Color.FromHex("1171C0");
         }
 
         public override void OnOpen(object userData)
@@ -40,6 +46,7 @@ namespace Jam.Runtime.UI_
             {
                 Ready(false);
                 SetRoomOwner(false);
+                _txt_name.text = "No user";
             }
             else
             {
@@ -61,7 +68,7 @@ namespace Jam.Runtime.UI_
         {
             _img_empty.gameObject.SetActive(true);
             _node_chat.gameObject.SetActive(false);
-            _img_bg.color = UnityEngine.Color.blue;
+            _img_bg.color = _unreadyColor;
         }
 
         public void Ready(bool isReady)
@@ -69,11 +76,11 @@ namespace Jam.Runtime.UI_
             if (isReady)
             {
                 _img_empty.gameObject.SetActive(false);
-                _img_bg.color = UnityEngine.Color.green;
+                _img_bg.color = _readyColor;
             }
             else
             {
-                _img_bg.color = UnityEngine.Color.blue;
+                _img_bg.color = _unreadyColor;
             }
         }
 

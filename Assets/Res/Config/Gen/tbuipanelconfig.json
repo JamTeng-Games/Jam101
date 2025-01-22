@@ -100,14 +100,14 @@
   {
     "id": 15,
     "name": "道具信息",
-    "level": 2,
+    "level": 1,
     "show_mode": 1,
     "asset_name": "ItemInfoPanel"
   },
   {
     "id": 16,
     "name": "房间",
-    "level": 2,
+    "level": 1,
     "show_mode": 1,
     "asset_name": "RoomPanel"
   },
@@ -117,5 +117,12 @@
     "level": 1,
     "show_mode": 1,
     "asset_name": "RoomListPanel"
+  },
+  {
+    "id": 18,
+    "name": "设置",
+    "level": 2,
+    "show_mode": 1,
+    "asset_name": "SettingPanel"
   }
 ]

@@ -20,10 +20,12 @@ namespace Jam.Runtime.UI_
         public override void OnOpen(object userData)
         {
             _btn_back.onClick.AddListener(OnClickBack);
-            _btn_home.onClick.AddListener(OnClickHome);
+            _btn_exit.onClick.AddListener(OnClickExit);
             _btn_ready.onClick.AddListener(OnClickReady);
             _btn_chat.onClick.AddListener(OnClickChat);
             _btn_battle.onClick.AddListener(OnClickBattle);
+            G.Event.Subscribe<RoomUser>(GlobalEventId.RoomUserEnter, OnRoomUserEnter);
+            G.Event.Subscribe<RoomSeat>(GlobalEventId.RoomUserLeave, OnRoomUserLeave);
             G.Event.Subscribe<RoomUserChat>(GlobalEventId.RoomUserChat, OnRoomUserChat);
             G.Event.Subscribe<RoomSeatReady>(GlobalEventId.RoomUserReadyUpdate, OnRoomUserReadyUpdate);
 
@@ -31,16 +33,19 @@ namespace Jam.Runtime.UI_
 
             InitWidgets();
             // Refresh();
+            RefreshButton();
             _txt_room_name.text = G.Data.RoomData.name;
         }
 
         public override void OnClose()
         {
             _btn_back.onClick.RemoveListener(OnClickBack);
-            _btn_home.onClick.RemoveListener(OnClickHome);
+            _btn_exit.onClick.RemoveListener(OnClickExit);
             _btn_ready.onClick.RemoveListener(OnClickReady);
             _btn_chat.onClick.RemoveListener(OnClickChat);
             _btn_battle.onClick.RemoveListener(OnClickBattle);
+            G.Event.Unsubscribe<RoomUser>(GlobalEventId.RoomUserEnter, OnRoomUserEnter);
+            G.Event.Unsubscribe<RoomSeat>(GlobalEventId.RoomUserLeave, OnRoomUserLeave);
             G.Event.Unsubscribe<RoomUserChat>(GlobalEventId.RoomUserChat, OnRoomUserChat);
             G.Event.Unsubscribe<RoomSeatReady>(GlobalEventId.RoomUserReadyUpdate, OnRoomUserReadyUpdate);
 
@@ -75,6 +80,20 @@ namespace Jam.Runtime.UI_
             }
         }
 
+        private void OnRoomUserEnter(RoomUser info)
+        {
+            var widgetId = _widgetIds[info.seat - 1];
+            var widget = this.GetWidget<SimpleSeatWidget>(widgetId);
+            widget?.Refresh(info);
+        }
+
+        private void OnRoomUserLeave(RoomSeat info)
+        {
+            var widgetId = _widgetIds[info.seat - 1];
+            var widget = this.GetWidget<SimpleSeatWidget>(widgetId);
+            widget?.Refresh(null);
+        }
+
         private void OnRoomUserChat(RoomUserChat info)
         {
             var widgetId = _widgetIds[info.seat - 1];
@@ -87,9 +106,9 @@ namespace Jam.Runtime.UI_
             G.UI.Back();
         }
 
-        private void OnClickHome()
+        private void OnClickExit()
         {
-            G.UI.BackToHome();
+            G.Net.Send(NetCmd.CS_LeaveRoom, EmptyMsg.Data);
         }
 
         private void OnClickChat()
@@ -103,7 +122,10 @@ namespace Jam.Runtime.UI_
 
         private void OnClickReady()
         {
-            G.Net.Send(NetCmd.CS_RoomUserReady, new RoomUserReadyReq() { ready = !_isReady });
+            if (G.Data.RoomData.seat != 1)
+            {
+                G.Net.Send(NetCmd.CS_RoomUserReady, new RoomUserReadyReq() { ready = !_isReady });
+            }
         }
 
         private void OnClickBattle()
@@ -122,6 +144,23 @@ namespace Jam.Runtime.UI_
         //     }
         // }
 
+        private void RefreshButton()
+        {
+            // 房主
+            if (G.Data.RoomData.seat == 1)
+            {
+                if (RoomHelper.AllSeatReady())
+                {
+                    _btn_battle.gameObject.SetActive(true);
+                }
+                else
+                {
+                    _btn_battle.gameObject.SetActive(false);
+                    _txt_ready.text = "Waiting";
+                }
+            }
+        }
+
         private void OnRoomUserReadyUpdate(RoomSeatReady obj)
         {
             if (obj.seat == G.Data.RoomData.seat)
@@ -134,18 +173,7 @@ namespace Jam.Runtime.UI_
             var widget = this.GetWidget<SimpleSeatWidget>(widgetId);
             widget?.Ready(obj.ready);
 
-            // 房主
-            if (G.Data.RoomData.seat == 1)
-            {
-                if (RoomHelper.AllSeatReady())
-                {
-                    _btn_battle.gameObject.SetActive(true);
-                }
-                else
-                {
-                    _btn_battle.gameObject.SetActive(false);
-                }
-            }
+            RefreshButton();
         }
     }
 

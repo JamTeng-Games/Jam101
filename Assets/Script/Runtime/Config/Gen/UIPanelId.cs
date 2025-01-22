@@ -85,6 +85,10 @@ namespace Jam.Cfg
         /// 房间列表
         /// </summary>
         RoomList = 17,
+        /// <summary>
+        /// 设置界面
+        /// </summary>
+        Setting = 18,
     }
 
 } 

@@ -778,7 +778,8 @@ MonoBehaviour:
   showFeedback: {fileID: 0}
   hideFeedback: {fileID: 0}
   _btn_back: {fileID: 5736527381853114036}
-  _btn_home: {fileID: 5759396081017160352}
+  _btn_exit: {fileID: 5759396081017160352}
+  _txt_room_name: {fileID: 2897627501043001037}
   _node_content: {fileID: 844509965461596586}
   _btn_ready: {fileID: 7515975856877983639}
   _txt_ready: {fileID: 1494647260692805097}
@@ -1210,7 +1211,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0}
   m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: -295.5, y: 318}
+  m_AnchoredPosition: {x: -295.5, y: 140.19922}
   m_SizeDelta: {x: 444.88013, y: 145}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &6761307822837113304
@@ -1615,7 +1616,7 @@ GameObject:
   - component: {fileID: 1182058137616662700}
   - component: {fileID: 5759396081017160352}
   m_Layer: 5
-  m_Name: btn_home
+  m_Name: btn_exit
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1669,7 +1670,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 8ce7d0e9cb5184e2298eedeb3266e9be, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 2350fdbe01c4d42649eaf2b3259e2021, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1

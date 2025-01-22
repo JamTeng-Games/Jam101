@@ -103,6 +103,7 @@ namespace Jam.Runtime.UI_
 
         private void OnClickSettings()
         {
+            G.UI.Open(UIPanelId.Setting);
         }
 
         private void OnClickHeroImg(BaseEventData obj)

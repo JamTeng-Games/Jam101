@@ -19,6 +19,7 @@
         CS_RoomChat = 18,        // 房间聊天
         CS_RoomUserReady = 19,   // 房间准备
         CS_RoomStartBattle = 20, // 房间进入战斗
+        CS_LeaveRoom = 21,       // 离开房间
 
         CS_END = 999,
         //
