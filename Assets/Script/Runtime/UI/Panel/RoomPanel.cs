@@ -59,6 +59,8 @@ namespace Jam.Runtime.UI_
 
         private void InitWidgets()
         {
+            this.ClearWidgets();
+            _widgetIds.Clear();
             // 8个座位
             for (int i = 0; i < 8; i++)
             {

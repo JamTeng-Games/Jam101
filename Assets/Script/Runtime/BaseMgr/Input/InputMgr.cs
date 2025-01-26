@@ -9,17 +9,20 @@ namespace Jam.Runtime.Input_
     public partial class InputMgr : IMgr
     {
         private InputEvent _event;
+        private InputData _data;
 
         // Custom input
         private InputControl _input;
         private List<InputStateSnapshot> _snapshots;
 
         public InputEvent Event => _event;
+        public InputData Data => _data;
 
         public InputMgr()
         {
             _input = new InputControl();
             _event = new InputEvent();
+            _data = new InputData();
             _snapshots = new List<InputStateSnapshot>();
             RegisterAll();
         }
@@ -32,6 +35,11 @@ namespace Jam.Runtime.Input_
         public void Shutdown(bool isAppQuit)
         {
             _event.Clear();
+        }
+
+        public void LateTick()
+        {
+            _data.Reset();
         }
 
         private void RegisterAll()

@@ -125,6 +125,7 @@ namespace Jam.Runtime
         private void LateUpdate()
         {
             _fsmMgr.LateTick();
+            _inputMgr.LateTick();
         }
     }
 

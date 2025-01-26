@@ -1,5 +1,7 @@
-﻿using Jam.Runtime.Event;
+﻿using Jam.Core;
+using Jam.Runtime.Event;
 using Jam.Runtime.Quantum_;
+using UnityEngine;
 
 namespace Jam.Runtime.UI_
 {
@@ -16,12 +18,21 @@ namespace Jam.Runtime.UI_
         private bool _killTipShowing = false;
         private float _killTipTimer = 0;
 
+        // Joystics
+        private JoystickWidget _moveJoystick;
+        private JoystickWidget _attackJoystick;
+        private JoystickWidget _skillJoystick;
+        private JoystickWidget _superJoystick;
+
         public override void OnInit()
         {
+            InitJoystick();
         }
 
         public override void OnOpen(object userData)
         {
+            OpenJoystick();
+
 #if UNITY_EDITOR
             _btn_disconnect.onClick.AddListener(OnClickDisconnect);
 #endif
@@ -36,6 +47,8 @@ namespace Jam.Runtime.UI_
 #endif
             G.Event.Unsubscribe<int>(GlobalEventId.CombatTimeUpdate, OnTimeUpdate);
             G.Event.Unsubscribe<string>(GlobalEventId.KillHero, OnKillHero);
+
+            CloseJoystick();
         }
 
         protected override void OnTick(float dt)
@@ -61,6 +74,8 @@ namespace Jam.Runtime.UI_
                     HideKillTip();
                 }
             }
+
+            TickJoystick(dt);
         }
 
         private void OnClickDisconnect()
@@ -103,6 +118,129 @@ namespace Jam.Runtime.UI_
             _node_kill5.gameObject.SetActive(false);
             _killTipShowing = false;
         }
+
+        #region Joystick
+
+        private void InitJoystick()
+        {
+            _moveJoystick = _node_joy_move.GetComponent<JoystickWidget>();
+            _attackJoystick = _node_joy_attack.GetComponent<JoystickWidget>();
+            _skillJoystick = _node_joy_skill.GetComponent<JoystickWidget>();
+            _superJoystick = _node_joy_super.GetComponent<JoystickWidget>();
+
+            _moveJoystick.OnInit();
+            _attackJoystick.OnInit();
+            _skillJoystick.OnInit();
+            _superJoystick.OnInit();
+        }
+
+        private void OpenJoystick()
+        {
+            // Open joystick
+            _moveJoystick.OnOpen(null);
+            _attackJoystick.OnOpen(null);
+            _skillJoystick.OnOpen(null);
+            _superJoystick.OnOpen(null);
+
+            _moveJoystick.OnDrag += OnMoveDrag;
+            _attackJoystick.OnDrag += OnAttackDrag;
+            _skillJoystick.OnDrag += OnSkillDrag;
+            _superJoystick.OnDrag += OnSuperDrag;
+
+            _moveJoystick.OnDown += OnStartMove;
+            _attackJoystick.OnDown += OnStartAttack;
+            _skillJoystick.OnDown += OnStartSkill;
+            _superJoystick.OnDown += OnStartSuper;
+
+            _moveJoystick.OnUp += OnEndMove;
+            _attackJoystick.OnUp += OnEndAttack;
+            _skillJoystick.OnUp += OnEndSkill;
+            _superJoystick.OnUp += OnEndSuper;
+        }
+
+        private void CloseJoystick()
+        {
+            _moveJoystick.OnClose();
+            _attackJoystick.OnClose();
+            _skillJoystick.OnClose();
+            _superJoystick.OnClose();
+        }
+
+        private void TickJoystick(float dt)
+        {
+            _moveJoystick.Tick(dt);
+            _attackJoystick.Tick(dt);
+            _skillJoystick.Tick(dt);
+            _superJoystick.Tick(dt);
+        }
+
+        // End Joystick
+        private void OnEndMove()
+        {
+            G.Input.Data.moveDir = Vector2.zero;
+        }
+
+        private void OnEndAttack()
+        {
+            G.Input.Data.doAttack = true;
+            G.Input.Data.attackPrepare = false;
+        }
+
+        private void OnEndSkill()
+        {
+            G.Input.Data.doSkill = true;
+            G.Input.Data.skillPrepare = false;
+        }
+
+        private void OnEndSuper()
+        {
+            G.Input.Data.doSuperSkill = true;
+            G.Input.Data.superSkillPrepare = false;
+        }
+
+        // Start Joystick
+        private void OnStartMove()
+        {
+        }
+
+        private void OnStartAttack()
+        {
+            G.Input.Data.attackPrepare = true;
+        }
+
+        private void OnStartSkill()
+        {
+            G.Input.Data.skillPrepare = true;
+        }
+
+        private void OnStartSuper()
+        {
+            G.Input.Data.superSkillPrepare = true;
+        }
+
+        // Drag Joystick
+        private void OnMoveDrag(Vector2 vec)
+        {
+            G.Input.Data.moveDir = vec;
+            JLog.Debug($"OnMove {vec}");
+        }
+
+        private void OnAttackDrag(Vector2 vec)
+        {
+            G.Input.Data.aimVector = vec;
+        }
+
+        private void OnSkillDrag(Vector2 vec)
+        {
+            G.Input.Data.aimVector = vec;
+        }
+
+        private void OnSuperDrag(Vector2 vec)
+        {
+            G.Input.Data.aimVector = vec;
+        }
+
+        #endregion
     }
 
 }

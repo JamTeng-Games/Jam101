@@ -18,6 +18,11 @@ namespace Jam.Runtime.UI_
         [SerializeField] private Transform _node_kill4;
         [SerializeField] private Transform _node_kill5;
         [SerializeField] private Button _btn_disconnect;
+        [SerializeField] private Transform _node_joystick;
+        [SerializeField] private Transform _node_joy_move;
+        [SerializeField] private Transform _node_joy_attack;
+        [SerializeField] private Transform _node_joy_skill;
+        [SerializeField] private Transform _node_joy_super;
 
         private void OnValidate()
         {
@@ -28,6 +33,11 @@ namespace Jam.Runtime.UI_
             _node_kill4 = transform.Find("kill_tip/node_kill4").GetComponent<Transform>();
             _node_kill5 = transform.Find("kill_tip/node_kill5").GetComponent<Transform>();
             _btn_disconnect = transform.Find("btn_disconnect").GetComponent<Button>();
+            _node_joystick = transform.Find("node_joystick").GetComponent<Transform>();
+            _node_joy_move = transform.Find("node_joystick/node_joy_move").GetComponent<Transform>();
+            _node_joy_attack = transform.Find("node_joystick/node_joy_attack").GetComponent<Transform>();
+            _node_joy_skill = transform.Find("node_joystick/node_joy_skill").GetComponent<Transform>();
+            _node_joy_super = transform.Find("node_joystick/node_joy_super").GetComponent<Transform>();
         }
     }
 

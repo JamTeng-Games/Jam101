@@ -98,7 +98,7 @@ namespace Quantum
                     if (Helper_Damage.IsDirectDamage(dmgInfo) && !Helper_Damage.CanBeKilled(f, targetEntity, dmgInfo))
                     {
                         // 播受击动画
-                        Helper_Anim.PlayAnim(f, targetEntity, AnimationKey.Hit, true);
+                        // Helper_Anim.PlayAnim(f, targetEntity, AnimationKey.Hit, true);
                     }
                     // 扣血
                     Helper_Stats.ReduceHp(f, targetEntity, dmgValue, true);

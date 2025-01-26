@@ -191,7 +191,7 @@ namespace Quantum.Helper
                 }
                 if (skillIndex == -1)
                 {
-                    Log.Error($"No attack skill found for entity {entity}");
+                    Log.Error($"No {skillType} found for entity {entity}");
                     return false;
                 }
                 skillObj = skillList[skillIndex];

@@ -28,8 +28,8 @@ MonoBehaviour:
     utilityNodes: []
     tmpName: peter_skill
     viewportInitiallySet: 1
-    viewPosition: {x: -443.62854, y: -114.65555, z: 0}
-    viewScale: {x: 1, y: 1, z: 1}
+    viewPosition: {x: -313.74255, y: -5.1255646, z: 0}
+    viewScale: {x: 0.8695652, y: 0.8695652, z: 1}
   references:
     version: 2
     RefIds:
@@ -139,7 +139,7 @@ MonoBehaviour:
         nodeData:
           rid: 2522078970852671493
         nodeX: 723.62854
-        nodeY: 493.65555
+        nodeY: 459.65555
         name: "\u6DFB\u52A0Buff\u7ED9\u91CA\u653E\u8005"
         isUtilityNode: 0
         foldouts: []
@@ -158,8 +158,8 @@ MonoBehaviour:
       data:
         nodeData:
           rid: 2522078970852671495
-        nodeX: 989.62854
-        nodeY: 475.65552
+        nodeX: 993.62854
+        nodeY: 460.65552
         name: "\u89E3\u9664\u7981\u6B62\u65CB\u8F6C\u4E00\u5C42"
         isUtilityNode: 0
         foldouts: []

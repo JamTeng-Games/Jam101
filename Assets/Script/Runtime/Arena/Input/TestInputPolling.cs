@@ -1,4 +1,5 @@
 using Jam.Core;
+using Jam.Runtime.Input_;
 using Photon.Deterministic;
 using Quantum;
 using UnityEngine;
@@ -15,6 +16,8 @@ namespace Jam.Arena
         private bool _resetAccumulatedInput;
         private int _lastAccumulateFrame;
         private Camera _camera;
+        private InputMgr _inputMgr;
+        private InputData _inputData;
 
         public static bool IsPrepareAttack { get; private set; }
         public static bool IsPrepareSkill { get; private set; }
@@ -31,6 +34,8 @@ namespace Jam.Arena
             _inputMap.Enable();
             _inputMap.Basic.MoveDir.ReadValue<Vector2>();
             _camera = Camera.main;
+            _inputMgr = Jam.Runtime.G.Input;
+            _inputData = _inputMgr.Data;
 
             QuantumCallback.Subscribe(this, (CallbackPollInput callback) => PollInput(callback));
         }
@@ -56,29 +61,88 @@ namespace Jam.Arena
             ProcessStandaloneInput();
         }
 
+        // private void ProcessStandaloneInput()
+        // {
+        //     // Move dir
+        //     _accumulatedInput.MoveDirection = _inputMap.Basic.MoveDir.ReadValue<Vector2>().normalized.ToFPVector2();
+        //     MouseScreenPos = Mouse.current.position.ReadValue().ToFPVector2();
+        //
+        //     // Prepare
+        //     // PrepareAttack
+        //     IsPrepareAttack = Mouse.current.leftButton.isPressed;
+        //     if (IsPrepareAttack)
+        //     {
+        //         _accumulatedInput.AttackPrepare = true;
+        //     }
+        //
+        //     // PrepareSkill
+        //     IsPrepareSkill = Mouse.current.rightButton.isPressed;
+        //     if (IsPrepareSkill)
+        //     {
+        //         _accumulatedInput.SkillPrepare = true;
+        //     }
+        //
+        //     // PrepareSuperSkill
+        //     IsPrepareSuperSkill = Keyboard.current.spaceKey.isPressed;
+        //     if (IsPrepareSuperSkill)
+        //     {
+        //         _accumulatedInput.SuperSkillPrepare = true;
+        //     }
+        //
+        //     // Do
+        //     // Attack
+        //     IsAttack = Mouse.current.leftButton.wasReleasedThisFrame;
+        //     if (IsAttack)
+        //     {
+        //         _accumulatedInput.Attack = true;
+        //     }
+        //     // Skill
+        //     IsSkill = Mouse.current.rightButton.wasReleasedThisFrame;
+        //     if (IsSkill)
+        //     {
+        //         _accumulatedInput.Skill = true;
+        //     }
+        //     // SuperSkill
+        //     IsSuperSkill = Keyboard.current.spaceKey.wasReleasedThisFrame;
+        //     if (IsSuperSkill)
+        //     {
+        //         _accumulatedInput.SuperSkill = true;
+        //     }
+        //
+        //     // Cancel
+        //     if (Keyboard.current.escapeKey.wasPressedThisFrame)
+        //     {
+        //         _accumulatedInput.Cancel = true;
+        //     }
+        //
+        //     //
+        //     _accumulatedInput.AimDirection = GetDirectionToMouse();
+        //     _accumulatedInput.AimLength = _accumulatedInput.AimDirection.Magnitude;
+        // }
+        
         private void ProcessStandaloneInput()
         {
             // Move dir
-            _accumulatedInput.MoveDirection = _inputMap.Basic.MoveDir.ReadValue<Vector2>().normalized.ToFPVector2();
-            MouseScreenPos = Mouse.current.position.ReadValue().ToFPVector2();
+            _accumulatedInput.MoveDirection = _inputData.moveDir.ToFPVector2();
+            JLog.Debug($"ProcessStandaloneInput {_accumulatedInput.MoveDirection}");
 
             // Prepare
             // PrepareAttack
-            IsPrepareAttack = Mouse.current.leftButton.isPressed;
+            IsPrepareAttack = _inputData.attackPrepare;
             if (IsPrepareAttack)
             {
                 _accumulatedInput.AttackPrepare = true;
             }
 
             // PrepareSkill
-            IsPrepareSkill = Mouse.current.rightButton.isPressed;
+            IsPrepareSkill = _inputData.skillPrepare;
             if (IsPrepareSkill)
             {
                 _accumulatedInput.SkillPrepare = true;
             }
 
             // PrepareSuperSkill
-            IsPrepareSuperSkill = Keyboard.current.spaceKey.isPressed;
+            IsPrepareSuperSkill = _inputData.superSkillPrepare;
             if (IsPrepareSuperSkill)
             {
                 _accumulatedInput.SuperSkillPrepare = true;
@@ -86,32 +150,32 @@ namespace Jam.Arena
 
             // Do
             // Attack
-            IsAttack = Mouse.current.leftButton.wasReleasedThisFrame;
+            IsAttack = _inputData.doAttack;
             if (IsAttack)
             {
                 _accumulatedInput.Attack = true;
             }
             // Skill
-            IsSkill = Mouse.current.rightButton.wasReleasedThisFrame;
+            IsSkill = _inputData.doSkill;
             if (IsSkill)
             {
                 _accumulatedInput.Skill = true;
             }
             // SuperSkill
-            IsSuperSkill = Keyboard.current.spaceKey.wasReleasedThisFrame;
+            IsSuperSkill = _inputData.doSuperSkill;
             if (IsSuperSkill)
             {
                 _accumulatedInput.SuperSkill = true;
             }
 
             // Cancel
-            if (Keyboard.current.escapeKey.wasPressedThisFrame)
+            if (_inputData.doCancel)
             {
                 _accumulatedInput.Cancel = true;
             }
 
             //
-            _accumulatedInput.AimDirection = GetDirectionToMouse();
+            _accumulatedInput.AimDirection = _inputData.aimVector.ToFPVector2();
             _accumulatedInput.AimLength = _accumulatedInput.AimDirection.Magnitude;
         }
 

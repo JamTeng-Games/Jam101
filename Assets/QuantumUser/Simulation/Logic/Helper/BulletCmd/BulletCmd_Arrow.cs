@@ -7,6 +7,12 @@ namespace Quantum.Helper
 
     public unsafe class BulletCmd_Arrow : BulletCmd
     {
+        public override void OnCreate(Frame f, EntityRef bulletEntity, BulletComp* bulletComp)
+        {
+            Transform2D* transBullet = f.Unsafe.GetPointer<Transform2D>(bulletEntity);
+            Helper_Move.ForceRotate(f, bulletComp->Caster, transBullet->Rotation - FP.Pi / 2);
+        }
+
         public override void OnHit(Frame f, EntityRef bulletEntity, BulletComp* bulletComp, EntityRef target, in Hit hitInfo)
         {
             if (hitInfo.IsStatic)

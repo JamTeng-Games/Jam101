@@ -25,17 +25,6 @@ namespace Quantum.Helper
         public override void OnCreate(Frame f, EntityRef aoeEntity, AoeComp* aoeComp)
         {
             Transform2D* transAoe = f.Unsafe.GetPointer<Transform2D>(aoeEntity);
-            // Helper_Damage.DoDamage(f, new DamageInfo()
-            // {
-            //     source = aoeComp->Caster,
-            //     target = target,
-            //     damageType = EDamageInfoType.DirectDamage,
-            //     damage = new Damage() { bullet = 7, },
-            //     hitRate = 1,
-            //     criticalRate = 0,
-            //     angle = trans.Rotation,
-            // });
-            // f.Events.OnHit(target);
             Helper_Move.ForceRotate(f, aoeComp->Caster, transAoe->Rotation - FP.Pi / 2);
             // Disable Rotate
             Helper_Stats.AddRC_DisableRotate(f, aoeComp->Caster);

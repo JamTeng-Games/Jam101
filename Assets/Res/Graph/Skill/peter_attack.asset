@@ -29,10 +29,12 @@ MonoBehaviour:
     - rid: 2522078900700839953
     - rid: 2522078900700839954
     - rid: 2522078900700839958
+    - rid: 2522079059201753092
+    - rid: 2522079059201753094
     utilityNodes: []
     tmpName: peter_attack
     viewportInitiallySet: 1
-    viewPosition: {x: -496.72485, y: -325.326, z: 0}
+    viewPosition: {x: -158.52448, y: 55.247925, z: 0}
     viewScale: {x: 1, y: 1, z: 1}
   references:
     version: 2
@@ -51,7 +53,7 @@ MonoBehaviour:
       type: {class: SkillNode, ns: Quantum.Graph.Skill, asm: Quantum.Simulation}
       data:
         id: 10001
-        cd: 30
+        cd: 45
         skillType: 1
         canLearnMultiTimes: 0
         canInterrupt: 0
@@ -79,8 +81,9 @@ MonoBehaviour:
     - rid: 2522078788334911508
       type: {class: Timeline, ns: Quantum.Graph.Skill, asm: Quantum.Simulation}
       data:
-        totalFrame: 30
+        totalFrame: 36
         nodes:
+        - rid: 2522079059201753093
         - rid: 2522078788334911510
         - rid: 2522078834876481555
         - rid: 2522078900700839945
@@ -91,8 +94,8 @@ MonoBehaviour:
       data:
         nodeData:
           rid: 2522078788334911510
-        nodeX: 712
-        nodeY: 92
+        nodeX: 705
+        nodeY: 111
         name: "\u64AD\u653E\u52A8\u753B"
         isUtilityNode: 0
         foldouts: []
@@ -270,3 +273,42 @@ MonoBehaviour:
         name: "\u5F13\u7BAD"
         isUtilityNode: 0
         foldouts: []
+    - rid: 2522079059201753092
+      type: {class: NodeModel, ns: NewGraph, asm: NewGraph}
+      data:
+        nodeData:
+          rid: 2522079059201753093
+        nodeX: 718.5244
+        nodeY: -99.247925
+        name: "\u6DFB\u52A0Buff\u7ED9\u91CA\u653E\u8005"
+        isUtilityNode: 0
+        foldouts: []
+    - rid: 2522079059201753093
+      type: {class: AddBuffToCasterNode, ns: Quantum.Graph.Skill, asm: Quantum.Simulation}
+      data:
+        frame: 5
+        buffNode:
+          rid: 2522079059201753095
+        isPermanent: 0
+        addStack: 1
+        duration: 30
+        isDurationSetTo: 0
+    - rid: 2522079059201753094
+      type: {class: NodeModel, ns: NewGraph, asm: NewGraph}
+      data:
+        nodeData:
+          rid: 2522079059201753095
+        nodeX: 1008.5244
+        nodeY: -100.247925
+        name: "\u7981\u6B62\u65CB\u8F6C(\u65E0\u8868\u73B0)"
+        isUtilityNode: 0
+        foldouts: []
+    - rid: 2522079059201753095
+      type: {class: BuffDisableRotate_NoEffectNode, ns: Quantum.Graph.Skill, asm: Quantum.Simulation}
+      data:
+        priority: 0
+        maxStack: 1
+        interval: -1
+        valueAttribs: []
+        percentAttribs: []
+        tags: 
