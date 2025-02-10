@@ -29,7 +29,7 @@ namespace Jam.Runtime.UI_
                                               Action<UIWidget> callback,
                                               object userData)
         {
-            UIWidgetOpenInfo info = new UIWidgetOpenInfo();
+            UIWidgetOpenInfo info = ReferencePool.Get<UIWidgetOpenInfo>();
             info._id = id;
             info._widgetTypeId = widgetTypeId;
             info._owner = owner;

@@ -54,7 +54,7 @@ namespace Jam.Runtime.UI_
             _widgets = new Dictionary<int, UIWidget>(64);
             _idToWidgetType = new Dictionary<UIWidgetId, Type>(64);
             _widgetTypeToId = new Dictionary<Type, UIWidgetId>(64);
-            _widgetRecycleQueue = new Queue<UIWidget>(32);
+            // _widgetRecycleQueue = new Queue<UIWidget>(32);
 
             LoadTypeIdMap();
         }
