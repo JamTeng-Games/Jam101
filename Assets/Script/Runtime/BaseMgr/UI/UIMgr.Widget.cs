@@ -16,21 +16,23 @@ namespace Jam.Runtime.UI_
         private Dictionary<Type, UIWidgetId> _widgetTypeToId;
 
         // Res load
-        private Queue<UIWidget> _widgetRecycleQueue;
+        // private Queue<UIWidget> _widgetRecycleQueue;
 
         // [SerializeField] private float _widgetPoolAutoReleaseInterval = 60f;
         [SerializeField] private int _widgetPoolCapacity = 16;
         [SerializeField] private float _widgetPoolExpireTime = 60f;
 
         private int _widgetGenId = 0;
-        private IObjectPool<UIWidgetObject> _widgetPool;
-
         private Dictionary<int, UIWidget> _widgets;
+        private Dictionary<UIWidgetId, List<UIWidget>> _widgetPool;
+        private Transform _widgetPoolRoot;
 
         private void InitWidget()
         {
-            _widgetPool =
-                G.ObjectPool.CreateSingleSpawnObjectPool<UIWidgetObject>("UIWidgetPool", _widgetPoolCapacity, _widgetPoolExpireTime);
+            _widgetPoolRoot = new GameObject("WidgetPool").transform;
+            _widgetPoolRoot.SetParent(G.Instance.UICanvas.transform);
+            _widgetPoolRoot.gameObject.SetActive(false);
+            _widgetPool = new Dictionary<UIWidgetId, List<UIWidget>>();
         }
 
         public int CreateWidget(UIWidgetId widgetType,
@@ -41,21 +43,42 @@ namespace Jam.Runtime.UI_
         {
             int widgetId = ++_widgetGenId;
             // 加载资源
-            UIWidgetObject poolObj = _widgetPool.Spawn(GetUIWidgetRealAssetPath(widgetType) + widgetId.ToString());
-            if (poolObj == null)
+            UIWidget widget = RentWidgetFromPool(widgetType);
+            if (widget == null)
             {
                 UIWidgetOpenInfo info = UIWidgetOpenInfo.Create(widgetId, widgetType, owner, parentTrans, callback, userData);
                 G.Asset.Load(GetUIWidgetRealAssetPath(widgetType), typeof(GameObject), LoadWidgetAssetCallback, info);
+                if (info.Id == 0)
+                {
+                    JLog.Error($"CreateWidget id == 0 {widgetType}");
+                }
                 JLog.Debug($"CreateWidget {widgetType} return null id {info.Id}");
                 return widgetId;
             }
             else
             {
-                UIWidget widget = (UIWidget)poolObj.Target;
-                OpenWidgetImpl(widgetId, widget, owner, false, callback, userData);
+                OpenWidgetImpl(widgetId, widget, owner, parentTrans, false, callback, userData);
                 JLog.Debug($"CreateWidget {widgetType} return id {widget.Id}");
                 return widget.Id;
             }
+
+            // int widgetId = ++_widgetGenId;
+            // // 加载资源
+            // UIWidgetObject poolObj = _widgetPool.Spawn(GetUIWidgetRealAssetPath(widgetType) + widgetId.ToString());
+            // if (poolObj == null)
+            // {
+            //     UIWidgetOpenInfo info = UIWidgetOpenInfo.Create(widgetId, widgetType, owner, parentTrans, callback, userData);
+            //     G.Asset.Load(GetUIWidgetRealAssetPath(widgetType), typeof(GameObject), LoadWidgetAssetCallback, info);
+            //     JLog.Debug($"CreateWidget {widgetType} return null id {info.Id}");
+            //     return widgetId;
+            // }
+            // else
+            // {
+            //     UIWidget widget = (UIWidget)poolObj.Target;
+            //     OpenWidgetImpl(widgetId, widget, owner, false, callback, userData);
+            //     JLog.Debug($"CreateWidget {widgetType} return id {widget.Id}");
+            //     return widget.Id;
+            // }
         }
 
         public void DestroyWidget(int widgetId)
@@ -82,10 +105,9 @@ namespace Jam.Runtime.UI_
             {
                 UIWidget widget = GameObject.Instantiate((GameObject)wrap.Asset, widgetOpenInfo.ParentTrans)
                                             .GetComponent<UIWidget>();
-                UIWidgetObject poolObj = UIWidgetObject.Create(wrap.AssetPath, wrap.Id, widget);
-                _widgetPool.Register(poolObj, true);
-                OpenWidgetImpl(widgetOpenInfo.Id, widget, widgetOpenInfo.Owner, true, widgetOpenInfo.Callback, widgetOpenInfo.UserData);
+                OpenWidgetImpl(widgetOpenInfo.Id, widget, widgetOpenInfo.Owner, widgetOpenInfo.ParentTrans, true, widgetOpenInfo.Callback, widgetOpenInfo.UserData);
                 widgetOpenInfo.Dispose();
+                JLog.Error($"LoadWidgetAssetCallback {widgetOpenInfo.Id}");
             }
             else
             {
@@ -97,12 +119,12 @@ namespace Jam.Runtime.UI_
 
         private void TickWidget(float dt)
         {
-            while (_widgetRecycleQueue.Count > 0)
-            {
-                UIWidget widget = _widgetRecycleQueue.Dequeue();
-                widget.OnRecycle();
-                _widgetPool.Unspawn(widget);
-            }
+            // while (_widgetRecycleQueue.Count > 0)
+            // {
+            //     UIWidget widget = _widgetRecycleQueue.Dequeue();
+            //     widget.OnRecycle();
+            //     _widgetPool.Unspawn(widget);
+            // }
 
             foreach (var (_, w) in _widgets)
             {
@@ -118,7 +140,7 @@ namespace Jam.Runtime.UI_
             }
         }
 
-        private void OpenWidgetImpl(int id, UIWidget widget, IWidgetOwner owner, bool isNew, Action<UIWidget> callback, object userData)
+        private void OpenWidgetImpl(int id, UIWidget widget, IWidgetOwner owner, Transform parentTrans, bool isNew, Action<UIWidget> callback, object userData)
         {
             if (isNew)
                 widget.OnInit();
@@ -127,6 +149,7 @@ namespace Jam.Runtime.UI_
             widget.SetOwner(owner);
             widget.OnOpen(userData);
             widget.gameObject.SetActive(true);
+            widget.transform.SetParent(parentTrans);
             widget.OnShow();
             callback?.Invoke(widget);
         }
@@ -136,12 +159,51 @@ namespace Jam.Runtime.UI_
             if (widget.IsVisible)
                 widget.OnHide();
             _widgets.Remove(widget.Id);
-            _widgetRecycleQueue.Enqueue(widget);
+            ReturnWidgetToPool(widget);
+            // _widgetRecycleQueue.Enqueue(widget);
             widget.OnClose();
-            widget.gameObject.SetActive(false);
+            widget.transform.SetParent(_widgetPoolRoot);
             widget.SetId(0);
             widget.SetOwner(null);
         }
+
+        #region Widget Pool
+
+        private UIWidget RentWidgetFromPool(UIWidgetId widgetType)
+        {
+            if (TryRentWidgetFromPool(widgetType, out UIWidget widget))
+            {
+                return widget;
+            }
+            return null;
+        }
+
+        private void ReturnWidgetToPool(UIWidget widget)
+        {
+            if (!_widgetPool.TryGetValue(widget.TypeId, out List<UIWidget> pool))
+            {
+                pool = new List<UIWidget>(8);
+                _widgetPool.Add(widget.TypeId, pool);
+            }
+            pool.Add(widget);
+        }
+
+        private bool TryRentWidgetFromPool(UIWidgetId widgetType, out UIWidget outWidget)
+        {
+            outWidget = null;
+            if (_widgetPool.TryGetValue(widgetType, out List<UIWidget> pool))
+            {
+                if (pool.Count > 0)
+                {
+                    outWidget = pool[^1];
+                    pool.RemoveAt(pool.Count - 1);
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        #endregion
     }
 
 }
